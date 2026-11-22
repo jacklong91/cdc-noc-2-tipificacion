@@ -24,6 +24,9 @@ SOLO_ACTUALIZAR = "--actualizar" in sys.argv
 
 
 def aviso(texto, error=False):
+    if os.environ.get("CDC_NOC2_SILENCIOSO"):
+        print(texto)
+        return
     try:
         ctypes.windll.user32.MessageBoxW(None, texto, TITULO, 16 if error else 64)
     except Exception:
