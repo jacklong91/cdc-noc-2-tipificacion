@@ -251,7 +251,12 @@ async function migratePanelPasswords(){
 }
 
 async function load(){
-  try { DB = JSON.parse(localStorage.getItem(KEY)) || null; } catch(e){ DB = null; }
+  let remoto = null, local = null;
+  try { const r = await fetch(BOT_URL + '/db', {cache:'no-store'}); if (r.ok) remoto = await r.json(); } catch(e){}
+  try { local = JSON.parse(localStorage.getItem(KEY)) || null; } catch(e){}
+  DB = remoto || local;
+  if (remoto && local && Array.isArray(local.users))
+    remoto.users.forEach(u=>{ const l=local.users.find(x=>x.id===u.id); if (l && l.saeplus) u.saeplus = l.saeplus; });
   if (!DB || !DB.users){
     DB = {
       users:[{id:'u_admin', username:'admin', password:'admin123', name:'Administrador', role:'Admin', created:todayStr()}],
@@ -272,7 +277,21 @@ async function load(){
   await migratePanelPasswords();
   save();
 }
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(DB)); return true; }catch(e){ toast('No se pudo guardar en el navegador','error'); return false; } }
+let dbSaveTimer = null, dbSaveChain = Promise.resolve();
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(DB)); }
+  catch(e){ toast('No se pudo guardar en el navegador','error'); return false; }
+  clearTimeout(dbSaveTimer);
+  dbSaveTimer = setTimeout(()=>{
+    const copia = JSON.parse(JSON.stringify(DB));
+    copia.users.forEach(u=>delete u.saeplus);
+    dbSaveChain = dbSaveChain.then(async ()=>{
+      try { await fetch(BOT_URL + '/db', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(copia)}); }
+      catch(e){}
+    });
+  }, 200);
+  return true;
+}
 
 function logActivity(icon, text){
   DB.activity.unshift({id:uid(), time:nowTime(), date:todayStr(), icon, text});
@@ -305,10 +324,15 @@ async function sessionLoad(){
 }
 
 async function login(username, password){
-  const u = DB.users.find(u=>u.username.toLowerCase()===username.trim().toLowerCase());
-  if (!u) return null;
-  const material = await passwordMaterial(password, u.passwordSalt);
-  if (material.hash !== u.passwordHash) return null;
+  let u = DB.users.find(u=>u.username.toLowerCase()===username.trim().toLowerCase());
+  let material = u ? await passwordMaterial(password, u.passwordSalt) : null;
+  if (!u || !material || material.hash !== u.passwordHash){
+    await load();
+    u = DB.users.find(u=>u.username.toLowerCase()===username.trim().toLowerCase());
+    if (!u) return null;
+    material = await passwordMaterial(password, u.passwordSalt);
+    if (material.hash !== u.passwordHash) return null;
+  }
   currentUser = u;
   panelKey = material.key;
   sessionSave();
@@ -496,7 +520,7 @@ function renderLogin(){
       </form>
       <div class="auth-foot">
         <span class="chip chip-cyan"><span class="dot"></span> Guardado local en este equipo</span>
-        <p class="muted" style="font-size:11.5px;margin-top:12px">Usuario inicial: <b class="mono">admin</b> / <b class="mono">admin123</b>. Cámbialo en Ajustes tras entrar.</p>
+        <p class="muted" style="font-size:11.5px;margin-top:12px">Primer ingreso: <b class="mono">admin</b> / <b class="mono">admin123</b>. Si cambiaste la clave, usa la nueva.</p>
       </div>
     </div>
   </div>`;
@@ -2107,7 +2131,7 @@ function renderAjustes(){
         <div class="card">
           <div class="card-head"><div class="card-title"><span class="step">${icon('download')}</span><h2>Datos y respaldos</h2></div></div>
           <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
-            <div class="inline-alert info">${icon('info')} Todos los datos (usuarios, abonados, registros, plantillas) se guardan localmente en este navegador. Exporta respaldos con frecuencia.</div>
+            <div class="inline-alert info">${icon('info')} Usuarios, clave, cola, abonados y registros se guardan en el robot local y se comparten entre navegadores de este equipo. Las credenciales de SAEPLUS siguen siendo propias de cada navegador.</div>
             <div class="row wrap">
               <button class="btn btn-outline" data-action="export-backup">${icon('download')} Exportar respaldo (JSON)</button>
               <button class="btn btn-outline" id="btnRestore">${icon('file')} Restaurar respaldo</button>

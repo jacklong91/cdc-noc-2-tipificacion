@@ -3,6 +3,8 @@ __pycache__/
 *.log
 bot_log.txt
 cola_saeplus.json
+panel_data.json
+panel_data.tmp
 saeplus_credenciales.json
 diagnosticos.txt
 errores_saeplus/

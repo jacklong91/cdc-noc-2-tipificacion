@@ -45,6 +45,7 @@ ESTADO_WEB = {"corriendo": False, "terminado": False, "procesados": 0,
               "total": 0, "log": [], "items": []}
 SERVIDOR_HOST, SERVIDOR_PUERTO = "127.0.0.1", 8765
 ORIGEN_LOCAL = f"http://{SERVIDOR_HOST}:{SERVIDOR_PUERTO}"
+BASE_DATOS = BASE / "panel_data.json"
 ESTADO_LOCK = threading.Lock()
 
 
@@ -580,6 +581,13 @@ class _Handler(BaseHTTPRequestHandler):
         if self.path == "/health":
             self._json({"ok": True, "app": "cdc-noc-2", "version": 2})
             return
+        if self.path == "/db":
+            try:
+                datos = json.loads(BASE_DATOS.read_text(encoding="utf-8")) if BASE_DATOS.exists() else None
+            except Exception:
+                datos = None
+            self._json(datos)
+            return
         if self.path in ("/", "/index.html", "/xlsx.full.min.js"):
             es_libreria = self.path == "/xlsx.full.min.js"
             try:
@@ -610,6 +618,23 @@ class _Handler(BaseHTTPRequestHandler):
         self._json({"ok": False, "msg": "ruta desconocida"}, 404)
 
     def do_POST(self):
+        if self.path == "/db":
+            try:
+                largo = int(self.headers.get("Content-Length", 0))
+                if largo <= 2 or largo > 8_000_000:
+                    self._json({"ok": False, "msg": "Datos invalidos"}, 400)
+                    return
+                datos = json.loads(self.rfile.read(largo) or b"null")
+                if not isinstance(datos, dict) or not isinstance(datos.get("users"), list):
+                    self._json({"ok": False, "msg": "Estructura de datos invalida"}, 400)
+                    return
+                temporal = BASE_DATOS.with_suffix(".tmp")
+                temporal.write_text(json.dumps(datos, ensure_ascii=False), encoding="utf-8")
+                temporal.replace(BASE_DATOS)
+                self._json({"ok": True})
+            except Exception as error:
+                self._json({"ok": False, "msg": str(error)}, 500)
+            return
         if self.path != "/run":
             self._json({"ok": False, "msg": "ruta desconocida"}, 404)
             return
