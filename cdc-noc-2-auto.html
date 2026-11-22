@@ -1,0 +1,2379 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101d3a">
+<title>CDC NOC 2 · Tipificación y atención al abonado</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23315cf6'/%3E%3Cpath d='M18 38c8-18 20-18 28 0M18 26c8 18 20 18 28 0' fill='none' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+@font-face{font-family:Manrope;src:url(data:font/woff2;base64,) format('woff2');font-weight:200 800;font-style:normal;font-display:swap}
+:root{
+  --ink:#101d3a;--ink-2:#17264a;--ink-3:#22345e;--muted:#64708a;--muted-2:#8b96ad;
+  --bg:#f3f5fb;--surface:#ffffff;--surface-2:#f8faff;--overlay:#ffffff;--scrim:rgba(10,18,38,.52);
+  --line:#dfe5f2;--line-2:#cbd5e8;
+  --blue:#315cf6;--blue-2:#2445d4;--blue-soft:#e9eeff;--cyan:#11b8d4;--cyan-soft:#e2f8fc;
+  --green:#12a87b;--green-soft:#e2f7ef;--amber:#e9a11b;--amber-soft:#fff4dc;
+  --red:#e5534b;--red-soft:#ffebe9;--violet:#8257e6;--violet-soft:#f0eaff;--magenta:#d94fa6;
+  --shadow-sm:0 1px 2px rgba(16,29,58,.05),0 4px 14px rgba(16,29,58,.05);
+  --shadow-md:0 10px 30px rgba(16,29,58,.10),0 2px 8px rgba(16,29,58,.06);
+  --shadow-lg:0 24px 70px rgba(10,18,38,.24);
+  --radius:16px;--radius-sm:10px;--sidebar:250px;--topbar:72px;
+  --font:Manrope,'Segoe UI',system-ui,-apple-system,sans-serif;--mono:'Cascadia Code','SF Mono',Consolas,monospace;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:calc(var(--topbar) + 18px)}
+body{margin:0;font-family:var(--font);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(900px 480px at 88% -8%,rgba(49,92,246,.13),transparent 62%),radial-gradient(700px 420px at 8% 108%,rgba(17,184,212,.10),transparent 60%),radial-gradient(560px 360px at 55% 0%,rgba(233,161,27,.06),transparent 65%),var(--bg)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.32;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.06 0 0 0 0 0.11 0 0 0 0 0.23 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}a{color:var(--blue);text-decoration:none}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid rgba(49,92,246,.35);outline-offset:2px}
+::selection{background:rgba(49,92,246,.2)}
+*{scrollbar-width:thin;scrollbar-color:#aab8d8 #eef1f8}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:#eef1f8}::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#aab8d8,#8fa3cc);border-radius:10px;border:2px solid #eef1f8}::-webkit-scrollbar-thumb:hover{background:var(--blue)}
+h1,h2,h3,h4,p{margin:0}h1{font-size:27px;line-height:1.2;letter-spacing:-.6px;font-weight:800}h2{font-size:17px;font-weight:800;letter-spacing:-.25px}h3{font-size:14px;font-weight:800}small{font-size:12px}.muted{color:var(--muted)}.mono{font-family:var(--mono);font-size:12.5px;letter-spacing:-.2px}.nowrap{white-space:nowrap}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hidden{display:none!important}
+svg.icon{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-4px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:10px;padding:10px 15px;font-weight:750;font-size:13px;line-height:1.2;transition:transform .15s,box-shadow .15s,background .15s,border-color .15s;white-space:nowrap;background:var(--surface)}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:translateY(0) scale(.985)}.btn:disabled{opacity:.48;cursor:not-allowed;transform:none}
+.btn-primary{background:linear-gradient(135deg,var(--blue),#4774ff);color:#fff;box-shadow:0 6px 18px rgba(49,92,246,.28)}.btn-primary:hover{box-shadow:0 9px 24px rgba(49,92,246,.36)}
+.btn-dark{background:var(--ink);color:#fff}.btn-outline{border-color:var(--line-2);background:#fff;color:var(--ink-3)}.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-ghost{background:transparent;color:var(--muted)}.btn-ghost:hover{background:var(--blue-soft);color:var(--blue)}
+.btn-danger{background:var(--red-soft);color:#b5352f;border-color:#f6c9c5}.btn-danger:hover{background:#ffdcd9}
+.btn-success{background:var(--green);color:#fff}.btn-sm{padding:7px 11px;font-size:12px;border-radius:8px}.btn-lg{padding:13px 20px;font-size:14px;border-radius:12px}.btn-block{width:100%}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:9px;border:1px solid transparent;background:transparent;color:var(--muted);transition:.15s}.icon-btn:hover{background:var(--blue-soft);color:var(--blue)}.icon-btn.danger:hover{background:var(--red-soft);color:var(--red)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:999px;font-size:11.5px;font-weight:750;line-height:1.3;border:1px solid transparent}
+.chip-blue{background:var(--blue-soft);color:var(--blue-2)}.chip-green{background:var(--green-soft);color:#0b7d5b}.chip-amber{background:var(--amber-soft);color:#9a6707}.chip-red{background:var(--red-soft);color:#b5352f}.chip-violet{background:var(--violet-soft);color:#6840c6}.chip-cyan{background:var(--cyan-soft);color:#087f95}.chip-gray{background:#eef1f7;color:var(--muted)}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block;flex:none}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm)}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;border-bottom:1px solid var(--line)}.card-body{padding:20px}.card-title{display:flex;align-items:center;gap:10px}.card-title .step{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:9px;background:var(--blue-soft);color:var(--blue);font-size:12px;font-weight:800}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}.field label,.label{font-size:11px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--muted)}
+.input,select.input,textarea.input{width:100%;border:1px solid var(--line-2);background:#fff;border-radius:10px;padding:10px 12px;font-size:13.5px;transition:border-color .15s,box-shadow .15s;min-height:42px}
+.input:hover{border-color:#aebbd8}.input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(49,92,246,.13);outline:none}.input::placeholder{color:#9aa5bb}textarea.input{resize:vertical;line-height:1.6;min-height:110px}select.input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364708a' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:34px}
+.input-icon{position:relative}.input-icon .icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted-2);pointer-events:none}.input-icon .input{padding-left:39px}
+.grid{display:grid;gap:14px}.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}.span-2{grid-column:span 2}.row{display:flex;align-items:center;gap:10px}.row-between{display:flex;align-items:center;justify-content:space-between;gap:12px}.wrap{flex-wrap:wrap}.grow{flex:1;min-width:0}
+.check{display:inline-flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--ink-3);cursor:pointer}.check input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--blue);flex:none}
+.switch{position:relative;display:inline-flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;font-weight:650}.switch input{position:absolute;opacity:0}.switch .track{width:38px;height:22px;border-radius:999px;background:#c7d0e2;transition:.2s;flex:none}.switch .track::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}.switch input:checked+.track{background:var(--blue)}.switch input:checked+.track::after{transform:translateX(16px)}.switch input:focus-visible+.track{outline:3px solid rgba(49,92,246,.35);outline-offset:2px}
+/* Sidebar */
+#sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);z-index:60;background:linear-gradient(178deg,#101d3a 0%,#13234a 58%,#10203f 100%);color:#c4cee4;display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.06);overflow:hidden}
+#sidebar::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(420px 260px at 110% 0%,rgba(49,92,246,.35),transparent 65%),radial-gradient(300px 240px at -20% 100%,rgba(17,184,212,.18),transparent 65%)}
+.brand{position:relative;display:flex;align-items:center;gap:12px;padding:22px 20px 18px}.brand-mark{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(49,92,246,.4)}.brand-mark svg{width:26px;height:26px}.brand-name{font-size:19px;font-weight:800;color:#fff;letter-spacing:-.4px}.brand-name span{color:#7fd9ea;font-weight:600}.brand-sub{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:#7f8db0}
+.nav-section{position:relative;padding:14px 14px 4px}.nav-label{font-size:10px;font-weight:800;letter-spacing:1.5px;color:#66759c;padding:0 10px 8px;text-transform:uppercase}
+.nav-item{position:relative;display:flex;align-items:center;gap:11px;width:100%;padding:10px 12px;margin:2px 0;border:0;border-radius:11px;background:transparent;color:#aab6d2;font-weight:650;font-size:13.5px;text-align:left;transition:.16s}
+.nav-item:hover{background:rgba(255,255,255,.07);color:#fff}.nav-item.active{background:linear-gradient(90deg,rgba(49,92,246,.95),rgba(49,92,246,.65));color:#fff;box-shadow:0 6px 18px rgba(20,40,120,.35)}.nav-item.active::before{content:"";position:absolute;left:-14px;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:var(--cyan)}
+.nav-badge{margin-left:auto;font-size:10.5px;font-weight:800;background:rgba(255,255,255,.12);color:#dbe4ff;padding:2px 7px;border-radius:999px}.nav-item.active .nav-badge{background:rgba(255,255,255,.22)}
+.sidebar-foot{position:relative;margin-top:auto;padding:14px}.local-card{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);border-radius:13px;padding:13px}.local-card .row{color:#dfe7ff;font-size:12px;font-weight:750}.local-card p{font-size:11.5px;color:#8fa0c4;margin:5px 0 10px}.local-card .dot{color:#3ddc9a;box-shadow:0 0 10px #3ddc9a}
+.side-user{display:flex;align-items:center;gap:10px;padding:12px 6px 2px}.avatar{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:11px;background:linear-gradient(135deg,var(--violet),var(--blue));color:#fff;font-weight:800;font-size:12px;flex:none}.side-user .name{color:#fff;font-size:12.5px;font-weight:750}.side-user .role{font-size:11px;color:#8392b5}
+#sidebarOverlay{display:none}
+/* Topbar */
+#topbar{position:fixed;top:0;left:var(--sidebar);right:0;height:var(--topbar);z-index:50;display:flex;align-items:center;gap:14px;padding:0 26px;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.crumbs{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-weight:650;min-width:0}.crumbs b{color:var(--ink);font-weight:800}.crumbs .icon{width:14px;height:14px;color:var(--muted-2)}
+.top-search{margin-left:auto;display:flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--surface-2);border-radius:10px;padding:8px 12px;color:var(--muted);font-size:12.5px;min-width:230px;transition:.15s}.top-search:hover{border-color:var(--blue);color:var(--blue)}kbd{font-family:var(--font);font-size:10px;font-weight:800;border:1px solid var(--line-2);border-bottom-width:2px;border-radius:5px;padding:1px 5px;background:#fff;color:var(--muted)}
+.top-date{font-size:12px;color:var(--muted);font-weight:650;white-space:nowrap}.top-actions{display:flex;align-items:center;gap:4px}.notif-dot{position:absolute;top:6px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--red);border:2px solid #fff}.menu-btn{display:none}
+/* Main */
+#main{margin-left:var(--sidebar);padding:calc(var(--topbar) + 26px) 28px 48px;min-height:100vh;max-width:1720px}
+.page{animation:pageIn .32s ease both}@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}.page-head .sub{color:var(--muted);margin-top:6px;font-size:13.5px;max-width:640px}.eyebrow{font-size:10.5px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--blue);margin-bottom:7px;display:flex;align-items:center;gap:7px}
+.demo-note{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;color:#8a6410;background:var(--amber-soft);border:1px solid #f2dca8;padding:5px 10px;border-radius:999px;font-weight:700}
+.tip-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}.tip-main{display:flex;flex-direction:column;gap:18px}.tip-side{display:flex;flex-direction:column;gap:18px;position:sticky;top:calc(var(--topbar) + 20px)}
+.subscriber-card{position:relative;border:1px solid #c9d6ff;background:linear-gradient(120deg,#f4f7ff,#eefaff 60%,#f6f3ff);border-radius:13px;padding:16px;overflow:hidden}.subscriber-card::after{content:"";position:absolute;right:-30px;top:-40px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(17,184,212,.16),transparent 70%);pointer-events:none}
+.subscriber-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}.subscriber-top .avatar{width:44px;height:44px;border-radius:13px;font-size:14px}.subscriber-name{font-size:15.5px;font-weight:800;letter-spacing:-.2px}.subscriber-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 14px}.meta-item .k{font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}.meta-item .v{font-size:13px;font-weight:700;color:var(--ink-3);margin-top:1px;overflow-wrap:anywhere}
+.search-results{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:25;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-md);max-height:280px;overflow:auto;padding:6px}.search-result{display:flex;align-items:center;gap:10px;width:100%;border:0;background:transparent;padding:9px 10px;border-radius:9px;text-align:left}.search-result:hover{background:var(--blue-soft)}.search-result .avatar{width:30px;height:30px;font-size:10px;border-radius:9px}
+.template-mini{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:#fff;cursor:pointer;transition:.15s;position:relative}.template-mini:hover{border-color:var(--blue);box-shadow:var(--shadow-sm)}.template-mini.selected{border-color:var(--blue);background:var(--blue-soft)}.template-mini .bar{width:4px;align-self:stretch;border-radius:4px;flex:none}.template-mini .t-name{font-size:12.5px;font-weight:800}.template-mini .t-cat{font-size:11px;color:var(--muted)}.template-mini .t-actions{margin-left:auto;display:flex;gap:2px}
+.var-chips{display:flex;flex-wrap:wrap;gap:6px}.var-chip{border:1px solid var(--line);background:var(--surface-2);border-radius:7px;padding:3px 8px;font-family:var(--mono);font-size:11px;color:var(--blue-2);cursor:pointer}.var-chip:hover{border-color:var(--blue);background:var(--blue-soft)}
+.obs-preview{background:var(--ink);color:#dbe6ff;border-radius:11px;padding:13px 14px;font-size:12.5px;line-height:1.65;white-space:pre-wrap;max-height:180px;overflow:auto}
+.action-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 20px;border-top:1px solid var(--line);background:linear-gradient(180deg,#fbfcff,#f5f8ff);border-radius:0 0 var(--radius) var(--radius)}
+.success-banner{display:flex;align-items:center;gap:12px;border:1px solid #b7e6d2;background:linear-gradient(120deg,#e7f9f1,#eefbf6);border-radius:13px;padding:14px 16px;color:#0b6b4e;animation:pageIn .3s ease}.success-banner .icon{width:22px;height:22px}
+.mini-record{display:flex;gap:10px;padding:11px 0;border-bottom:1px dashed var(--line)}.mini-record:last-child{border-bottom:0}.mini-record .time{font-family:var(--mono);font-size:11px;color:var(--muted);width:42px;flex:none;padding-top:2px}.mini-record .r-name{font-size:12.5px;font-weight:800}.mini-record .r-detail{font-size:11.5px;color:var(--muted)}
+/* Stats & dashboard */
+.kpi{position:relative;padding:18px;overflow:hidden}.kpi .k-label{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}.kpi .k-value{font-size:30px;font-weight:800;letter-spacing:-1px;margin:6px 0 2px}.kpi .k-foot{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px}.kpi .k-icon{position:absolute;right:16px;top:16px;width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center}.kpi .spark{position:absolute;right:0;bottom:0;left:0;height:34px;opacity:.5}
+.hero{position:relative;overflow:hidden;background:linear-gradient(125deg,#101d3a,#1a3070 55%,#123c56);color:#fff;border-radius:20px;padding:28px;box-shadow:var(--shadow-md)}.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 300px at 90% 20%,rgba(17,184,212,.35),transparent 60%),radial-gradient(400px 260px at 10% 110%,rgba(130,87,230,.35),transparent 60%)}.hero-net{position:absolute;right:-20px;top:-30px;width:460px;height:300px;opacity:.5}.hero-content{position:relative;max-width:560px}.hero h1{font-size:30px;color:#fff}.hero p{color:#b9c8ea;margin:10px 0 18px;font-size:14px}.hero .btn-outline{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);color:#fff}
+.chart-bars{display:flex;align-items:flex-end;gap:12px;height:180px;padding:10px 4px 0}.chart-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;height:100%;justify-content:flex-end}.chart-bar{width:100%;max-width:44px;border-radius:8px 8px 4px 4px;min-height:4px;position:relative;transition:height .4s ease}.chart-bar span{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:800;color:var(--ink-3)}.chart-label{font-size:10.5px;color:var(--muted);font-weight:700}
+.legend{display:flex;flex-direction:column;gap:9px}.legend-item{display:flex;align-items:center;gap:9px;font-size:12.5px}.legend-item .sw{width:11px;height:11px;border-radius:4px;flex:none}.legend-item b{margin-left:auto;font-family:var(--mono)}
+.donut-wrap{display:flex;align-items:center;gap:22px;flex-wrap:wrap}.donut{width:150px;height:150px;flex:none}
+/* Tables */
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px;border-bottom:1px solid var(--line)}.toolbar .input{min-height:38px;padding-top:8px;padding-bottom:8px}.toolbar .grow{min-width:200px}.table-wrap{overflow:auto;border-radius:0 0 var(--radius) var(--radius)}table{width:100%;border-collapse:collapse;font-size:12.5px}th{position:sticky;top:0;background:var(--surface-2);text-align:left;font-size:10.5px;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);font-weight:800;padding:11px 12px;border-bottom:1px solid var(--line);white-space:nowrap;z-index:2}th.sortable{cursor:pointer;user-select:none}th.sortable:hover{color:var(--blue)}td{padding:12px;border-bottom:1px solid var(--line);vertical-align:middle}tbody tr{transition:background .12s}tbody tr:hover{background:#f7f9ff}tbody tr.selected{background:var(--blue-soft)}tbody tr:last-child td{border-bottom:0}.cell-main{font-weight:800;color:var(--ink);font-size:12.5px}.cell-sub{font-size:11px;color:var(--muted)}.row-actions{display:flex;gap:2px;justify-content:flex-end}.table-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);flex-wrap:wrap}.pager{display:flex;gap:5px}.pager button{min-width:30px;height:30px;border-radius:8px;border:1px solid var(--line);background:#fff;font-size:12px;font-weight:700}.pager button.active{background:var(--blue);color:#fff;border-color:var(--blue)}.pager button:disabled{opacity:.4;cursor:not-allowed}
+.bulk-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;background:var(--ink);color:#fff;border-radius:12px;margin-bottom:12px;animation:pageIn .2s ease}.bulk-bar .btn{padding:7px 11px}.bulk-bar .count{font-weight:800;font-size:13px}
+.view-chips{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.view-chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 11px;font-size:11.5px;font-weight:750;color:var(--muted);cursor:pointer}.view-chip.active{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}.view-chip button{border:0;background:transparent;color:inherit;padding:0;display:flex}
+.empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:38px 20px;color:var(--muted)}.empty .e-icon{width:52px;height:52px;border-radius:16px;background:var(--blue-soft);color:var(--blue);display:flex;align-items:center;justify-content:center;margin-bottom:4px}.empty h3{color:var(--ink)}.empty p{font-size:12.5px;max-width:340px}
+/* Messaging */
+.msg-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:20px;align-items:start}.phone-preview{background:linear-gradient(160deg,#e8f0fb,#dce8f7);border-radius:18px;padding:18px;border:1px solid var(--line)}.phone-bubble{background:#fff;border-radius:4px 14px 14px 14px;padding:12px 14px;font-size:13px;line-height:1.6;box-shadow:var(--shadow-sm);white-space:pre-wrap;max-height:220px;overflow:auto}.phone-time{text-align:right;font-size:10px;color:var(--muted);margin-top:6px}.audience-list{max-height:330px;overflow:auto;border:1px solid var(--line);border-radius:11px}.audience-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:12.5px}.audience-item:last-child{border-bottom:0}.audience-item:hover{background:var(--surface-2)}.audience-item .a-name{font-weight:750}.audience-item .a-phone{font-family:var(--mono);font-size:11px;color:var(--muted)}.stat-pill{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:11px;border:1px solid var(--line);background:var(--surface-2)}.stat-pill b{font-size:19px;font-weight:800}.stat-pill span{font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+/* Templates */
+.tpl-list{display:flex;flex-direction:column;gap:12px}.tpl-card{display:flex;gap:14px;padding:16px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:var(--shadow-sm);transition:.15s;align-items:flex-start}.tpl-card:hover{border-color:var(--line-2);box-shadow:var(--shadow-md)}.tpl-card.dragging{opacity:.45}.tpl-card.drag-over{border-color:var(--blue);box-shadow:0 0 0 3px rgba(49,92,246,.15)}.tpl-grip{color:var(--muted-2);cursor:grab;padding-top:3px}.tpl-color{width:5px;align-self:stretch;border-radius:5px;flex:none}.tpl-body{font-size:12.5px;color:var(--muted);line-height:1.6;margin-top:7px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.tpl-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:9px}.tabs{display:inline-flex;background:#e9edf6;border-radius:11px;padding:4px;gap:3px}.tab{border:0;background:transparent;border-radius:8px;padding:7px 14px;font-size:12.5px;font-weight:750;color:var(--muted)}.tab.active{background:#fff;color:var(--blue);box-shadow:var(--shadow-sm)}
+/* Modal / drawer / toast */
+.overlay{position:fixed;inset:0;z-index:100;background:var(--scrim);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .18s ease}@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:var(--overlay);border-radius:18px;box-shadow:var(--shadow-lg);width:min(620px,100%);max-height:calc(100vh - 40px);display:flex;flex-direction:column;animation:modalIn .22s ease}@keyframes modalIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}.modal.wide{width:min(880px,100%)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line)}.modal-body{padding:22px;overflow:auto}.modal-foot{display:flex;justify-content:flex-end;gap:10px;padding:16px 22px;border-top:1px solid var(--line);flex-wrap:wrap}
+.drawer-overlay{position:fixed;inset:0;z-index:95;background:var(--scrim);backdrop-filter:blur(2px);animation:fadeIn .18s ease}.drawer{position:fixed;top:0;right:0;bottom:0;width:min(500px,100%);z-index:96;background:#fff;box-shadow:var(--shadow-lg);display:flex;flex-direction:column;animation:drawerIn .25s ease}@keyframes drawerIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}.drawer-head{padding:20px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.drawer-body{padding:22px;overflow:auto;flex:1}.drawer-foot{padding:16px 22px;border-top:1px solid var(--line);display:flex;gap:10px;flex-wrap:wrap}
+#toastRoot{position:fixed;right:22px;bottom:22px;z-index:200;display:flex;flex-direction:column;gap:10px;max-width:min(420px,calc(100vw - 44px))}.toast{display:flex;align-items:flex-start;gap:11px;background:var(--ink);color:#fff;border-radius:13px;padding:13px 15px;box-shadow:var(--shadow-lg);animation:toastIn .25s ease;font-size:13px}.toast.success{background:linear-gradient(135deg,#0e7d5c,#12a87b)}.toast.error{background:linear-gradient(135deg,#b5352f,#e5534b)}.toast.info{background:linear-gradient(135deg,#2445d4,#315cf6)}@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}.toast .t-msg{flex:1}.toast .t-actions{display:flex;gap:6px;margin-top:7px}.toast .t-actions button{border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;border-radius:7px;padding:4px 9px;font-size:11.5px;font-weight:750}.toast .t-close{border:0;background:transparent;color:rgba(255,255,255,.7);padding:0;display:flex}
+.dropzone{border:2px dashed var(--line-2);border-radius:14px;padding:30px 20px;text-align:center;background:var(--surface-2);transition:.15s;cursor:pointer}.dropzone:hover,.dropzone.drag{border-color:var(--blue);background:var(--blue-soft)}.dropzone .e-icon{width:48px;height:48px;border-radius:14px;background:#fff;color:var(--blue);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;box-shadow:var(--shadow-sm)}
+.mapping-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.import-preview{max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:10px}.import-preview table{font-size:11.5px}.import-preview th,.import-preview td{padding:7px 9px}.badge-row{display:flex;gap:8px;flex-wrap:wrap}
+.command-input{border:0;border-bottom:1px solid var(--line);border-radius:0;padding:16px 20px;font-size:15px;min-height:54px}.command-input:focus{box-shadow:none}.command-results{max-height:380px;overflow:auto;padding:8px}.command-group{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:9px 12px 4px}.command-item{display:flex;align-items:center;gap:11px;width:100%;border:0;background:transparent;padding:10px 12px;border-radius:10px;text-align:left;font-size:13px}.command-item:hover,.command-item.active{background:var(--blue-soft)}
+.activity-item{display:flex;gap:11px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:12.5px}.activity-item:last-child{border:0}.activity-item .a-icon{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex:none}.activity-item .a-time{font-size:10.5px;color:var(--muted)}
+.popover{position:fixed;top:calc(var(--topbar) - 6px);right:24px;z-index:90;width:min(360px,calc(100vw - 32px));background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow-lg);padding:14px;animation:modalIn .18s ease}.popover h3{margin-bottom:6px}.popover .list{max-height:320px;overflow:auto}
+.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}.danger-zone{border-color:#f3c7c3}.danger-zone .card-head{border-color:#f3c7c3}
+.inline-alert{display:flex;gap:10px;align-items:flex-start;border-radius:11px;padding:12px 14px;font-size:12.5px;line-height:1.55}.inline-alert.info{background:var(--blue-soft);color:#25409e}.inline-alert.warn{background:var(--amber-soft);color:#8a6410}.inline-alert.success{background:var(--green-soft);color:#0b6b4e}.inline-alert.error{background:var(--red-soft);color:#b5352f}
+.footer-note{text-align:center;color:var(--muted-2);font-size:11.5px;margin-top:28px}
+@media (max-width:1280px){.tip-layout{grid-template-columns:minmax(0,1fr) 300px}.subscriber-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:1080px){:root{--sidebar:76px}.brand{padding:20px 16px;justify-content:center}.brand-text,.nav-label,.nav-item span.nav-text,.nav-badge,.local-card,.side-user .u-text{display:none}.nav-item{justify-content:center;padding:12px}.nav-item.active::before{left:-14px}.nav-section{padding:10px 12px 2px}.side-user{justify-content:center}.tip-layout{grid-template-columns:1fr}.tip-side{position:static;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.msg-layout{grid-template-columns:1fr}.settings-grid{grid-template-columns:1fr}.top-search{min-width:180px}}
+@media (max-width:760px){:root{--sidebar:0px;--topbar:62px}#sidebar{width:260px;transform:translateX(-100%);transition:transform .25s ease;z-index:120}#sidebar.open{transform:none}#sidebar.open .brand-text,#sidebar.open .nav-label,#sidebar.open .nav-text,#sidebar.open .nav-badge,#sidebar.open .local-card,#sidebar.open .u-text{display:block}#sidebar.open .nav-item{justify-content:flex-start}#sidebar.open .brand{justify-content:flex-start}#sidebar.open .side-user{justify-content:flex-start}#sidebarOverlay{display:block;position:fixed;inset:0;z-index:110;background:var(--scrim);opacity:0;pointer-events:none;transition:.2s}#sidebarOverlay.show{opacity:1;pointer-events:auto}#topbar{left:0;padding:0 14px;gap:8px}.menu-btn{display:inline-flex}.top-search{min-width:0;padding:8px}.top-search span,.top-search kbd{display:none}.top-date{display:none}.crumbs .crumb-root{display:none}#main{margin-left:0;padding:calc(var(--topbar) + 18px) 14px 40px}h1{font-size:22px}.page-head{margin-bottom:16px}.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}.span-2{grid-column:auto}.tip-side{grid-template-columns:1fr}.subscriber-meta{grid-template-columns:repeat(2,minmax(0,1fr))}.card-body{padding:16px}.card-head{padding:14px 16px}.action-bar{padding:14px 16px}.hero{padding:22px}.hero h1{font-size:24px}.hero-net{opacity:.25}.modal{max-height:calc(100vh - 20px)}.overlay{padding:10px}.modal-body{padding:16px}.mapping-grid{grid-template-columns:1fr}.toolbar{padding:12px}.toolbar .grow{min-width:100%}.donut-wrap{justify-content:center}.top-actions .help-top{display:none}#toastRoot{right:12px;bottom:12px}.popover{right:12px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+
+<style>
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(800px 500px at 80% 0%,rgba(49,92,246,.25),transparent 60%),radial-gradient(600px 400px at 10% 100%,rgba(17,184,212,.18),transparent 60%),linear-gradient(160deg,#101d3a,#13234a 60%,#10203f)}
+.auth-card{width:min(430px,100%);background:#fff;border-radius:22px;box-shadow:0 30px 80px rgba(0,0,0,.4);padding:34px}
+.auth-brand{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.auth-title{font-size:22px;font-weight:800;letter-spacing:-.5px;color:var(--ink)}
+.auth-sub{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);font-weight:700}
+.auth-foot{margin-top:22px;padding-top:18px;border-top:1px dashed var(--line)}
+body.auth-mode #toastRoot{right:50%;transform:translateX(50%)}
+@media (max-width:760px){.auth-card{padding:24px}}
+</style>
+
+</head>
+<body>
+<aside id="sidebar" aria-label="Navegación principal">
+  <div class="brand">
+    <div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M6 19c5-11 15-11 20 0M6 13c5 11 15 11 20 0"/><circle cx="16" cy="16" r="2.4" fill="#fff" stroke="none"/></svg></div>
+    <div class="brand-text"><div class="brand-name">CDC <span>NOC 2</span></div><div class="brand-sub">Centro de operaciones</div></div>
+  </div>
+  <nav class="nav-section" aria-label="Espacio de trabajo">
+    <div class="nav-label">Espacio de trabajo</div>
+    <button class="nav-item" data-action="nav" data-page="resumen"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="nav-text">Resumen</span></button>
+    <button class="nav-item" data-action="nav" data-page="auto"><svg class="icon" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/><path d="M17 5l4 7-4 7"/></svg><span class="nav-text">Tipificación automática</span><span class="nav-badge" id="badgeQueue">0</span></button>
+    <button class="nav-item" data-action="nav" data-page="abonados"><svg class="icon" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 5a3.5 3.5 0 0 1 0 7M17.5 14a6.5 6.5 0 0 1 4 6"/></svg><span class="nav-text">Abonados</span><span class="nav-badge" id="badgeSubs">0</span></button>
+    <button class="nav-item" data-action="nav" data-page="mensajeria"><svg class="icon" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg><span class="nav-text">Mensajería</span><span class="nav-badge" id="badgeCampaigns">0</span></button>
+    <button class="nav-item" data-action="nav" data-page="plantillas"><svg class="icon" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5Z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></svg><span class="nav-text">Plantillas</span></button>
+    <button class="nav-item" data-action="nav" data-page="informes"><svg class="icon" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M14 2v5h5"/></svg><span class="nav-text">Informes CDC</span><span class="nav-badge" id="badgeReports">0</span></button>
+    <button class="nav-item" data-action="nav" data-page="mapas"><svg class="icon" viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg><span class="nav-text">Mapas y proyecciones</span></button>
+    <button class="nav-item" data-action="nav" data-page="historial"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg><span class="nav-text">Historial</span></button>
+  </nav>
+  <nav class="nav-section" aria-label="Herramientas">
+    <div class="nav-label">Herramientas</div>
+    <button class="nav-item" data-action="nav" data-page="vpn"><svg class="icon" viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/></svg><span class="nav-text">Acceso SAEPLUS / VPN</span></button>
+    <button class="nav-item" data-action="open-import"><svg class="icon" viewBox="0 0 24 24"><path d="M12 16V3m0 0 4 4m-4-4L8 7"/><path d="M4 15v3a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-3"/></svg><span class="nav-text">Importar Excel</span></button>
+    <button class="nav-item" data-action="nav" data-page="ajustes"><svg class="icon" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h7M15 18h5"/><circle cx="16" cy="6" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="13" cy="18" r="2"/></svg><span class="nav-text">Ajustes</span></button>
+  </nav>
+  <div class="sidebar-foot">
+    <div class="local-card">
+      <div class="row"><span class="dot"></span> Guardado local activo</div>
+      <p>Tus registros quedan en este equipo. Exporta un respaldo cuando lo necesites.</p>
+      <button class="btn btn-sm btn-outline btn-block" data-action="export-backup" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff">Exportar respaldo</button>
+    </div>
+    <div class="side-user">
+      <span class="avatar" id="sideAvatar">ON</span>
+      <div class="u-text grow"><div class="name" id="sideName">Operador NOC</div><div class="role" id="sideRole">Servicio al cliente</div></div>
+      <button class="icon-btn" data-action="nav" data-page="ajustes" aria-label="Ajustes" style="color:#8fa0c4"><svg class="icon" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg></button>
+    </div>
+  </div>
+</aside>
+<div id="sidebarOverlay" data-action="close-sidebar"></div>
+<header id="topbar">
+  <button class="icon-btn menu-btn" data-action="toggle-sidebar" aria-label="Abrir menú"><svg class="icon" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <div class="crumbs" id="crumbs"><span class="crumb-root">CDC NOC 2</span><svg class="icon crumb-root" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg><b>Tipificar</b></div>
+  <button class="top-search" data-action="command" aria-label="Búsqueda global"><svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Buscar abonado, plantilla o registro…</span><kbd>Ctrl K</kbd></button>
+  <span class="top-date" id="topDate"></span>
+  <div class="top-actions">
+    <button class="icon-btn help-top" data-action="help" aria-label="Ayuda"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.8.3-.9 1-.9 1.7"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg></button>
+    <button class="icon-btn" data-action="notifications" aria-label="Actividad reciente" style="position:relative"><svg class="icon" viewBox="0 0 24 24"><path d="M18 9a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg><span class="notif-dot" id="notifDot"></span></button>
+    <button class="avatar" data-action="nav" data-page="ajustes" id="topAvatar" aria-label="Perfil y ajustes" style="border:0;width:34px;height:34px;font-size:11px">ON</button>
+  </div>
+</header>
+<main id="main" tabindex="-1"></main>
+<div id="drawerRoot"></div>
+<div id="modalRoot"></div>
+<div id="popoverRoot"></div>
+<div id="toastRoot" aria-live="polite" aria-atomic="false"></div>
+<input type="file" id="importFile" accept=".xlsx,.xls,.csv" hidden>
+<input type="file" id="backupFile" accept=".json" hidden>
+<script src="./xlsx.full.min.js"></script>
+<script>
+/* ============================================================
+   CDC NOC 2 — Tipificación y atención al abonado
+   ============================================================ */
+(() => {
+'use strict';
+
+/* ---------------- Utilidades ---------------- */
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const todayStr = () => new Date().toLocaleDateString('es-VE', {year:'numeric', month:'2-digit', day:'2-digit'});
+const nowTime  = () => new Date().toLocaleTimeString('es-VE', {hour:'2-digit', minute:'2-digit'});
+const initials = n => (n||'?').trim().split(/\s+/).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+const debounce = (fn,ms=250)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};};
+
+/* ---------------- Base de datos local ---------------- */
+const KEY = 'cdcNoc2_v1';
+let DB = null;
+let auCredenciales = null;
+
+function seedTemplates(){
+  return [
+    {id:'t1', name:'Soporte NOC · Migración CDC', category:'Soporte', color:'#315cf6', body:'SOPORTE NOC: MIGRACION DE CDC\nCLIENTE REPORTA {nombre} · ABONADO {abonado}\nSE REALIZA MIGRACION DE CARTERA, SE VERIFICA SERVICIO Y QUEDA OPERATIVO.'},
+    {id:'t2', name:'Caída de internet resuelta', category:'Soporte', color:'#11b8d4', body:'SE ATIENDE REPORTE DE CAIDA DE SERVICIO DEL ABONADO {abonado}.\nSE VERIFICA ENLACE OLT/ONU, SE REINICIA PUERTO Y SERVICIO QUEDA RESTABLECIDO.\nCLIENTE CONFIRMA NAVEGACION.'},
+    {id:'t3', name:'Promesa de pago', category:'Cobranza', color:'#e9a11b', body:'LLAMADA DE COBROS AL ABONADO {abonado}.\nCLIENTE {nombre} SE COMPROMETE A PAGAR ANTES DEL {fecha}.\nSE REGISTRA PROMESA DE PAGO.'},
+    {id:'t4', name:'Sin contacto', category:'Cobranza', color:'#e5534b', body:'INTENTO DE CONTACTO CON ABONADO {abonado} SIN RESPUESTA.\nSE DEJA MENSAJE Y QUEDA PENDIENTE PARA NUEVO INTENTO.'},
+    {id:'t5', name:'Actualización de datos', category:'Actualización', color:'#12a87b', body:'SE ACTUALIZA INFORMACION DEL CLIENTE {nombre}.\nTELEFONO: {telefono} · CEDULA: {cedula}.'},
+    {id:'t6', name:'Control de calidad', category:'Calidad', color:'#8257e6', body:'CONTROL DE CALIDAD REALIZADO.\nATENCION: BUENA.\nSIN CORRECCIONES QUE REALIZAR.'},
+  ];
+}
+
+function encode64(bytes){ return btoa(String.fromCharCode(...bytes)); }
+function decode64(value){ return Uint8Array.from(atob(value), c=>c.charCodeAt(0)); }
+
+async function passwordMaterial(password, salt=encode64(crypto.getRandomValues(new Uint8Array(16)))){
+  const source = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+  const bits = new Uint8Array(await crypto.subtle.deriveBits({name:'PBKDF2', hash:'SHA-256', salt:decode64(salt), iterations:600000}, source, 512));
+  return {salt, hash:encode64(bits.slice(0,32)), key:bits.slice(32)};
+}
+
+async function encryptCredential(userId, credential, key){
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const aes = await crypto.subtle.importKey('raw', key, 'AES-GCM', false, ['encrypt']);
+  const data = await crypto.subtle.encrypt({name:'AES-GCM', iv, additionalData:new TextEncoder().encode(userId)}, aes, new TextEncoder().encode(JSON.stringify(credential)));
+  return {iv:encode64(iv), data:encode64(new Uint8Array(data))};
+}
+
+async function decryptCredential(user, key){
+  const aes = await crypto.subtle.importKey('raw', key, 'AES-GCM', false, ['decrypt']);
+  const data = await crypto.subtle.decrypt({name:'AES-GCM', iv:decode64(user.saeplus.iv), additionalData:new TextEncoder().encode(user.id)}, aes, decode64(user.saeplus.data));
+  return JSON.parse(new TextDecoder().decode(data));
+}
+
+async function migratePanelPasswords(){
+  for (const user of DB.users){
+    if (typeof user.password !== 'string') continue;
+    const material = await passwordMaterial(user.password);
+    user.passwordSalt = material.salt;
+    user.passwordHash = material.hash;
+    delete user.password;
+  }
+}
+
+async function load(){
+  try { DB = JSON.parse(localStorage.getItem(KEY)) || null; } catch(e){ DB = null; }
+  if (!DB || !DB.users){
+    DB = {
+      users:[{id:'u_admin', username:'admin', password:'admin123', name:'Administrador', role:'Admin', created:todayStr()}],
+      subscribers:[],
+      records:[],
+      templates: seedTemplates(),
+      campaigns:[],
+      activity:[{id:uid(), time:nowTime(), date:todayStr(), icon:'info', text:'Sistema inicializado con usuario por defecto: admin / admin123'}]
+    };
+  }
+  DB.templates = Array.isArray(DB.templates) ? DB.templates : seedTemplates();
+  DB.activity  = DB.activity  || [];
+  DB.campaigns = DB.campaigns || [];
+  DB.informes = DB.informes || [];
+  DB.drive = DB.drive || {};
+  DB.queue = DB.queue || [];
+  delete DB.saeplus;
+  await migratePanelPasswords();
+  save();
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(DB)); return true; }catch(e){ toast('No se pudo guardar en el navegador','error'); return false; } }
+
+function logActivity(icon, text){
+  DB.activity.unshift({id:uid(), time:nowTime(), date:todayStr(), icon, text});
+  DB.activity = DB.activity.slice(0, 60);
+  save();
+}
+
+/* ---------------- Autenticación ---------------- */
+let currentUser = null;
+let panelKey = null;
+
+function sessionSave(){
+  localStorage.setItem('cdcNoc2_session', JSON.stringify({userId:currentUser.id, key:encode64(panelKey)}));
+}
+
+async function recoverCredentials(){
+  auCredenciales = null;
+  if (!currentUser.saeplus) return;
+  try { auCredenciales = await decryptCredential(currentUser, panelKey); }
+  catch(e){ toast('No se pudo abrir la credencial SAEPLUS guardada. Bórrala y guárdala de nuevo.','error'); }
+}
+
+async function sessionLoad(){
+  const s = JSON.parse(localStorage.getItem('cdcNoc2_session') || 'null');
+  const user = s && DB.users.find(u=>u.id===s.userId);
+  if (!user || !s.key){ localStorage.removeItem('cdcNoc2_session'); return; }
+  currentUser = user;
+  panelKey = decode64(s.key);
+  await recoverCredentials();
+}
+
+async function login(username, password){
+  const u = DB.users.find(u=>u.username.toLowerCase()===username.trim().toLowerCase());
+  if (!u) return null;
+  const material = await passwordMaterial(password, u.passwordSalt);
+  if (material.hash !== u.passwordHash) return null;
+  currentUser = u;
+  panelKey = material.key;
+  sessionSave();
+  await recoverCredentials();
+  logActivity('login', `${u.name} inició sesión`);
+  return u;
+}
+
+async function changePanelPassword(user, password){
+  const actor = currentUser.id;
+  const own = user.id === actor;
+  const credential = own && user.saeplus ? await decryptCredential(user, panelKey) : null;
+  const material = await passwordMaterial(password);
+  const encrypted = credential ? await encryptCredential(user.id, credential, material.key) : null;
+  if (currentUser?.id !== actor) return false;
+  const previous = {passwordSalt:user.passwordSalt, passwordHash:user.passwordHash, saeplus:user.saeplus};
+  user.passwordSalt = material.salt;
+  user.passwordHash = material.hash;
+  if (encrypted) user.saeplus = encrypted; else delete user.saeplus;
+  if (!save()){ Object.assign(user, previous); return false; }
+  if (own){ panelKey = material.key; sessionSave(); }
+  return true;
+}
+
+function logout(){
+  logActivity('logout', `${currentUser.name} cerró sesión`);
+  currentUser = null;
+  panelKey = null;
+  auCredenciales = null;
+  localStorage.removeItem('cdcNoc2_session');
+  renderLogin();
+}
+
+/* ---------------- Toast ---------------- */
+function toast(msg, type='info', actions){
+  const root = $('#toastRoot');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  const icons = {success:'check', error:'alert', info:'info'};
+  el.innerHTML = `<svg class="icon" viewBox="0 0 24 24">${iconPath(icons[type]||'info')}</svg><div class="t-msg">${esc(msg)}${actions?`<div class="t-actions">${actions.map(a=>`<button data-toast-act="${esc(a.label)}">${esc(a.label)}</button>`).join('')}</div>`:''}</div><button class="t-close" aria-label="Cerrar"><svg class="icon" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>`;
+  el.querySelector('.t-close').onclick = () => el.remove();
+  if (actions) el.querySelectorAll('[data-toast-act]').forEach(b => b.onclick = () => { const a = actions.find(x=>x.label===b.dataset.toastAct); a.onClick && a.onClick(); el.remove(); });
+  const repetido = [...root.children].find(x => x.dataset.toastMsg === msg);
+  if (repetido) repetido.remove();
+  el.dataset.toastMsg = msg;
+  root.appendChild(el);
+  setTimeout(()=>{ el.style.opacity='0'; el.style.transition='opacity .3s'; setTimeout(()=>el.remove(), 320); }, 4200);
+}
+
+/* ---------------- Iconos SVG ---------------- */
+function iconPath(name){
+  const p = {
+    check:'<path d="m4.5 12.5 5 5 10-11"/>',
+    alert:'<path d="M12 3 2.5 20h19L12 3z"/><path d="M12 9.5V14"/><circle cx="12" cy="17" r=".6" fill="currentColor"/>',
+    info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r=".6" fill="currentColor"/>',
+    login:'<path d="M14 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/>',
+    user:'<circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/>',
+    lock:'<rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>',
+    phone:'<path d="M5 4h4l1.5 4.5L8 10a12 12 0 0 0 6 6l1.5-2.5L20 15v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/>',
+    send:'<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+    file:'<path d="M6 2h8l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M14 2v5h5"/>',
+    download:'<path d="M12 3v13m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2"/>',
+    shield:'<path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z"/>',
+    plus:'<path d="M12 5v14M5 12h14"/>',
+    edit:'<path d="M4 20h4L20.5 7.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><path d="M14.5 6.5l3 3"/>',
+    trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
+    eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
+    copy:'<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+    whatsapp:'<path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.7-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 4 2.5 6.5 6.5 6.5l1-1.7-2.2-1.1-1 .8a5.2 5.2 0 0 1-2.3-2.3l.8-1L10.7 7.5 9 8.5z"/>',
+    excel:'<path d="M6 2h8l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M14 2v5h5"/><path d="m8.5 12 7 6m0-6-7 6"/>',
+    map:'<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/>'
+  };
+  return p[name] || p.info;
+}
+function icon(name, cls='icon'){ return `<svg class="${cls}" viewBox="0 0 24 24">${iconPath(name)}</svg>`; }
+
+/* ---------------- Modal / Drawer ---------------- */
+function openModal(html, wide=false){
+  closeModal();
+  $('#modalRoot').innerHTML = `<div class="overlay" data-action="overlay-close"><div class="modal${wide?' wide':''}" role="dialog" aria-modal="true">${html}</div></div>`;
+  $$('#modalRoot [data-action="modal-close"]').forEach(b => b.onclick = closeModal);
+  $('#modalRoot .overlay').addEventListener('mousedown', e => { if (e.target === e.currentTarget) closeModal(); });
+}
+function closeModal(){ $('#modalRoot').innerHTML=''; }
+function openDrawer(html){
+  closeDrawer();
+  $('#drawerRoot').innerHTML = `<div class="drawer-overlay" data-action="overlay-close"></div><aside class="drawer" role="dialog">${html}</aside>`;
+  $('#drawerRoot .drawer-overlay').onclick = closeDrawer;
+  $$('#drawerRoot [data-action="modal-close"]').forEach(b => b.onclick = closeDrawer);
+}
+function closeDrawer(){ $('#drawerRoot').innerHTML=''; }
+
+function modalHead(title, sub=''){
+  return `<div class="modal-head"><div><h2>${esc(title)}</h2>${sub?`<p class="muted" style="font-size:12px;margin-top:2px">${esc(sub)}</p>`:''}</div><button class="icon-btn" data-action="modal-close" aria-label="Cerrar"><svg class="icon" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>`;
+}
+
+/* ---------------- Catálogo de tipificación ---------------- */
+const TIPOS = {
+  'SOPORTE NOC': {
+    'LLAMADA DE SOPORTE': ['CAÍDA DE INTERNET','CORTE DE FIBRA ÓPTICA','FALLA EQUIPO CLIENTE','FALLA GENERAL','LENTITUD DEL SERVICIO','SIN INTERNET','MIGRACIÓN CDC','ONU QUEMADA','CONFIGURACIÓN ROUTER','CAMBIO DE CLAVE','NO NAVEGA EN CIERTAS PÁGINAS'],
+    'LLAMADA ADMINISTRATIVA': ['INFORMACIÓN GENERAL','SOLICITUD','RECLAMO']
+  },
+  'CONTROL DE CALIDAD': { 'CONTROL DE CALIDAD': ['BUENO','REGULAR','MALO'] },
+  'ACTUALIZACIÓN': { 'ACTUALIZACIÓN': ['DATOS PERSONALES DEL CLIENTE','DIRECCIÓN','TELÉFONO'] },
+  'COBRANZA': { 'LLAMADAS PARA COBROS': ['PROMESA DE PAGO','CLIENTE NO CONTESTA','CLIENTE INFORMA QUE PAGÓ'] },
+  'MIGRACIÓN CDC': { 'MIGRACIÓN': ['EXITOSA','PENDIENTE','FALLIDA'] },
+  'MUDANZA INTERNA': { 'MUDANZA': ['PROGRAMADA','REALIZADA','CANCELADA'] },
+  'ONU QUEMADA': { 'EQUIPO': ['REEMPLAZO ONU','REINSTALACIÓN'] },
+  'OTROS': { 'OTROS': ['OTROS'] }
+};
+const ESTADOS = ['COMPLETADO','PENDIENTE','ESCALADO'];
+
+/* ---------------- Router ---------------- */
+const PAGES = {
+  resumen:{title:'Resumen', crumb:'Panel general'},
+  tipificar:{title:'Tipificar', crumb:'Registro saliente'},
+  auto:{title:'Tipificación automática', crumb:'Cola masiva para SAEPLUS — ejecución con un clic'},
+  informes:{title:'Informes CDC', crumb:'Informes de fin de mes con Google Drive'},
+  mapas:{title:'Mapas y proyecciones', crumb:'Ubicación de cajas y cobertura'},
+  abonados:{title:'Abonados', crumb:'Directorio importado'},
+  mensajeria:{title:'Mensajería', crumb:'Campañas masivas'},
+  plantillas:{title:'Plantillas', crumb:'Textos predefinidos'},
+  historial:{title:'Historial', crumb:'Registros de tipificación'},
+  vpn:{title:'Acceso SAEPLUS / VPN', crumb:'Herramienta de respaldo'},
+  ajustes:{title:'Ajustes', crumb:'Perfil, usuarios y datos'}
+};
+let currentPage = 'tipificar';
+
+function go(page){
+  if (!currentUser) return;
+  if (page === 'tipificar') page = 'auto'; // la tipificación manual se reemplazó por la automática
+  currentPage = page;
+  const m = $('#main');
+  const fn = {resumen:renderResumen, tipificar:renderAuto, auto:renderAuto, informes:renderInformes, mapas:renderMapas, abonados:renderAbonados, mensajeria:renderMensajeria, plantillas:renderPlantillas, historial:renderHistorial, vpn:renderVpn, ajustes:renderAjustes}[page];
+  m.innerHTML = fn ? fn() : renderTipificar();
+  $$('.nav-item[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === page));
+  const info = PAGES[page] || PAGES.tipificar;
+  $('#crumbs').innerHTML = `<span class="crumb-root">CDC NOC 2</span><svg class="icon crumb-root" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg><b>${esc(info.title)}</b>`;
+  document.title = `${info.title} · CDC NOC 2`;
+  bindPage(page);
+  m.focus();
+  updateBadges();
+  $('#sidebar').classList.remove('open'); $('#sidebarOverlay').classList.remove('show');
+}
+
+function updateBadges(){
+  const t = todayStr();
+  const set = (id, v) => { const el = $(id); if (el) el.textContent = v; };
+  set('#badgeToday', DB.records.filter(r=>r.date===t).length);
+  set('#badgeSubs', DB.subscribers.length);
+  set('#badgeCampaigns', DB.campaigns.length);
+  set('#badgeQueue', (DB.queue||[]).filter(q=>q.status==='PENDIENTE').length);
+  set('#badgeReports', (DB.informes||[]).length);
+}
+
+/* ================================================================
+   LOGIN
+================================================================ */
+function renderLogin(){
+  document.body.classList.add('auth-mode');
+  $('#sidebar').style.display = 'none';
+  $('#sidebarOverlay').style.display = 'none';
+  $('#topbar').style.display = 'none';
+  $('#main').style.marginLeft = '0';
+  $('#main').style.padding = '0';
+  $('#main').innerHTML = `
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="brand-mark" style="width:56px;height:56px;border-radius:17px"><svg viewBox="0 0 32 32" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" style="width:32px;height:32px"><path d="M6 19c5-11 15-11 20 0M6 13c5 11 15 11 20 0"/><circle cx="16" cy="16" r="2.4" fill="#fff" stroke="none"/></svg></div>
+        <div><div class="auth-title">CDC NOC 2</div><div class="auth-sub">Centro de operaciones · Tipificación</div></div>
+      </div>
+      <h1 style="font-size:22px;margin-bottom:4px">Iniciar sesión</h1>
+      <p class="muted" style="font-size:13px;margin-bottom:20px">Ingresa tus credenciales para registrar tipificaciones a tu nombre.</p>
+      <form id="loginForm" class="grid" autocomplete="off">
+        <div class="field"><label>Usuario</label>
+          <div class="input-icon">${icon('user')}<input class="input" id="loginUser" placeholder="nombre de usuario" required autofocus></div>
+        </div>
+        <div class="field"><label>Contraseña</label>
+          <div class="input-icon">${icon('lock')}<input class="input" type="password" id="loginPass" placeholder="••••••••" required>
+          <button type="button" class="icon-btn" id="togglePass" style="position:absolute;right:6px;top:50%;transform:translateY(-50%)" aria-label="Mostrar contraseña">${icon('eye')}</button></div>
+        </div>
+        <div class="inline-alert error hidden" id="loginError">${icon('alert','icon')}<span>Usuario o contraseña incorrectos.</span></div>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">${icon('login')} Entrar</button>
+      </form>
+      <div class="auth-foot">
+        <span class="chip chip-cyan"><span class="dot"></span> Guardado local en este equipo</span>
+        <p class="muted" style="font-size:11.5px;margin-top:12px">Usuario inicial: <b class="mono">admin</b> / <b class="mono">admin123</b>. Cámbialo en Ajustes tras entrar.</p>
+      </div>
+    </div>
+  </div>`;
+  $('#togglePass').onclick = () => { const p = $('#loginPass'); p.type = p.type === 'password' ? 'text' : 'password'; };
+  $('#loginForm').onsubmit = async e => {
+    e.preventDefault();
+    const button = e.submitter || $('#loginForm button[type=submit]');
+    if (button.disabled) return;
+    button.disabled = true;
+    try {
+      const u = await login($('#loginUser').value, $('#loginPass').value);
+      if (!u){ $('#loginError').classList.remove('hidden'); $('#loginPass').select(); return; }
+      enterApp();
+      toast(`Bienvenido, ${u.name}`, 'success');
+    } catch(err){ toast('No se pudo iniciar sesión: '+err.message,'error'); }
+    finally { button.disabled = false; }
+  };
+}
+
+function enterApp(){
+  document.body.classList.remove('auth-mode');
+  $('#sidebar').style.display = '';
+  $('#topbar').style.display = '';
+  $('#main').style.marginLeft = '';
+  $('#main').style.padding = '';
+  applyUserChrome();
+  go('tipificar');
+}
+
+function applyUserChrome(){
+  const u = currentUser;
+  $('#sideAvatar').textContent = initials(u.name);
+  $('#topAvatar').textContent = initials(u.name);
+  $('#sideName').textContent = u.name;
+  $('#sideRole').textContent = u.role || 'Operador';
+}
+
+/* ================================================================
+   RESUMEN
+================================================================ */
+function kpiSpark(values, color){
+  const max = Math.max(1, ...values);
+  const pts = values.map((v,i)=>`${(i/(values.length-1||1))*100},${30-(v/max)*26}`).join(' ');
+  return `<svg class="spark" viewBox="0 0 100 30" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2"/></svg>`;
+}
+
+function renderResumen(){
+  const t = todayStr();
+  const todayRecs = DB.records.filter(r=>r.date===t);
+  const byMe = todayRecs.filter(r=>r.userId===currentUser.id);
+  const week = [...Array(7)].map((_,i)=>{ const d=new Date(); d.setDate(d.getDate()-6+i); return d.toLocaleDateString('es-VE',{year:'numeric',month:'2-digit',day:'2-digit'}); });
+  const weekCounts = week.map(d=>DB.records.filter(r=>r.date===d).length);
+  const tipoCounts = {};
+  DB.records.forEach(r=>tipoCounts[r.tipoLlamada]=(tipoCounts[r.tipoLlamada]||0)+1);
+  const topTipos = Object.entries(tipoCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const maxT = Math.max(1, ...topTipos.map(x=>x[1]));
+  const colors = ['#315cf6','#11b8d4','#12a87b','#e9a11b','#8257e6'];
+  const escN = DB.records.filter(r=>r.estado==='ESCALADO').length;
+  const penN = DB.records.filter(r=>r.estado==='PENDIENTE').length;
+
+  return `<div class="page">
+    <section class="hero" style="margin-bottom:20px">
+      <svg class="hero-net" viewBox="0 0 460 300" fill="none" stroke="rgba(255,255,255,.5)"><circle cx="80" cy="80" r="26"/><circle cx="220" cy="50" r="18"/><circle cx="360" cy="110" r="30"/><circle cx="150" cy="200" r="22"/><circle cx="320" cy="230" r="16"/><path d="M80 80 220 50M220 50 360 110M80 80 150 200M360 110 320 230M150 200 320 230"/></svg>
+      <div class="hero-content">
+        <div class="eyebrow" style="color:#7fd9ea">Panel general</div>
+        <h1>Bienvenido, ${esc(currentUser.name.split(' ')[0])}</h1>
+        <p>Hoy llevas <b style="color:#fff">${byMe.length}</b> tipificación(es) registrada(s). Usa el módulo de tipificación para registrar llamadas salientes, el directorio de abonados para consultar datos importados desde Excel y mensajería para campañas masivas.</p>
+        <div class="row wrap">
+          <button class="btn btn-primary" data-action="nav" data-page="auto">${icon('phone')} Tipificación automática</button>
+          <button class="btn btn-outline" data-action="open-import">${icon('excel')} Importar abonados</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid grid-4" style="margin-bottom:20px">
+      <div class="card kpi"><span class="k-label">Registros hoy</span><div class="k-value">${todayRecs.length}</div><div class="k-foot"><span class="chip chip-blue">${byMe.length} míos</span></div><div class="k-icon" style="background:var(--blue-soft);color:var(--blue)">${icon('phone')}</div>${kpiSpark(weekCounts,'#315cf6')}</div>
+      <div class="card kpi"><span class="k-label">Abonados cargados</span><div class="k-value">${DB.subscribers.length}</div><div class="k-foot">desde Excel</div><div class="k-icon" style="background:var(--cyan-soft);color:var(--cyan)">${icon('user')}</div>${kpiSpark(DB.subscribers.slice(-7).map((_,i)=>i+1),'#11b8d4')}</div>
+      <div class="card kpi"><span class="k-label">Pendientes / Escalados</span><div class="k-value">${penN + escN}</div><div class="k-foot"><span class="chip chip-amber">${penN} pendientes</span> <span class="chip chip-red">${escN} escalados</span></div><div class="k-icon" style="background:var(--amber-soft);color:var(--amber)">${icon('alert')}</div></div>
+      <div class="card kpi"><span class="k-label">Campañas enviadas</span><div class="k-value">${DB.campaigns.length}</div><div class="k-foot">mensajería masiva</div><div class="k-icon" style="background:var(--violet-soft);color:var(--violet)">${icon('send')}</div></div>
+      <div class="card kpi"><span class="k-label">Informes CDC</span><div class="k-value">${(DB.informes||[]).length}</div><div class="k-foot">fin de mes · último: ${esc((DB.informes||[]).slice().sort((a,b)=>(b.mes||'').localeCompare(a.mes||''))[0]?.mes||'—')}</div><div class="k-icon" style="background:var(--blue-soft);color:var(--blue)">${icon('file')}</div></div>
+    </div>
+
+    <div class="grid" style="grid-template-columns:1.4fr 1fr;align-items:start" id="resumenGrid">
+      <div class="card">
+        <div class="card-head"><div class="card-title"><span class="step">7</span><div><h2>Últimos 7 días</h2><small class="muted">Volumen de tipificaciones</small></div></div></div>
+        <div class="card-body"><div class="chart-bars">${week.map((d,i)=>`<div class="chart-col"><div class="chart-bar" style="height:${Math.max(4,(weekCounts[i]/Math.max(1,...weekCounts))*100)}%;background:linear-gradient(180deg,${colors[i%colors.length]},${colors[i%colors.length]}cc)"><span>${weekCounts[i]}</span></div><span class="chart-label">${d.slice(0,5)}</span></div>`).join('')}</div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title"><span class="step">T</span><div><h2>Top motivos</h2><small class="muted">Por tipo de llamada</small></div></div></div>
+        <div class="card-body"><div class="legend">${topTipos.length?topTipos.map(([k,v],i)=>`<div class="legend-item"><span class="sw" style="background:${colors[i]}"></span>${esc(k)}<b>${v}</b></div>`).join(''):'<p class="muted">Aún no hay registros.</p>'}</div></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <div class="card-head"><div class="card-title"><span class="step"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><h2>Actividad reciente</h2></div><button class="btn btn-sm btn-ghost" data-action="nav" data-page="historial">Ver historial</button></div>
+      <div class="card-body" style="padding-top:8px">${DB.activity.slice(0,8).map(a=>`<div class="activity-item"><span class="a-icon" style="background:var(--blue-soft);color:var(--blue)">${icon(a.icon==='login'?'login':a.icon==='logout'?'login':'info')}</span><div class="grow"><div>${esc(a.text)}</div><span class="a-time">${esc(a.date)} · ${esc(a.time)}</span></div></div>`).join('')||'<p class="muted">Sin actividad.</p>'}</div>
+    </div>
+  </div>`;
+}
+
+/* ================================================================
+   TIPIFICAR  (flujo tipo SAEPLUS, como en el video)
+================================================================ */
+let tipState = { subscriber:null, filtered:[] };
+
+function renderTipificar(){
+  tipState = { subscriber:null, filtered:[] };
+  const t = todayStr();
+  const todayRecs = DB.records.filter(r=>r.date===t).slice().reverse();
+  return `<div class="page">
+    <div class="page-head">
+      <div><div class="eyebrow">${icon('phone')} Servicio al cliente · Registro saliente</div>
+      <h1>Tipificación de llamada</h1>
+      <p class="sub">Busca el abonado (por número anterior, cédula o teléfono desde el Excel importado, o ingrésalo manualmente), completa los datos de la llamada y registra. El responsable queda asignado a <b>${esc(currentUser.name)}</b>.</p></div>
+      <span class="demo-note">${icon('user')} Responsable: ${esc(currentUser.username)}</span>
+      <button class="btn btn-primary" data-action="nav" data-page="auto">${icon('phone')} Cargar lista para automatizar</button>
+    </div>
+
+    <div class="tip-layout">
+      <div class="tip-main">
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">1</span><div><h2>Búsqueda de abonados</h2><small class="muted">Datos cargados desde Excel (n° abonado anterior, cédula, teléfono)</small></div></div></div>
+          <div class="card-body grid grid-2">
+            <div class="field" style="position:relative"><label>Número de abonado</label>
+              <div class="input-icon">${icon('user')}<input class="input" id="tipSearchNro" placeholder="p. ej. 009854 o WM009016" autocomplete="off"></div>
+              <div class="search-results hidden" id="tipResults"></div>
+            </div>
+            <div class="field"><label>Documento de identidad / Cédula</label>
+              <div class="input-icon">${icon('file')}<input class="input" id="tipSearchCed" placeholder="p. ej. 30141301" autocomplete="off"></div>
+            </div>
+            <div class="field"><label>Teléfono</label>
+              <div class="input-icon">${icon('phone')}<input class="input" id="tipSearchTel" placeholder="p. ej. 04248853314" autocomplete="off"></div>
+            </div>
+            <div class="row" style="align-self:end">
+              <button class="btn btn-dark" id="tipBuscar">${icon('check')} Buscar</button>
+              <button class="btn btn-outline" data-action="open-import">${icon('excel')} Importar Excel</button>
+              <button class="btn btn-ghost" id="tipManual">Ingreso manual</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card hidden" id="tipSubCard">
+          <div class="card-head"><div class="card-title"><span class="step">2</span><h2>Datos del abonado</h2></div><span class="chip chip-green" id="tipSubStatus"><span class="dot"></span> ENCONTRADO</span></div>
+          <div class="card-body"><div id="tipSubBody"></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">3</span><h2>Datos de la llamada</h2><small class="muted">Responsable: ${esc(currentUser.name)} · Fecha: ${t} · Hora: ${nowTime()}</small></div></div>
+          <div class="card-body grid grid-3">
+            <div class="field"><label>Tipo llamada</label><select class="input" id="tipTipo"><option value="">SELECCIONE…</option>${Object.keys(TIPOS).map(k=>`<option>${esc(k)}</option>`).join('')}</select></div>
+            <div class="field"><label>Tipo respuesta</label><select class="input" id="tipResp" disabled><option value="">SELECCIONE…</option></select></div>
+            <div class="field"><label>Detalle respuesta</label><select class="input" id="tipDet" disabled><option value="">SELECCIONE…</option></select></div>
+            <div class="field" style="grid-column:1/-1"><label>Estado del caso</label><select class="input" id="tipEstado">${ESTADOS.map(e=>`<option>${e}</option>`).join('')}</select></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">4</span><div><h2>Observación</h2><small class="muted">Escribe libremente o inserta una plantilla</small></div></div>
+            <button class="btn btn-sm btn-outline" id="tipTplOpen">${icon('file')} Insertar plantilla</button></div>
+          <div class="card-body grid">
+            <textarea class="input" id="tipObs" style="min-height:120px" placeholder="Escribe la observación de la llamada…"></textarea>
+            <div class="row-between wrap">
+              <div class="var-chips" id="tipVarChips"></div>
+              <small class="muted mono" id="tipCount">0 caracteres</small>
+            </div>
+            <div class="hidden" id="tipTplPanel" style="border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--surface-2)">
+              <div class="row-between" style="margin-bottom:10px"><b style="font-size:12.5px">Plantillas disponibles</b><button class="btn btn-sm btn-ghost" data-action="nav" data-page="plantillas">Gestionar plantillas</button></div>
+              <div class="grid" id="tipTplList" style="gap:8px"></div>
+            </div>
+          </div>
+          <div class="action-bar">
+            <div class="row wrap"><span class="chip chip-gray" id="tipSummary">Sin abonado seleccionado</span></div>
+            <div class="row">
+              <button class="btn btn-outline" id="tipLimpiar">Limpiar</button>
+              <button class="btn btn-primary btn-lg" id="tipRegistrar">${icon('check')} REGISTRAR</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="tip-side">
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span><h2>Llamadas registradas hoy</h2></div></div>
+          <div class="card-body" style="padding-top:8px;max-height:430px;overflow:auto" id="tipTodayList">
+            ${todayRecs.length ? todayRecs.map(r=>miniRecord(r)).join('') : '<p class="muted" style="font-size:12.5px;padding:14px 4px">Aún no hay llamadas registradas hoy.</p>'}
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Atajos</h2></div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:8px">
+            <button class="btn btn-outline btn-block" data-action="nav" data-page="historial">${icon('file')} Ver historial completo</button>
+            <button class="btn btn-outline btn-block" data-action="export-csv">${icon('download')} Exportar hoy a CSV</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>`;
+}
+
+function miniRecord(r){
+  return `<div class="mini-record"><span class="time">${esc(r.time)}</span><div class="grow"><div class="r-name">${esc(r.cliente||'Sin cliente')} <span class="chip ${r.estado==='ESCALADO'?'chip-red':r.estado==='PENDIENTE'?'chip-amber':'chip-green'}" style="font-size:10px;padding:2px 7px">${esc(r.estado)}</span></div><div class="r-detail">${esc(r.tipoLlamada)} → ${esc(r.detalle||r.tipoRespuesta)}</div></div></div>`;
+}
+
+function bindTipificar(){
+  const tipoSel = $('#tipTipo'), respSel = $('#tipResp'), detSel = $('#tipDet'), obs = $('#tipObs');
+
+  tipoSel.onchange = () => {
+    const map = TIPOS[tipoSel.value] || {};
+    const resps = Object.keys(map);
+    respSel.innerHTML = '<option value="">SELECCIONE…</option>' + resps.map(r=>`<option>${esc(r)}</option>`).join('');
+    respSel.disabled = !resps.length; detSel.innerHTML='<option value="">SELECCIONE…</option>'; detSel.disabled = true;
+  };
+  respSel.onchange = () => {
+    const dets = (TIPOS[tipoSel.value]||{})[respSel.value] || [];
+    detSel.innerHTML = '<option value="">SELECCIONE…</option>' + dets.map(d=>`<option>${esc(d)}</option>`).join('');
+    detSel.disabled = !dets.length;
+  };
+
+  const doSearch = () => {
+    const nro = ($('#tipSearchNro').value||'').trim().toLowerCase();
+    const ced = ($('#tipSearchCed').value||'').trim().toLowerCase();
+    const tel = ($('#tipSearchTel').value||'').trim().toLowerCase();
+    if (!nro && !ced && !tel){ toast('Ingresa un criterio de búsqueda','info'); return; }
+    const hits = DB.subscribers.filter(s =>
+      (nro && (s.nro||'').toLowerCase().includes(nro)) ||
+      (ced && (s.cedula||'').toLowerCase().includes(ced)) ||
+      (tel && (s.telefono||'').toLowerCase().includes(tel)));
+    tipState.filtered = hits;
+    const box = $('#tipResults');
+    if (!hits.length){
+      box.classList.remove('hidden');
+      box.innerHTML = `<div style="padding:10px;font-size:12px;color:var(--muted)">Sin resultados en el directorio. Usa <b>Ingreso manual</b> o importa el Excel.</div>`;
+      return;
+    }
+    box.classList.remove('hidden');
+    box.innerHTML = hits.slice(0,8).map(s=>`<button class="search-result" data-pick="${s.id}"><span class="avatar">${esc(initials(s.nombre))}</span><span class="grow"><b style="font-size:12.5px">${esc(s.nombre||'Sin nombre')}</b><br><small class="muted mono">${esc(s.nro||'—')} · ${esc(s.cedula||'—')} · ${esc(s.telefono||'—')}</small></span></button>`).join('');
+    $$('#tipResults [data-pick]').forEach(b => b.onclick = () => { selectSubscriber(b.dataset.pick); box.classList.add('hidden'); });
+  };
+  $('#tipBuscar').onclick = doSearch;
+  ['tipSearchNro','tipSearchCed','tipSearchTel'].forEach(id => $('#'+id).addEventListener('keydown', e => { if (e.key==='Enter'){ e.preventDefault(); doSearch(); } }));
+  $('#tipSearchNro').addEventListener('input', debounce(()=>{ if($('#tipSearchNro').value.trim().length>=3) doSearch(); else $('#tipResults').classList.add('hidden'); },350));
+
+  $('#tipManual').onclick = () => openManualSubscriber();
+
+  /* plantillas */
+  const renderTplList = () => {
+    $('#tipTplList').innerHTML = DB.templates.map(t=>`
+      <div class="template-mini" data-tpl="${t.id}">
+        <span class="bar" style="background:${esc(t.color||'#315cf6')}"></span>
+        <div class="grow"><div class="t-name">${esc(t.name)}</div><div class="t-cat">${esc(t.category||'General')}</div></div>
+        <div class="t-actions"><button class="icon-btn" data-ins="${t.id}" title="Insertar" style="width:28px;height:28px">${icon('plus')}</button></div>
+      </div>`).join('');
+    $$('#tipTplList [data-ins]').forEach(b => b.onclick = () => insertTemplate(b.dataset.ins));
+  };
+  $('#tipTplOpen').onclick = () => { const p=$('#tipTplPanel'); p.classList.toggle('hidden'); if(!p.classList.contains('hidden')) renderTplList(); };
+
+  const obsVars = () => {
+    $('#tipVarChips').innerHTML = ['{nombre}','{abonado}','{cedula}','{telefono}','{fecha}','{operador}'].map(v=>`<button class="var-chip" data-var="${v}">${v}</button>`).join('');
+    $$('#tipVarChips [data-var]').forEach(b => b.onclick = () => { obs.setRangeText(b.dataset.var); obs.focus(); updateCount(); });
+  };
+  const updateCount = () => $('#tipCount').textContent = `${obs.value.length} caracteres`;
+  obs.addEventListener('input', updateCount);
+  obsVars();
+
+  $('#tipLimpiar').onclick = () => { go('tipificar'); };
+
+  $('#tipRegistrar').onclick = () => {
+    const tipo = tipoSel.value, resp = respSel.value, det = detSel.value;
+    if (!tipState.subscriber){ toast('Selecciona o ingresa un abonado primero','error'); return; }
+    if (!tipo || !resp || !det){ toast('Completa tipo llamada, tipo respuesta y detalle','error'); return; }
+    const rec = {
+      id: uid(), userId: currentUser.id, responsible: currentUser.name, username: currentUser.username,
+      date: todayStr(), time: nowTime(),
+      subscriberId: tipState.subscriber.id || null,
+      nroAbonado: tipState.subscriber.nro || '', cliente: tipState.subscriber.nombre || '',
+      cedula: tipState.subscriber.cedula || '', telefono: tipState.subscriber.telefono || '',
+      tipoLlamada: tipo, tipoRespuesta: resp, detalle: det,
+      estado: $('#tipEstado').value, observacion: obs.value.trim()
+    };
+    DB.records.unshift(rec);
+    save();
+    logActivity('check', `${currentUser.name} tipificó a ${rec.cliente||rec.nroAbonado} (${tipo} → ${det})`);
+    toast('Llamada registrada correctamente','success');
+    $('#main .tip-main').insertAdjacentHTML('afterbegin', `<div class="success-banner">${icon('check')}<div><b>Registro guardado</b> · ${esc(rec.cliente||rec.nroAbonado)} · ${esc(tipo)} → ${esc(det)} · ${esc(rec.time)}</div></div>`);
+    setTimeout(()=>go('tipificar'), 700);
+  };
+
+  updateCount();
+}
+
+function fillTemplateVars(body, sub){
+  return body
+    .replaceAll('{nombre}', sub?.nombre || '')
+    .replaceAll('{abonado}', sub?.nro || '')
+    .replaceAll('{cedula}', sub?.cedula || '')
+    .replaceAll('{telefono}', sub?.telefono || '')
+    .replaceAll('{fecha}', todayStr())
+    .replaceAll('{operador}', currentUser.name);
+}
+function insertTemplate(id){
+  const t = DB.templates.find(x=>x.id===id); if(!t) return;
+  const text = fillTemplateVars(t.body, tipState.subscriber);
+  const obs = $('#tipObs');
+  obs.value = obs.value ? obs.value.replace(/\s*$/,'') + '\n' + text : text;
+  obs.dispatchEvent(new Event('input'));
+  $('#tipTplPanel').classList.add('hidden');
+  toast(`Plantilla "${t.name}" insertada`,'success');
+}
+
+function selectSubscriber(id){
+  const s = DB.subscribers.find(x=>x.id===id); if(!s) return;
+  tipState.subscriber = s;
+  $('#tipSearchNro').value = s.nro || '';
+  $('#tipSearchCed').value = s.cedula || '';
+  $('#tipSearchTel').value = s.telefono || '';
+  $('#tipSubCard').classList.remove('hidden');
+  $('#tipSubBody').innerHTML = `
+    <div class="subscriber-top">
+      <span class="avatar">${esc(initials(s.nombre))}</span>
+      <div><div class="subscriber-name">${esc(s.nombre||'Sin nombre')}</div><small class="muted">Abonado del directorio importado</small></div>
+    </div>
+    <div class="subscriber-meta">
+      <div class="meta-item"><span class="k">N° Abonado</span><div class="v mono">${esc(s.nro||'—')}</div></div>
+      <div class="meta-item"><span class="k">Cédula / Doc.</span><div class="v mono">${esc(s.cedula||'—')}</div></div>
+      <div class="meta-item"><span class="k">Teléfono</span><div class="v mono">${esc(s.telefono||'—')}</div></div>
+      ${Object.entries(s.extra||{}).slice(0,6).map(([k,v])=>`<div class="meta-item"><span class="k">${esc(k)}</span><div class="v">${esc(v)}</div></div>`).join('')}
+    </div>`;
+  $('#tipSummary').textContent = `${s.nombre||'Sin nombre'} · ${s.nro||'—'}`;
+  $('#tipSummary').className = 'chip chip-blue';
+}
+
+function openManualSubscriber(){
+  openModal(`${modalHead('Ingreso manual de abonado','Se usará solo para esta tipificación (no se guarda en el directorio)')}
+    <div class="modal-body grid grid-2">
+      <div class="field"><label>Nombre / Razón social</label><input class="input" id="manNombre" placeholder="Nombre completo"></div>
+      <div class="field"><label>N° abonado</label><input class="input" id="manNro" placeholder="Número de abonado"></div>
+      <div class="field"><label>Cédula / Documento</label><input class="input" id="manCed" placeholder="V12345678"></div>
+      <div class="field"><label>Teléfono</label><input class="input" id="manTel" placeholder="04xx…"></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cancelar</button><button class="btn btn-primary" id="manSave">${icon('check')} Usar abonado</button></div>`);
+  $('#manSave').onclick = () => {
+    const s = { id:'manual_'+uid(), nombre:$('#manNombre').value.trim(), nro:$('#manNro').value.trim(), cedula:$('#manCed').value.trim(), telefono:$('#manTel').value.trim(), extra:{} };
+    if (!s.nombre && !s.nro){ toast('Ingresa al menos nombre o número de abonado','error'); return; }
+    tipState.subscriber = s;
+    $('#tipSubCard').classList.remove('hidden');
+    $('#tipSubBody').innerHTML = `
+      <div class="subscriber-top"><span class="avatar">${esc(initials(s.nombre))}</span>
+      <div><div class="subscriber-name">${esc(s.nombre||'Sin nombre')}</div><small class="muted">Ingreso manual</small></div></div>
+      <div class="subscriber-meta">
+        <div class="meta-item"><span class="k">N° Abonado</span><div class="v mono">${esc(s.nro||'—')}</div></div>
+        <div class="meta-item"><span class="k">Cédula / Doc.</span><div class="v mono">${esc(s.cedula||'—')}</div></div>
+        <div class="meta-item"><span class="k">Teléfono</span><div class="v mono">${esc(s.telefono||'—')}</div></div>
+      </div>`;
+    $('#tipSummary').textContent = `${s.nombre||'Sin nombre'} · ${s.nro||'—'} (manual)`;
+    $('#tipSummary').className = 'chip chip-amber';
+    closeModal();
+  };
+}
+
+/* ================================================================
+   TIPIFICACIÓN AUTOMÁTICA — cola masiva para SAEPLUS
+   La pagina habla con el robot local  python saeplus_bot.py --servidor
+   (escuchando en 127.0.0.1:8765) y muestra un monitor en vivo de lo
+   que va haciendo. Al finalizar, los resultados vuelven solos a la
+   cola y al historial.
+================================================================ */
+const BOT_URL = "http://127.0.0.1:8765";
+const BOT_PROTO = "cdcnoc2://iniciar";
+let auState = { tipo:'', resp:'', det:'', tpl:'' };
+let auFile = { rows:[], mapping:{nombre:-1, nro:-1, cedula:-1, telefono:-1} };
+let auMonTimer = null;
+let auStarting = false;
+let auPolling = false;
+let auFinishing = false;
+
+async function auServerUp(){
+  try {
+    const r = await fetch(BOT_URL + '/health', { cache:'no-store' });
+    return r.ok && (await r.json()).app === 'cdc-noc-2';
+  } catch(e){ return false; }
+}
+function auLaunchRobot(){
+  try { window.location.href = BOT_PROTO; } catch(e){}
+}
+async function auEnsureServer(msg){
+  if (await auServerUp()) return true;
+  msg('Robot local apagado. Iniciándolo automáticamente…');
+  auLaunchRobot();
+  for (let i=0;i<20;i++){
+    await new Promise(r=>setTimeout(r,1000));
+    if (await auServerUp()){ msg('✓ Robot local iniciado. Conectando con SAEPLUS…'); return true; }
+  }
+  return false;
+}
+async function auRefreshBotChip(){
+  const el = $('#auBotChip');
+  if (!el) return;
+  const up = await auServerUp();
+  el.className = 'chip ' + (up ? 'chip-green' : 'chip-red');
+  el.innerHTML = '<span class="dot"></span> ROBOT ' + (up ? 'EN LÍNEA' : 'APAGADO');
+}
+
+function auQueue(){ DB.queue = DB.queue || []; return DB.queue; }
+function auStats(){
+  const q = auQueue();
+  return {
+    total: q.length,
+    pend: q.filter(x=>x.status==='PENDIENTE').length,
+    done: q.filter(x=>x.status==='PROCESADO').length,
+    err:  q.filter(x=>['ERROR','NO ENCONTRADO','REVISAR'].includes(x.status)).length,
+    retry: q.filter(x=>['ERROR','NO ENCONTRADO'].includes(x.status)).length,
+    hoy:  DB.records.filter(r=>r.estado==='COMPLETADO' && r.date===todayStr()).length
+  };
+}
+function auChip(status){
+  return { 'PENDIENTE':'chip-amber', 'PROCESADO':'chip-green',
+           'ERROR':'chip-red', 'NO ENCONTRADO':'chip-red', 'REVISAR':'chip-amber' }[status] || 'chip-gray';
+}
+function auAddItem(d){
+  const q = auQueue();
+  const nro = (d.nro||'').trim(), ced = (d.cedula||'').trim(), tel = (d.telefono||'').trim();
+  if (!nro && !ced) return false;
+  if (q.some(x => (nro && x.nro===nro) || (ced && x.cedula===ced))) return false; // duplicado
+  if (DB.records.some(r => r.date===todayStr() && ((ced && r.cedula===ced) || (nro && r.nroAbonado===nro)))) return false; // ya tipificado hoy
+  q.push({ id: uid(), nro, cedula:ced, telefono:tel, nombre:(d.nombre||'').trim(),
+           tipo:auState.tipo, respuesta:auState.resp, detalle:auState.det,
+           observacion: auState.tpl, status:'PENDIENTE', log:'', ts:'' });
+  return true;
+}
+
+function renderAuto(){
+  const q = auQueue(); const st = auStats();
+  const pct = st.total ? Math.round(st.done/st.total*100) : 0;
+  return `<div class="page">
+    <div class="page-head">
+      <div><div class="eyebrow">${icon('phone')} Tipificación automática en SAEPLUS</div><h1>Tipificación automática</h1>
+      <p class="sub"><b>Paso 1:</b> carga la lista de abonados. <b>Paso 2:</b> define los valores de la llamada. <b>Paso 3:</b> introduce tus credenciales SAEPLUS para esta sesión. <b>Paso 4:</b> pulsa <b>TIPIFICAR</b> para ejecutar la cola y consultar el monitor.</p></div>
+      <div class="row"><button class="btn btn-outline" onclick="window.open('https://fibextelecom.saeplus.com','_blank')">${icon('shield')} Abrir SAEPLUS</button></div>
+    </div>
+
+    <div class="grid grid-4" style="margin-bottom:18px">
+      <div class="card kpi"><span class="k-label">En cola</span><div class="k-value">${st.total}</div><div class="k-foot">clientes cargados</div><div class="k-icon" style="background:var(--blue-soft);color:var(--blue)">${icon('user')}</div></div>
+      <div class="card kpi"><span class="k-label">Pendientes</span><div class="k-value">${st.pend}</div><div class="k-foot">por registrar en SAEPLUS</div><div class="k-icon" style="background:var(--amber-soft);color:var(--amber)">${icon('phone')}</div></div>
+      <div class="card kpi"><span class="k-label">Procesados</span><div class="k-value">${st.hoy}</div><div class="k-foot">registrados en SAEPLUS hoy</div><div class="k-icon" style="background:var(--green-soft);color:var(--green)">${icon('check')}</div></div>
+      <div class="card kpi"><span class="k-label">A revisar</span><div class="k-value">${st.err}</div><div class="k-foot">revisar uno a uno</div><div class="k-icon" style="background:var(--red-soft);color:var(--red)">${icon('alert')}</div></div>
+    </div>
+
+    <div class="grid" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start" id="auGrid">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">1</span><div><h2>Lista de abonados a tipificar</h2><small class="muted">Solo archivo Excel (.xlsx/.xls) o TXT/CSV — una fila por cliente</small></div></div></div>
+          <div class="card-body grid">
+            <div class="dropzone" id="auDrop">
+              <div class="e-icon">${icon('excel')}</div>
+              <b>Arrastra el archivo aquí</b>
+              <p class="muted" style="font-size:12px;margin-top:4px">o haz clic para seleccionar (.xlsx / .xls / .csv / .txt)</p>
+              <input type="file" id="auFile" accept=".xlsx,.xls,.csv,.txt" hidden>
+            </div>
+            <div id="auMapWrap" class="hidden"><div id="auMapBody" class="grid"></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">2</span><div><h2>Valores de la llamada</h2><small class="muted">Se aplican a cada cliente de la cola · la plantilla es obligatoria</small></div></div>
+            <button class="btn btn-sm btn-ghost" data-action="nav" data-page="plantillas">Gestionar plantillas</button></div>
+          <div class="card-body grid">
+            <div class="grid grid-3">
+              <div class="field"><label>Tipo llamada</label><select class="input" id="auTipo"><option value="">SELECCIONE…</option>${Object.keys(TIPOS).map(k=>`<option ${auState.tipo===k?'selected':''}>${esc(k)}</option>`).join('')}</select></div>
+              <div class="field"><label>Tipo respuesta</label><select class="input" id="auResp" ${auState.tipo?'':'disabled'}><option value="">SELECCIONE…</option>${auState.tipo?Object.keys(TIPOS[auState.tipo]).map(r=>`<option ${auState.resp===r?'selected':''}>${esc(r)}</option>`).join(''):''}</select></div>
+              <div class="field"><label>Detalle respuesta</label><select class="input" id="auDet" ${auState.resp?'':'disabled'}><option value="">SELECCIONE…</option>${auState.resp?(TIPOS[auState.tipo][auState.resp]||[]).map(d=>`<option ${auState.det===d?'selected':''}>${esc(d)}</option>`).join(''):''}</select></div>
+            </div>
+            <div class="field"><label>Observación (plantilla) <span style="color:var(--red)">*</span></label>
+              <select class="input" id="auTpl" required><option value="">— SELECCIONE UNA PLANTILLA —</option>${DB.templates.map(t=>`<option value="${esc(t.body)}" ${auState.tpl===t.body?'selected':''}>${esc(t.name)}</option>`).join('')}</select>
+              <div class="obs-preview" id="auTplPrev" style="max-height:110px">${esc(fillTemplateVars(auState.tpl||'— Sin plantilla: la observación quedará en blanco —',{nombre:'NOMBRE DEL CLIENTE',nro:'WM000000',cedula:'V00000000',telefono:'04XX0000000'}))}</div>
+            </div>
+            <button class="btn btn-primary btn-block" id="auApply">${icon('check')} Aplicar valores a los pendientes (${st.pend})</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">3</span><div><h2>Cola de tipificación</h2><small class="muted">${st.hoy} registrado(s) hoy · ${st.total} en cola</small></div></div>
+            <div class="row" style="gap:8px"><button class="btn btn-sm btn-outline" id="auRetryErrors" ${st.retry?'':'disabled'}>Reintentar errores (${st.retry})</button><button class="btn btn-sm btn-danger" id="auClear">Vaciar cola</button></div></div>
+          <div class="card-body">
+            <div style="height:10px;border-radius:999px;background:#e9edf6;overflow:hidden;margin-bottom:12px"><div style="height:100%;width:${pct}%;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .3s"></div></div>
+            <div class="import-preview" style="max-height:300px"><table>
+              <thead><tr><th>Cliente</th><th>Identificación</th><th>Llamada</th><th>Estado</th><th></th></tr></thead>
+              <tbody id="auQueueBody">
+                ${q.length ? q.map(x=>`<tr>
+                  <td><div class="cell-main">${esc(x.nombre||'—')}</div><small class="muted mono">${esc(x.nro||'')}</small></td>
+                  <td class="mono" style="font-size:11px">${esc(x.cedula||'—')}<br>${esc(x.telefono||'')}</td>
+                  <td style="font-size:11px">${esc(x.tipo||'—')}<br><span class="muted">${esc(x.detalle||'')}</span>${x.log?`<br><small class="muted" title="${esc(x.log)}">${esc(x.log.slice(0,40))}${x.log.length>40?'…':''}</small>`:''}</td>
+                  <td><span class="chip ${auChip(x.status)}">${esc(x.status)}</span></td>
+                   <td>${['ERROR','NO ENCONTRADO'].includes(x.status)?`<button class="btn btn-sm btn-outline" data-au-retry="${esc(x.id)}">Reintentar</button>`:''}${x.status==='REVISAR'?`<button class="btn btn-sm btn-outline" data-au-confirm="${esc(x.id)}" title="El registro ya está confirmado en SAEPLUS">Ya registrado</button>`:''}<button class="icon-btn danger" data-au-del="${esc(x.id)}" style="width:26px;height:26px" aria-label="Eliminar">${icon('trash')}</button></td>
+                </tr>`).join('') : '<tr><td colspan="5"><div class="empty"><div class="e-icon">'+icon('phone')+'</div><h3>Cola vacía</h3><p>Carga la lista de abonados a tipificar en el paso 1 (Excel o TXT/CSV).</p></div></td></tr>'}
+              </tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">4</span><div><h2>Mis credenciales SAEPLUS</h2><small class="muted">Guardado cifrado e independiente para ${esc(currentUser.name)}</small></div></div>
+            <span class="chip ${auCredenciales?'chip-green':'chip-gray'}" id="auCredChip"><span class="dot"></span> ${auCredenciales?'GUARDADAS':'SIN GUARDAR'}</span></div>
+          <div class="card-body grid">
+            <div class="grid grid-3">
+              <div class="field"><label>Usuario SAEPLUS</label><input class="input mono" id="auCredUser" value="${esc(auCredenciales?.usuario||'')}" placeholder="p. ej. WVJUANV" autocomplete="off"></div>
+              <div class="field"><label>Contraseña</label>
+                <div class="input-icon"><svg class="icon" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg><input class="input" type="password" id="auCredPass" value="${esc(auCredenciales?.contrasena||'')}" autocomplete="off">
+                <button type="button" class="icon-btn" id="auCredShow" style="position:absolute;right:4px;top:50%;transform:translateY(-50%)" aria-label="Mostrar">${icon('eye')}</button></div>
+              </div>
+              <div class="field"><label>Empresa</label><input class="input mono" id="auCredEmp" value="${esc(auCredenciales?.empresa||'WAVE')}"></div>
+            </div>
+            <div class="inline-alert info">${icon('lock')}<span>Se guardan cifradas en este navegador con tu contraseña del panel y se recuperan al iniciar sesión, incluso después de cerrarlo. Cada usuario guarda su propia cuenta SAEPLUS. Usa una contraseña personal para el panel, no la predeterminada.</span></div>
+            <button class="btn btn-primary" id="auCredSave">${icon('check')} Guardar credenciales de mi usuario</button>
+            <button class="btn btn-outline" id="auCredForget" ${currentUser.saeplus?'':'disabled'}>${icon('trash')} Borrar credenciales guardadas</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">5</span><div><h2>Ejecutar</h2><small class="muted">Un clic: el robot local maneja SAEPLUS por ti</small></div></div>
+            <div class="row" style="gap:8px"><span class="chip chip-gray" id="auBotChip"><span class="dot"></span> COMPROBANDO ROBOT…</span><button class="btn btn-sm btn-outline" id="auBoot">Iniciar robot</button></div></div>
+          <div class="card-body grid">
+            <div class="inline-alert info">${icon('info')}<span>Al pulsar <b>TIPIFICAR</b>, la página detecta si el robot local está apagado y lo <b>inicia automáticamente</b>; después ejecuta SAEPLUS en segundo plano y el avance aparece aquí. Al terminar, los clientes <b>procesados salen de la cola solos</b> y van al historial; los que quedaron con error se mantienen para reintentarlos (<b>Reintentar errores</b>). El robot arranca solo al encender el equipo. Si aun así no responde, haz doble clic en <b>INICIAR_PANEL.pyw</b> y vuelve a pulsar.</span></div>
+            <button class="btn btn-primary btn-lg btn-block" id="auStart">${icon('phone')} TIPIFICAR (${st.pend} pendientes)</button>
+            <div id="auMonitor" class="hidden" style="border:1px solid var(--ink-3);border-radius:12px;padding:12px;background:var(--ink);color:#c9d6ff">
+              <div class="row-between" style="margin-bottom:8px"><b style="color:#fff;font-size:12.5px">Monitor de ejecución</b><span class="chip chip-cyan" id="auMonProg">0/0</span></div>
+              <pre id="auMonLog" style="font-family:var(--mono);font-size:11px;line-height:1.6;max-height:150px;overflow:auto;white-space:pre-wrap;margin:0"></pre>
+            </div>
+            <details><summary class="muted" style="font-size:12px;cursor:pointer">Modo alternativo (sin robot en línea): exportar cola / importar resultados</summary>
+              <div class="row wrap" style="margin-top:10px">
+                <button class="btn btn-outline" id="auExport">${icon('download')} Exportar cola (JSON)</button>
+                <button class="btn btn-outline" id="auImportBtn">${icon('file')} Importar cola / resultados</button>
+                <input type="file" id="auImport" accept=".json" hidden>
+              </div>
+            </details>
+            <button class="btn btn-outline" id="auExportHist">${icon('download')} Exportar historial (CSV)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---------- carga de la lista (solo Excel / TXT) ---------- */
+function auHandleFile(file){
+  const done = rows => { if(!rows.length){ toast('El archivo está vacío','error'); return; } auFile.rows = rows; auBuildMapping(); };
+  const name = file.name.toLowerCase();
+  if (name.endsWith('.csv') || name.endsWith('.txt')){
+    file.text().then(text=>done(parseCSV(text))).catch(err=>toast('No se pudo leer el archivo: '+err.message,'error'));
+  } else if (typeof XLSX === 'undefined'){
+    toast('Para leer Excel se necesita internet la primera vez (librería XLSX). Guarda como CSV/TXT e intenta de nuevo.','error');
+  } else {
+    file.arrayBuffer().then(b=>{
+      const wb = XLSX.read(b, {type:'array'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      done(XLSX.utils.sheet_to_json(ws, {header:1, defval:''}).filter(r=>r.some(c=>String(c).trim()!=='')));
+    }).catch(err=>toast('No se pudo leer el archivo: '+err.message,'error'));
+  }
+}
+
+function auBuildMapping(){
+  const rows = auFile.rows;
+  const headers = rows[0].map(h=>String(h).trim());
+  const sel = (id,label,keys)=>{
+    const g = guessCol(headers, keys);
+    return `<div class="field"><label>${label}</label><select class="input" data-au-map="${id}"><option value="-1">— Omitir —</option>${headers.map((h,i)=>`<option value="${i}" ${i===g?'selected':''}>${esc(h)}</option>`).join('')}</select></div>`;
+  };
+  $('#auMapWrap').classList.remove('hidden');
+  $('#auMapBody').innerHTML = `
+    <div class="inline-alert success">${icon('check')} ${rows.length-1} fila(s) detectadas. Confirma el mapeo de columnas:</div>
+    <div class="mapping-grid">
+      ${sel('nombre','Columna → Nombre',['nombre','cliente','razon','razón'])}
+      ${sel('nro','Columna → N° abonado (anterior)',['abonado','anterior','contrato','nro','numero','número'])}
+      ${sel('cedula','Columna → Cédula / documento',['cedula','cédula','documento','identidad','dni','rif'])}
+      ${sel('telefono','Columna → Teléfono',['telefono','teléfono','celular','movil','móvil','contacto'])}
+    </div>
+    <div class="field"><label>Vista previa</label><div class="import-preview"><table id="auMapPreview"></table></div></div>
+    <button class="btn btn-primary btn-block" id="auMapAdd">${icon('plus')} Añadir a la cola</button>`;
+  const renderPrev = () => {
+    const g = k => parseInt($(`[data-au-map="${k}"]`).value);
+    auFile.mapping = {nombre:g('nombre'), nro:g('nro'), cedula:g('cedula'), telefono:g('telefono')};
+    const pick = (r,i) => i>-1 ? String(r[i]??'').trim() : '';
+    $('#auMapPreview').innerHTML = '<thead><tr><th>#</th><th>Nombre</th><th>N° abonado</th><th>Cédula</th><th>Teléfono</th></tr></thead><tbody>' +
+      rows.slice(1,7).map((r,i)=>`<tr><td>${i+1}</td><td>${esc(pick(r,auFile.mapping.nombre))}</td><td class="mono">${esc(pick(r,auFile.mapping.nro))}</td><td class="mono">${esc(pick(r,auFile.mapping.cedula))}</td><td class="mono">${esc(pick(r,auFile.mapping.telefono))}</td></tr>`).join('') + '</tbody>';
+  };
+  $$('#auMapBody [data-au-map]').forEach(s=>s.onchange=renderPrev);
+  renderPrev();
+  $('#auMapAdd').onclick = () => {
+    const m = auFile.mapping;
+    if (m.nro<0 && m.cedula<0){ toast('Mapea el número de abonado o la cédula; el teléfono solo no permite buscar en SAEPLUS','error'); return; }
+    const pick = (r,i) => i>-1 ? String(r[i]??'').trim() : '';
+    let n = 0;
+    rows.slice(1).forEach(r=>{ if (auAddItem({nombre:pick(r,m.nombre), nro:pick(r,m.nro), cedula:pick(r,m.cedula), telefono:pick(r,m.telefono)})) n++; });
+    save();
+    toast(n?`${n} cliente(s) añadidos a la cola`:'Nada nuevo que añadir (¿duplicados o filas vacías?)', n?'success':'info');
+    logActivity('plus', `${currentUser.name} cargó ${n} clientes en la cola automática`);
+    refreshPage();
+  };
+}
+
+/* ---------- ejecución con un clic contra el robot local ---------- */
+function auMonLog(msg){
+  const el = $('#auMonLog');
+  if (!el) return;
+  el.textContent += msg + '\n';
+  el.scrollTop = el.scrollHeight;
+}
+
+async function auStart(){
+  if (auStarting || auMonTimer) return;
+  const pend = auQueue().filter(x=>x.status==='PENDIENTE');
+  if (!pend.length){ toast('No hay clientes pendientes en la cola','info'); return; }
+  const s = auCredenciales;
+  if (!s || !s.usuario || !s.contrasena){ toast('Primero ingresa tus credenciales SAEPLUS (paso 4)','error'); return; }
+  const incompletos = pend.filter(x=>!x.tipo || !x.respuesta || !x.detalle || !x.observacion);
+  if (incompletos.length){ toast(`Hay ${incompletos.length} pendiente(s) sin tipo/respuesta/detalle o sin plantilla. Selecciona la plantilla y aplica los valores en el paso 2.`,'error'); return; }
+  auStarting = true;
+  $('#auStart').disabled = true;
+  $('#auMonitor').classList.remove('hidden');
+  $('#auMonLog').textContent = '';
+  auMonLog('Comprobando el robot local (127.0.0.1:8765)…');
+  if (!await auEnsureServer(auMonLog)){
+    auMonLog('No se pudo iniciar el robot automáticamente. Instala el arranque con REGISTRAR_ARRANQUE.reg o inicia INICIAR_PANEL.pyw y vuelve a pulsar TIPIFICAR.');
+    toast('No se pudo iniciar el robot local','error');
+    auStarting = false;
+    if ($('#auStart')) $('#auStart').disabled = false;
+    return;
+  }
+  auMonLog('Enviando la cola a SAEPLUS…');
+  auRefreshBotChip();
+  let res;
+  try {
+    res = await fetch(BOT_URL + '/run', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: pend.map(x => ({...x})),
+        credenciales: { usuario: s.usuario, contrasena: s.contrasena, empresa: s.empresa || 'WAVE' }
+      })
+    });
+  } catch(e){
+    auMonLog('El servidor local no responde (127.0.0.1:8765). Inicia CDC NOC 2 con el acceso de escritorio o INICIAR_PANEL.pyw y vuelve a pulsar TIPIFICAR.');
+    toast('Servidor local no responde: inicia INICIAR_PANEL.pyw y reintenta','error');
+    auStarting = false;
+    if ($('#auStart')) $('#auStart').disabled = false;
+    return;
+  }
+  auStarting = false;
+  let j = {};
+  try { j = await res.json(); } catch(e){}
+  if (!j.ok){ auMonLog('El robot rechazó la ejecución: ' + (j.msg || 'error desconocido')); toast(j.msg || 'El robot no pudo iniciar','error'); if ($('#auStart')) $('#auStart').disabled = false; return; }
+  pend.forEach(x=>{ x.status='REVISAR'; x.log='Ejecución en curso; esperar los resultados antes de repetir'; });
+  save();
+  if ($('#auStart')) $('#auStart').disabled = true;
+  auMonLog('Robot ejecutando SAEPLUS en segundo plano. No necesitas salir de esta página.');
+  auMonLog('Puedes cambiar de sección; el monitor se recupera al volver a Tipificar.');
+  if (auMonTimer) clearInterval(auMonTimer);
+  auMonTimer = setInterval(auPoll, 1500);
+  auPoll();
+}
+
+async function auPoll(){
+  if (auPolling) return;
+  if (!$('#auMonitor')){ clearInterval(auMonTimer); auMonTimer = null; return; }
+  auPolling = true;
+  try {
+    const j = await (await fetch(BOT_URL + '/status')).json();
+    const prog = $('#auMonProg');
+    if (prog) prog.textContent = `${j.procesados}/${j.total}`;
+    const log = $('#auMonLog');
+    if (log){
+      const texto = (j.log || []).join('\n');
+      if (texto) log.textContent = texto + '\n';
+      log.scrollTop = log.scrollHeight;
+    }
+    if (j.terminado){
+      if (auMonTimer) clearInterval(auMonTimer);
+      auMonTimer = null;
+      await auFinish();
+    }
+  } catch(e){ auMonLog('Conexión interrumpida. No repitas la cola; el monitor intentará recuperarla.'); }
+  finally { auPolling = false; }
+}
+
+async function auResume(){
+  if (!auQueue().some(x=>x.status==='REVISAR')) return;
+  try {
+    const r = await fetch(BOT_URL + '/status', { cache:'no-store' });
+    if (!r.ok) return;
+    const st = await r.json();
+    if (st.corriendo){
+      if (!$('#auMonitor')) return;
+      $('#auMonitor').classList.remove('hidden');
+      $('#auStart').disabled = true;
+      if (auMonTimer) clearInterval(auMonTimer);
+      auMonTimer = setInterval(auPoll, 1500);
+      auPoll();
+    } else if (st.terminado){
+      await auFinish(true);
+    }
+  } catch(e){ auMonLog('No se pudo recuperar la ejecución. Conserva los estados REVISAR hasta comprobar SAEPLUS.'); }
+}
+
+function auRegistrarHistorial(x){
+  DB.records.unshift({ id: uid(), registroSaeplus: x.registroSaeplus || '', userId: currentUser.id, responsible: currentUser.name, username: currentUser.username,
+    date: todayStr(), time: nowTime(), subscriberId: null,
+    nroAbonado: x.nroSaeplus || x.nro || '', cliente: x.clienteSaeplus || x.nombre || '', cedula: x.cedula || '', telefono: x.telefono || '',
+    tipoLlamada: x.tipo || '', tipoRespuesta: x.respuesta || '', detalle: x.detalle || '',
+    estado: 'COMPLETADO',
+    observacion: x.observacion ? fillTemplateVars(x.observacion, x) : '' });
+}
+
+async function auFinish(silent=false){
+  if (auFinishing) return;
+  auFinishing = true;
+  auMonLog('✓ Ejecución terminada. Descargando resultados…');
+  let items;
+  try { items = (await (await fetch(BOT_URL + '/results')).json()).items || []; }
+  catch(e){ auFinishing = false; auMonLog('No se pudieron obtener los resultados; consulta el servidor antes de reintentar.'); toast('No se pudieron obtener los resultados','error'); return; }
+  let n = 0;
+  const salen = [];
+  items.forEach(i=>{
+    const x = auQueue().find(q=>q.id===i.id);
+    if (!x) return;
+    const yaProcesado = x.status === 'PROCESADO';
+    if (yaProcesado && i.status !== 'PROCESADO') return;
+    const cambio = x.status !== i.status || (x.log||'') !== (i.log||'');
+    x.status = i.status; x.log = i.log || ''; x.ts = i.ts || ''; x.registroSaeplus = i.registro_saeplus || i.registroSaeplus || '';
+    x.nroSaeplus = i.abonado_saeplus || ''; x.clienteSaeplus = i.cliente_saeplus || '';
+    if (cambio) n++;
+    if (i.status === 'PROCESADO' && !yaProcesado){
+      auRegistrarHistorial(x);
+      salen.push(x.id);
+    }
+  });
+  if (salen.length) DB.queue = DB.queue.filter(q=>!salen.includes(q.id));
+  save(); updateBadges();
+  auMonLog(`✓ ${n} resultado(s) actualizados; ${salen.length} salieron de la cola hacia el historial.`);
+  const ok = items.filter(i=>i.status==='PROCESADO').length;
+  if (!silent && n > 0){
+    toast(`Tipificación finalizada: ${ok} registrado(s) en SAEPLUS${salen.length?`, ${salen.length} salieron de la cola`:''}.${items.length-ok?` ${items.length-ok} requieren revisión`:''}`, ok===items.length?'success':'info');
+    setTimeout(()=>{ if (currentPage==='auto') refreshPage(); }, 1600);
+  }
+  if ($('#auStart')) $('#auStart').disabled = false;
+  auFinishing = false;
+}
+
+function bindAuto(){
+  const tipo=$('#auTipo'), resp=$('#auResp'), det=$('#auDet'), tpl=$('#auTpl');
+  tipo.onchange=()=>{ auState.tipo=tipo.value; auState.resp=''; auState.det='';
+    resp.innerHTML='<option value="">SELECCIONE…</option>'+Object.keys(TIPOS[tipo.value]||{}).map(r=>`<option>${esc(r)}</option>`).join('');
+    resp.disabled=!tipo.value; det.innerHTML='<option value="">SELECCIONE…</option>'; det.disabled=true; };
+  resp.onchange=()=>{ auState.resp=resp.value; auState.det='';
+    det.innerHTML='<option value="">SELECCIONE…</option>'+(TIPOS[auState.tipo][resp.value]||[]).map(d=>`<option>${esc(d)}</option>`).join('');
+    det.disabled=!resp.value; };
+  det.onchange=()=>{ auState.det=det.value; };
+  const prev=()=>{ auState.tpl=tpl.value;
+    $('#auTplPrev').textContent=fillTemplateVars(auState.tpl||'— Sin plantilla: la observación quedará en blanco —',{nombre:'NOMBRE DEL CLIENTE',nro:'WM000000',cedula:'V00000000',telefono:'04XX0000000'}); };
+  tpl.onchange=prev;
+
+  const drop = $('#auDrop');
+  drop.onclick = () => $('#auFile').click();
+  drop.ondragover = e => { e.preventDefault(); drop.classList.add('drag'); };
+  drop.ondragleave = () => drop.classList.remove('drag');
+  drop.ondrop = e => { e.preventDefault(); drop.classList.remove('drag'); if (e.dataTransfer.files[0]) auHandleFile(e.dataTransfer.files[0]); };
+  $('#auFile').addEventListener('change', e=>{ const f=e.target.files[0]; if(f) auHandleFile(f); e.target.value=''; });
+
+  $('#auApply').onclick=()=>{
+    if(!auState.tipo||!auState.resp||!auState.det||!auState.tpl){ toast('Completa tipo, respuesta, detalle y selecciona una plantilla (obligatoria)','error'); return; }
+    let n=0;
+    auQueue().forEach(x=>{ if(x.status==='PENDIENTE'){ x.tipo=auState.tipo; x.respuesta=auState.resp; x.detalle=auState.det; x.observacion=auState.tpl; n++; } });
+    save(); toast(`Valores aplicados a ${n} pendiente(s)`,'success'); refreshPage();
+  };
+  $('#auExport').onclick=()=>{
+    const data={ app:'cdc-noc-2', exportado:`${todayStr()} ${nowTime()}`, responsable:currentUser.name,
+      items: auQueue().map(x=>({...x})) };
+    download(`cola_saeplus_${todayStr().replace(/\//g,'-')}.json`, JSON.stringify(data,null,2), 'application/json');
+    toast('Cola exportada. Ponla junto a saeplus_bot.py','success');
+  };
+  $('#auImportBtn').onclick=()=>$('#auImport').click();
+  $('#auImport').addEventListener('change', async e=>{
+    const f=e.target.files[0]; if(!f) return;
+    try{
+      const data=JSON.parse(await f.text());
+      if (!Array.isArray(data.items)) throw new Error('La cola no contiene una lista de clientes');
+      let n=0;
+      data.items.forEach(i=>{
+        if (!i || typeof i.id!=='string' || !/^[A-Za-z0-9_-]{1,100}$/.test(i.id) || !['PENDIENTE','PROCESADO','ERROR','NO ENCONTRADO','REVISAR'].includes(i.status)) return;
+        const x=auQueue().find(q=>q.id===i.id);
+        if (x && i.status!=='PENDIENTE'){
+          if (x.status==='PROCESADO' && i.status!=='PROCESADO') return;
+          x.status=i.status; x.log=String(i.log||''); x.ts=String(i.ts||'');
+          x.registroSaeplus=String(i.registro_saeplus||i.registroSaeplus||x.registroSaeplus||''); n++;
+        }
+        else if (!x){
+          const fields=['nro','cedula','telefono','nombre','tipo','respuesta','detalle','observacion','log','ts'];
+          const item={id:i.id,status:i.status};
+          fields.forEach(k=>item[k]=String(i[k]||''));
+          item.registroSaeplus=String(i.registro_saeplus||i.registroSaeplus||'');
+          auQueue().push(item); n++;
+        }
+      });
+      save(); toast(`${n} cliente(s) importados o actualizados`,'success'); refreshPage();
+    }catch(err){ toast('JSON inválido: '+err.message,'error'); }
+  });
+  $('#auRetryErrors').onclick=()=>{
+    const fallidos=auQueue().filter(x=>['ERROR','NO ENCONTRADO'].includes(x.status));
+    if (!fallidos.length) return;
+    fallidos.forEach(x=>{ x.status='PENDIENTE'; x.log=''; x.ts=''; });
+    save(); toast(`${fallidos.length} cliente(s) listos para reintentar`,'success'); refreshPage();
+  };
+  $('#auClear').onclick=()=>{
+    openModal(`${modalHead('Vaciar cola')}<div class="modal-body"><p>Se quitarán los ${auQueue().length} cliente(s) de la cola.</p></div>
+      <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cancelar</button><button class="btn btn-danger" id="auClearOk">${icon('trash')} Vaciar</button></div>`);
+    $('#auClearOk').onclick=()=>{ DB.queue=[]; save(); closeModal(); toast('Cola vaciada','success'); refreshPage(); };
+  };
+  $$('[data-au-del]').forEach(b=>b.onclick=()=>{
+    DB.queue=DB.queue.filter(x=>x.id!==b.dataset.auDel);
+    save(); refreshPage();
+  });
+  $$('[data-au-retry]').forEach(b=>b.onclick=()=>{
+    const item=auQueue().find(x=>x.id===b.dataset.auRetry);
+    if (item && ['ERROR','NO ENCONTRADO'].includes(item.status)){ item.status='PENDIENTE'; item.log=''; item.ts=''; save(); refreshPage(); }
+  });
+  $$('[data-au-confirm]').forEach(b=>b.onclick=()=>{
+    const x=auQueue().find(q=>q.id===b.dataset.auConfirm);
+    if (!x || x.status!=='REVISAR') return;
+    x.status='PROCESADO';
+    x.log='Confirmado manualmente: registro verificado en SAEPLUS';
+    x.ts=new Date().toISOString();
+    if (!DB.records.some(r=>(x.registroSaeplus && r.registroSaeplus===x.registroSaeplus)
+        || (r.cliente===(x.clienteSaeplus||x.nombre) && r.nroAbonado===(x.nroSaeplus||x.nro) && r.date===todayStr())))
+      auRegistrarHistorial(x);
+    save(); updateBadges(); toast('Registro marcado como procesado y añadido al historial','success'); refreshPage();
+  });
+  $('#auCredShow').onclick=()=>{ const c=$('#auCredPass'); c.type=c.type==='password'?'text':'password'; };
+  $('#auCredSave').onclick=async e=>{
+    const usuario=$('#auCredUser').value.trim(), contrasena=$('#auCredPass').value, empresa=$('#auCredEmp').value.trim()||'WAVE';
+    if(!usuario||!contrasena){ toast('Ingresa usuario y contraseña SAEPLUS','error'); return; }
+    const user=currentUser, button=e.currentTarget, credential={usuario, contrasena, empresa};
+    button.disabled=true;
+    try {
+      const encrypted=await encryptCredential(user.id, credential, panelKey);
+      if(currentUser?.id!==user.id) return;
+      const previous=user.saeplus;
+      user.saeplus=encrypted;
+      if(!save()){ user.saeplus=previous; return; }
+      auCredenciales=credential;
+      toast('Credenciales cifradas guardadas para '+user.name,'success');
+      if(currentPage==='auto') refreshPage();
+    } catch(err){ toast('No se pudieron guardar las credenciales: '+err.message,'error'); }
+    finally { button.disabled=false; }
+  };
+  $('#auCredForget').onclick=()=>{
+    const previous=currentUser.saeplus;
+    delete currentUser.saeplus;
+    if(!save()){ currentUser.saeplus=previous; return; }
+    auCredenciales=null;
+    toast('Credenciales SAEPLUS borradas de tu usuario','success'); refreshPage();
+  };
+  $('#auStart').onclick=auStart;
+  $('#auBoot').onclick=async ()=>{
+    toast('Iniciando el robot local…','info');
+    const ok = await auEnsureServer(m=>auMonLog(m));
+    auRefreshBotChip();
+    toast(ok ? 'Robot local en línea' : 'No se pudo iniciar; ejecuta INICIAR_PANEL.pyw', ok?'success':'error');
+  };
+  $('#auExportHist').onclick=exportRecordsCSV;
+  auRefreshBotChip();
+  prev();
+  auResume();
+}
+
+/* ================================================================
+   ABONADOS
+================================================================ */
+let abState = { q:'', page:1, per:10 };
+
+function renderAbonados(){
+  const list = filterSubs();
+  const pages = Math.max(1, Math.ceil(list.length/abState.per));
+  abState.page = Math.min(abState.page, pages);
+  const rows = list.slice((abState.page-1)*abState.per, abState.page*abState.per);
+  return `<div class="page">
+    <div class="page-head">
+      <div><div class="eyebrow">${icon('user')} Directorio</div><h1>Abonados</h1>
+      <p class="sub">${DB.subscribers.length} abonado(s) cargados desde Excel. Desde aquí puedes consultar, editar, eliminar o tipificar directamente.</p></div>
+      <div class="row"><button class="btn btn-outline" data-action="open-import">${icon('excel')} Importar Excel</button><button class="btn btn-primary" data-action="new-subscriber">${icon('plus')} Nuevo abonado</button></div>
+    </div>
+    <div class="card">
+      <div class="toolbar">
+        <div class="input-icon grow">${icon('check')}<input class="input" id="abSearch" placeholder="Buscar por nombre, n° abonado, cédula o teléfono…" value="${esc(abState.q)}"></div>
+        <button class="btn btn-outline" data-action="export-subs-csv">${icon('download')} Exportar CSV</button>
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>N° Abonado</th><th>Nombre</th><th>Cédula</th><th>Teléfono</th><th>Datos extra</th><th style="text-align:right">Acciones</th></tr></thead>
+        <tbody>${rows.length ? rows.map(s=>`
+          <tr>
+            <td class="mono nowrap">${esc(s.nro||'—')}</td>
+            <td><div class="cell-main">${esc(s.nombre||'—')}</div></td>
+            <td class="mono">${esc(s.cedula||'—')}</td>
+            <td class="mono">${esc(s.telefono||'—')}</td>
+            <td><small class="muted">${esc(Object.entries(s.extra||{}).slice(0,2).map(([k,v])=>`${k}: ${v}`).join(' · ')||'—')}</small></td>
+            <td><div class="row-actions">
+              <button class="icon-btn" data-tip-sub="${s.id}" title="Tipificar">${icon('phone')}</button>
+              <button class="icon-btn" data-edit-sub="${s.id}" title="Editar">${icon('edit')}</button>
+              <button class="icon-btn danger" data-del-sub="${s.id}" title="Eliminar">${icon('trash')}</button>
+            </div></td>
+          </tr>`).join('') : `<tr><td colspan="6"><div class="empty"><div class="e-icon">${icon('user')}</div><h3>Sin abonados</h3><p>Importa tu Excel con los números de abonados anteriores, cédulas y teléfonos para empezar a tipificar.</p><button class="btn btn-primary" data-action="open-import">${icon('excel')} Importar Excel</button></div></td></tr>`}
+        </tbody>
+      </table></div>
+      <div class="table-foot"><span>Mostrando ${rows.length} de ${list.length} registro(s)</span>
+        <div class="pager">${[...Array(pages)].map((_,i)=>`<button class="${abState.page===i+1?'active':''}" data-page-n="${i+1}">${i+1}</button>`).join('')}</div>
+      </div>
+    </div>
+  </div>`;
+}
+function filterSubs(){
+  const q = abState.q.toLowerCase();
+  if (!q) return DB.subscribers;
+  return DB.subscribers.filter(s => (s.nombre||'').toLowerCase().includes(q) || (s.nro||'').toLowerCase().includes(q) || (s.cedula||'').toLowerCase().includes(q) || (s.telefono||'').includes(q));
+}
+function bindAbonados(){
+  $('#abSearch').addEventListener('input', debounce(e=>{ abState.q=e.target.value; abState.page=1; refreshPage(); },300));
+  $$('[data-page-n]').forEach(b=>b.onclick=()=>{abState.page=+b.dataset.pageN;refreshPage();});
+  $$('[data-tip-sub]').forEach(b=>b.onclick=()=>{ go('tipificar'); setTimeout(()=>selectSubscriber(b.dataset.tipSub),60); });
+  $$('[data-edit-sub]').forEach(b=>b.onclick=()=>openSubscriberForm(b.dataset.editSub));
+  $$('[data-del-sub]').forEach(b=>b.onclick=()=>{
+    const s=DB.subscribers.find(x=>x.id===b.dataset.delSub);
+    openModal(`${modalHead('Eliminar abonado')}<div class="modal-body"><p>¿Eliminar a <b>${esc(s?.nombre||s?.nro)}</b>? Esta acción no se puede deshacer.</p></div>
+      <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cancelar</button><button class="btn btn-danger" id="delSubOk">${icon('trash')} Eliminar</button></div>`);
+    $('#delSubOk').onclick=()=>{ DB.subscribers=DB.subscribers.filter(x=>x.id!==s.id); save(); closeModal(); logActivity('trash',`Abonado ${s.nombre||s.nro} eliminado`); toast('Abonado eliminado','success'); refreshPage(); };
+  });
+}
+function openSubscriberForm(id){
+  const s = id ? DB.subscribers.find(x=>x.id===id) : {nombre:'',nro:'',cedula:'',telefono:'',extra:{}};
+  openModal(`${modalHead(id?'Editar abonado':'Nuevo abonado','Datos principales del directorio')}
+    <div class="modal-body grid grid-2">
+      <div class="field"><label>Nombre / Razón social</label><input class="input" id="sfNombre" value="${esc(s.nombre)}"></div>
+      <div class="field"><label>N° abonado (anterior)</label><input class="input" id="sfNro" value="${esc(s.nro)}"></div>
+      <div class="field"><label>Cédula / Documento</label><input class="input" id="sfCed" value="${esc(s.cedula)}"></div>
+      <div class="field"><label>Teléfono</label><input class="input" id="sfTel" value="${esc(s.telefono)}"></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cancelar</button><button class="btn btn-primary" id="sfSave">${icon('check')} Guardar</button></div>`);
+  $('#sfSave').onclick=()=>{
+    const data={nombre:$('#sfNombre').value.trim(),nro:$('#sfNro').value.trim(),cedula:$('#sfCed').value.trim(),telefono:$('#sfTel').value.trim()};
+    if(!data.nombre&&!data.nro){toast('Ingresa al menos nombre o número de abonado','error');return;}
+    if(id){Object.assign(DB.subscribers.find(x=>x.id===id),data);}
+    else DB.subscribers.push({id:uid(),...data,extra:{}});
+    save(); closeModal(); logActivity('check',`Abonado ${data.nombre||data.nro} ${id?'actualizado':'creado'}`); toast('Abonado guardado','success'); refreshPage();
+  };
+}
+
+/* ================================================================
+   PLANTILLAS
+================================================================ */
+function renderPlantillas(){
+  const cats = [...new Set(DB.templates.map(t=>t.category||'General'))];
+  return `<div class="page">
+    <div class="page-head">
+      <div><div class="eyebrow">${icon('file')} Textos predefinidos</div><h1>Plantillas de observación</h1>
+      <p class="sub">Plantillas que se insertan en el campo Observación de la tipificación. Usa variables como {nombre}, {abonado}, {cedula}, {telefono}, {fecha} y {operador}.</p></div>
+      <button class="btn btn-primary" data-action="new-template">${icon('plus')} Nueva plantilla</button>
+    </div>
+    <div class="row wrap" style="margin-bottom:16px"><span class="chip chip-blue">${DB.templates.length} plantillas</span>${cats.map(c=>`<span class="chip chip-gray">${esc(c)}</span>`).join('')}</div>
+    <div class="tpl-list">
+      ${DB.templates.map(t=>`
+      <div class="tpl-card">
+        <span class="tpl-grip">${icon('edit')}</span>
+        <span class="tpl-color" style="background:${esc(t.color||'#315cf6')}"></span>
+        <div class="grow">
+          <div class="row wrap"><b>${esc(t.name)}</b><span class="chip chip-gray">${esc(t.category||'General')}</span></div>
+          <div class="tpl-body">${esc(t.body)}</div>
+          <div class="tpl-meta"><button class="btn btn-sm btn-outline" data-preview-tpl="${t.id}">${icon('eye')} Vista previa</button></div>
+        </div>
+        <div class="row-actions">
+          <button class="icon-btn" data-edit-tpl="${t.id}" title="Editar">${icon('edit')}</button>
+          <button class="icon-btn danger" data-del-tpl="${t.id}" title="Eliminar">${icon('trash')}</button>
+        </div>
+      </div>`).join('') || `<div class="card"><div class="empty"><div class="e-icon">${icon('file')}</div><h3>Sin plantillas</h3><p>Crea tu primera plantilla para agilizar la observación.</p><button class="btn btn-primary" data-action="new-template">${icon('plus')} Nueva plantilla</button></div></div>`}
+    </div>
+  </div>`;
+}
+const TPL_COLORS = ['#315cf6','#11b8d4','#12a87b','#e9a11b','#8257e6','#e5534b','#d94fa6'];
+function openTemplateForm(id){
+  const t = id ? DB.templates.find(x=>x.id===id) : {name:'',category:'Soporte',body:'',color:TPL_COLORS[DB.templates.length%TPL_COLORS.length]};
+  openModal(`${modalHead(id?'Editar plantilla':'Nueva plantilla','Se insertará en el campo Observación')}
+    <div class="modal-body grid">
+      <div class="grid grid-2">
+        <div class="field"><label>Nombre</label><input class="input" id="tfName" value="${esc(t.name)}" placeholder="p. ej. Soporte NOC · Migración"></div>
+        <div class="field"><label>Categoría</label><input class="input" id="tfCat" value="${esc(t.category)}" placeholder="Soporte / Cobranza / Calidad…"></div>
+      </div>
+      <div class="field"><label>Contenido</label><textarea class="input" id="tfBody" style="min-height:160px" placeholder="SOPORTE NOC: MIGRACION DE CDC&#10;CLIENTE {nombre} · ABONADO {abonado}…">${esc(t.body)}</textarea></div>
+      <div class="field"><label>Color</label><div class="row wrap">${TPL_COLORS.map(c=>`<label class="check" style="align-items:center"><input type="radio" name="tfColor" value="${c}" ${t.color===c?'checked':''}><span class="sw" style="display:inline-block;width:22px;height:22px;border-radius:7px;background:${c}"></span></label>`).join('')}</div></div>
+      <div class="inline-alert info">${icon('info')} Variables disponibles: <b class="mono">{nombre} {abonado} {cedula} {telefono} {fecha} {operador}</b> — se reemplazan al insertar.</div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cancelar</button><button class="btn btn-primary" id="tfSave">${icon('check')} Guardar plantilla</button></div>`);
+  $('#tfSave').onclick=()=>{
+    const name=$('#tfName').value.trim(), cat=$('#tfCat').value.trim()||'General', body=$('#tfBody').value.trim();
+    const color=($('input[name=tfColor]:checked')||{}).value||'#315cf6';
+    if(!name||!body){toast('Nombre y contenido son obligatorios','error');return;}
+    if(id){Object.assign(DB.templates.find(x=>x.id===id),{name,category:cat,body,color});}
+    else DB.templates.push({id:uid(),name,category:cat,body,color});
+    save(); closeModal(); toast('Plantilla guardada','success'); refreshPage();
+  };
+}
+function bindPlantillas(){
+  $$('[data-edit-tpl]').forEach(b=>b.onclick=()=>openTemplateForm(b.dataset.editTpl));
+  $$('[data-del-tpl]').forEach(b=>b.onclick=()=>{
+    const t=DB.templates.find(x=>x.id===b.dataset.delTpl);
+    openModal(`${modalHead('Eliminar plantilla')}<div class="modal-body"><p>¿Eliminar la plantilla <b>${esc(t.name)}</b>?</p></div>
+      <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cancelar</button><button class="btn btn-danger" id="delTplOk">${icon('trash')} Eliminar</button></div>`);
+    $('#delTplOk').onclick=()=>{DB.templates=DB.templates.filter(x=>x.id!==t.id);save();closeModal();toast('Plantilla eliminada','success');refreshPage();};
+  });
+  $$('[data-preview-tpl]').forEach(b=>b.onclick=()=>{
+    const t=DB.templates.find(x=>x.id===b.dataset.previewTpl);
+    openModal(`${modalHead('Vista previa · '+t.name)}<div class="modal-body"><div class="obs-preview">${esc(fillTemplateVars(t.body,{nombre:'JOSÉ ALEJANDRO ZORRILLA VÁSQUEZ',nro:'WM009016',cedula:'V30141301',telefono:'04248853314'}))}</div></div>
+      <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cerrar</button></div>`);
+  });
+}
+
+/* ================================================================
+   MENSAJERÍA MASIVA
+================================================================ */
+let msgState = { selected:new Set(), message:'', initialized:false };
+
+function renderMensajeria(){
+  const withPhone = DB.subscribers.filter(s=>s.telefono);
+  if (!msgState.initialized){ msgState.selected = new Set(withPhone.map(s=>s.id)); msgState.initialized = true; }
+  return `<div class="page">
+    <div class="page-head">
+      <div><div class="eyebrow">${icon('send')} Mensajería masiva</div><h1>Campañas de mensajes</h1>
+      <p class="sub">Selecciona la audiencia y exporta los contactos en el formato oficial de <b>Digyto Atlas</b>. Abre su asistente, elige la línea WAVE y una plantilla aprobada. El envío real solo se realiza cuando lo confirmas en el último paso de Digyto.</p></div>
+      <span class="demo-note">${icon('info')} El envío se realiza en la plataforma externa</span>
+    </div>
+
+    <div class="msg-layout">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">1</span><h2>Mensaje</h2></div><button class="btn btn-sm btn-outline" id="msgTplBtn">${icon('file')} Usar plantilla</button></div>
+          <div class="card-body grid">
+            <textarea class="input" id="msgBody" style="min-height:140px" placeholder="Estimado {nombre}, su servicio…">${esc(msgState.message)}</textarea>
+            <div class="var-chips">${['{nombre}','{abonado}','{cedula}','{telefono}','{fecha}'].map(v=>`<button class="var-chip" data-mvar="${v}">${v}</button>`).join('')}</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">2</span><div><h2>Audiencia</h2><small class="muted">${withPhone.length} abonados con teléfono</small></div></div>
+            <div class="row"><button class="btn btn-sm btn-primary" data-action="open-import">${icon('excel')} Importar lista</button><button class="btn btn-sm btn-ghost" id="msgAll">Todos</button><button class="btn btn-sm btn-ghost" id="msgNone">Ninguno</button></div></div>
+          <div class="card-body" style="padding-top:8px">
+            <div class="input-icon" style="margin-bottom:8px">${icon('check')}<input class="input" id="msgFilter" placeholder="Filtrar audiencia…"></div>
+            <div class="audience-list" id="msgList" style="max-height:300px"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">3</span><h2>Enviar</h2></div></div>
+          <div class="card-body">
+            <div class="row wrap">
+              <button class="btn btn-success btn-lg" id="msgSend">${icon('send')} Abrir campaña en Digyto</button>
+              <button class="btn btn-primary" id="msgDigytoExport">${icon('excel')} Contactos Digyto (XLSX)</button>
+              <button class="btn btn-outline" id="msgCopy">${icon('copy')} Copiar mensaje</button>
+              <button class="btn btn-outline" data-action="export-audience">${icon('download')} Exportar audiencia (CSV)</button>
+              <button class="btn btn-ghost" id="msgLinks">${icon('phone')} Generar enlaces</button>
+            </div>
+            <p class="muted" style="font-size:12px;margin-top:12px">El XLSX usa las columnas oficiales <b>number</b> y <b>name</b>, teléfonos internacionales y sin duplicados. Descárgalo y cárgalo en Contactos del asistente. Las plantillas de este panel son locales; no sustituyen las aprobadas por Meta.</p>
+          </div>
+        </div>
+      </div>
+
+      <aside style="display:flex;flex-direction:column;gap:18px">
+        <div class="phone-preview">
+          <div class="label" style="margin-bottom:10px">Vista previa</div>
+          <div class="phone-bubble" id="msgPreview">Escribe un mensaje para ver la vista previa…</div>
+          <div class="phone-time">${nowTime()} ✓✓</div>
+        </div>
+        <div class="grid grid-2" style="gap:10px">
+          <div class="stat-pill"><b id="msgStatSel">0</b><span>Seleccionados</span></div>
+          <div class="stat-pill"><b>${withPhone.length}</b><span>Con teléfono</span></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">${icon('send')}</span><div><h2>Digyto Atlas</h2><small class="muted">Asistente oficial de WhatsApp Cloud API</small></div></div></div>
+          <div class="card-body grid">
+            <p class="muted" style="font-size:12px">Flujo: línea WAVE → plantilla aprobada → archivo de contactos → revisión. Revisa destinatarios, contenido, fecha y costo antes de confirmar el envío.</p>
+            <button class="btn btn-outline btn-block" id="msgPortal">${icon('eye')} Abrir asistente oficial</button>
+            <a class="btn btn-ghost" href="https://atlas.digyto.ai/campaigns" target="_blank" rel="noopener noreferrer">Abrir Digyto en otra pestaña</a>
+            <p class="muted" style="font-size:12px">Inicia sesión directamente en Digyto. Este panel no guarda su contraseña ni marca mensajes como enviados al abrir la plataforma.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Campañas recientes</h2></div>
+          <div class="card-body" style="padding-top:8px">
+            ${DB.campaigns.length ? DB.campaigns.slice(0,8).map(c=>`<div class="mini-record"><span class="time">${esc(c.date.slice(0,5))}</span><div class="grow"><div class="r-name">${esc(c.name)}</div><div class="r-detail">${c.count} destinatarios · ${esc(c.status)}</div></div></div>`).join('') : '<p class="muted" style="font-size:12.5px">Sin campañas todavía.</p>'}
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>`;
+}
+
+function bindMensajeria(){
+  const body = $('#msgBody');
+  const sample = DB.subscribers.find(s=>s.telefono);
+  const renderPreview = () => {
+    $('#msgPreview').textContent = fillTemplateVars(body.value || 'Escribe un mensaje…', sample || {nombre:'Cliente',nro:'WM000000',cedula:'V00000000',telefono:'04XX0000000'});
+  };
+  const renderList = () => {
+    const f = ($('#msgFilter').value||'').toLowerCase();
+    const list = DB.subscribers.filter(s=>s.telefono).filter(s=>!f || (s.nombre||'').toLowerCase().includes(f) || (s.nro||'').toLowerCase().includes(f) || (s.telefono||'').includes(f));
+    $('#msgList').innerHTML = list.length ? list.map(s=>`
+      <label class="audience-item" style="cursor:pointer">
+        <input type="checkbox" data-aid="${s.id}" ${msgState.selected.has(s.id)?'checked':''} style="accent-color:var(--blue)">
+        <span class="grow"><span class="a-name">${esc(s.nombre||'Sin nombre')}</span><br><span class="a-phone">${esc(s.telefono)} · ${esc(s.nro||'—')}</span></span>
+      </label>`).join('') : '<p class="muted" style="padding:14px;font-size:12.5px">No hay abonados con teléfono. Pulsa <b>Importar lista</b> y mapea la columna de teléfono (Excel, CSV o TXT).</p>';
+    $$('#msgList [data-aid]').forEach(c=>c.onchange=()=>{ c.checked?msgState.selected.add(c.dataset.aid):msgState.selected.delete(c.dataset.aid); updStats(); });
+    updStats();
+  };
+  const updStats = () => $('#msgStatSel').textContent = msgState.selected.size;
+  renderList(); renderPreview();
+  body.addEventListener('input', ()=>{ msgState.message = body.value; renderPreview(); });
+  $('#msgFilter').addEventListener('input', debounce(renderList,250));
+  $$('[data-mvar]').forEach(b=>b.onclick=()=>{ body.setRangeText(b.dataset.mvar); msgState.message = body.value; body.focus(); renderPreview(); });
+  $('#msgAll').onclick=()=>{ DB.subscribers.filter(s=>s.telefono).forEach(s=>msgState.selected.add(s.id)); renderList(); };
+  $('#msgNone').onclick=()=>{ msgState.selected.clear(); renderList(); };
+  $('#msgTplBtn').onclick=()=>{
+    openModal(`${modalHead('Elegir plantilla','Se insertará en el mensaje')}
+      <div class="modal-body grid" style="gap:8px">${DB.templates.map(t=>`<div class="template-mini" data-mt="${t.id}"><span class="bar" style="background:${esc(t.color||'#315cf6')}"></span><div class="grow"><div class="t-name">${esc(t.name)}</div><div class="t-cat">${esc(t.category||'')}</div></div></div>`).join('')}</div>`);
+    $$('[data-mt]').forEach(el=>el.onclick=()=>{ const t=DB.templates.find(x=>x.id===el.dataset.mt); body.value = t.body; msgState.message = body.value; renderPreview(); closeModal(); });
+  };
+  $('#msgCopy').onclick=()=>{ navigator.clipboard?.writeText(body.value); toast('Mensaje copiado','success'); };
+  $('#msgLinks').onclick=()=>{
+    const list = audienceList();
+    if (!list.length){ toast('No hay destinatarios seleccionados','error'); return; }
+    const links = list.map(s=>({nombre:s.nombre, telefono:s.telefono, link:`https://wa.me/${(s.telefono||'').replace(/\D/g,'')}?text=${encodeURIComponent(fillTemplateVars(body.value,s))}`}));
+    openModal(`${modalHead('Enlaces de envío', links.length+' contactos')}<div class="modal-body"><div class="import-preview"><table><thead><tr><th>Contacto</th><th>Teléfono</th><th>Enlace</th></tr></thead><tbody>${links.map(l=>`<tr><td>${esc(l.nombre)}</td><td class="mono">${esc(l.telefono)}</td><td><a href="${esc(l.link)}" target="_blank" rel="noopener">Abrir</a></td></tr>`).join('')}</tbody></table></div></div>
+      <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cerrar</button></div>`, true);
+  };
+  $('#msgSend').onclick=()=>{
+    if (!audienceList().length){ toast('Selecciona al menos un destinatario','error'); return; }
+    openDigytoPortal();
+  };
+  $('#msgPortal').onclick=openDigytoPortal;
+  $('#msgDigytoExport').onclick=exportDigyto;
+}
+
+function openDigytoPortal(){
+  window.open('https://atlas.digyto.ai/campaigns/meta', '_blank', 'noopener,noreferrer');
+  toast('Digyto abierto. Carga el XLSX y confirma el envío únicamente en su revisión final.','info');
+}
+
+function digytoPhone(value){
+  let number = String(value || '').trim().replace(/[\s()+.-]/g,'');
+  if (/^00\d+$/.test(number)) number = number.slice(2);
+  if (/^04\d{9}$/.test(number)) number = '58' + number.slice(1);
+  else if (/^4\d{9}$/.test(number)) number = '58' + number;
+  return /^[1-9]\d{7,14}$/.test(number) ? number : '';
+}
+
+function exportDigyto(){
+  const list = audienceList();
+  if (!list.length){ toast('No hay destinatarios seleccionados','error'); return; }
+  if (typeof XLSX === 'undefined'){ toast('No se cargó la librería Excel. Recarga el panel desde CDC NOC 2.','error'); return; }
+  const rows = [['number','name']], seen = new Set();
+  for (const s of list){
+    const number = digytoPhone(s.telefono);
+    if (!number){ toast(`Teléfono inválido: ${s.nombre || s.nro || 'contacto'}. Corrígelo antes de exportar.`,'error'); return; }
+    if (seen.has(number)) continue;
+    seen.add(number);
+    rows.push([number, s.nombre || s.nro || 'Cliente']);
+  }
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, XLSX.utils.aoa_to_sheet(rows), 'template');
+  XLSX.writeFile(workbook, 'digybot_Campaign.xlsx');
+  toast(`${rows.length-1} contacto(s) exportados; todavía no se ha enviado ningún mensaje`,'success');
+}
+
+function audienceList(){
+  return DB.subscribers.filter(s=>s.telefono && msgState.selected.has(s.id));
+}
+
+/* ================================================================
+   HISTORIAL
+================================================================ */
+let hiState = { q:'', tipo:'', desde:'', hasta:'', page:1, per:12 };
+function renderHistorial(){
+  let list = DB.records.slice();
+  if (hiState.q){ const q=hiState.q.toLowerCase(); list=list.filter(r=>(r.cliente||'').toLowerCase().includes(q)||(r.nroAbonado||'').toLowerCase().includes(q)||(r.responsible||'').toLowerCase().includes(q)||(r.observacion||'').toLowerCase().includes(q)); }
+  if (hiState.tipo) list=list.filter(r=>r.tipoLlamada===hiState.tipo);
+  if (hiState.desde) list=list.filter(r=>r.date>=hiState.desde);
+  if (hiState.hasta) list=list.filter(r=>r.date<=hiState.hasta);
+  const pages=Math.max(1,Math.ceil(list.length/hiState.per)); hiState.page=Math.min(hiState.page,pages);
+  const rows=list.slice((hiState.page-1)*hiState.per, hiState.page*hiState.per);
+  return `<div class="page">
+    <div class="page-head"><div><div class="eyebrow">${icon('file')} Registros</div><h1>Historial de tipificaciones</h1><p class="sub">${DB.records.length} registro(s) en total. Filtra por texto, tipo de llamada o rango de fechas.</p></div>
+    <button class="btn btn-outline" data-action="export-csv">${icon('download')} Exportar CSV</button></div>
+    <div class="card">
+      <div class="toolbar">
+        <div class="input-icon grow">${icon('check')}<input class="input" id="hiSearch" placeholder="Buscar cliente, abonado, operador u observación…" value="${esc(hiState.q)}"></div>
+        <select class="input" id="hiTipo" style="max-width:200px"><option value="">Tipo llamada…</option>${Object.keys(TIPOS).map(k=>`<option ${hiState.tipo===k?'selected':''}>${esc(k)}</option>`).join('')}</select>
+        <input type="date" class="input" id="hiDesde" value="${hiState.desde}" style="max-width:150px">
+        <input type="date" class="input" id="hiHasta" value="${hiState.hasta}" style="max-width:150px">
+      </div>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Fecha</th><th>Hora</th><th>Responsable</th><th>Cliente</th><th>N° Abonado</th><th>Tipo</th><th>Detalle</th><th>Estado</th><th style="text-align:right">Ver</th></tr></thead>
+        <tbody>${rows.length?rows.map(r=>`<tr>
+          <td class="mono nowrap">${esc(r.date)}</td><td class="mono">${esc(r.time)}</td><td>${esc(r.responsible)}</td>
+          <td><div class="cell-main">${esc(r.cliente||'—')}</div></td><td class="mono">${esc(r.nroAbonado||'—')}</td>
+          <td><span class="chip chip-blue">${esc(r.tipoLlamada)}</span></td><td>${esc(r.detalle||'—')}</td>
+          <td><span class="chip ${r.estado==='ESCALADO'?'chip-red':r.estado==='PENDIENTE'?'chip-amber':'chip-green'}">${esc(r.estado)}</span></td>
+          <td><div class="row-actions"><button class="icon-btn" data-view-rec="${r.id}" title="Ver detalle">${icon('eye')}</button></div></td>
+        </tr>`).join(''):`<tr><td colspan="9"><div class="empty"><div class="e-icon">${icon('file')}</div><h3>Sin registros</h3><p>No hay tipificaciones que coincidan con los filtros.</p></div></td></tr>`}
+        </tbody></table></div>
+      <div class="table-foot"><span>Mostrando ${rows.length} de ${list.length} registro(s)</span>
+        <div class="pager">${[...Array(pages)].map((_,i)=>`<button class="${hiState.page===i+1?'active':''}" data-hpage="${i+1}">${i+1}</button>`).join('')}</div></div>
+    </div>
+  </div>`;
+}
+function bindHistorial(){
+  $('#hiSearch').addEventListener('input', debounce(e=>{hiState.q=e.target.value;hiState.page=1;refreshPage();},300));
+  $('#hiTipo').onchange=e=>{hiState.tipo=e.target.value;hiState.page=1;refreshPage();};
+  $('#hiDesde').onchange=e=>{hiState.desde=e.target.value;hiState.page=1;refreshPage();};
+  $('#hiHasta').onchange=e=>{hiState.hasta=e.target.value;hiState.page=1;refreshPage();};
+  $$('[data-hpage]').forEach(b=>b.onclick=()=>{hiState.page=+b.dataset.hpage;refreshPage();});
+  $$('[data-view-rec]').forEach(b=>b.onclick=()=>{
+    const r=DB.records.find(x=>x.id===b.dataset.viewRec); if(!r)return;
+    openModal(`${modalHead('Registro · '+r.date+' '+r.time, r.responsible)}
+      <div class="modal-body grid">
+        <div class="grid grid-2">
+          <div class="field"><label>Cliente</label><div>${esc(r.cliente||'—')}</div></div>
+          <div class="field"><label>N° abonado</label><div class="mono">${esc(r.nroAbonado||'—')}</div></div>
+          <div class="field"><label>Tipo llamada</label><div>${esc(r.tipoLlamada)} → ${esc(r.tipoRespuesta)}</div></div>
+          <div class="field"><label>Detalle / Estado</label><div>${esc(r.detalle)} · <b>${esc(r.estado)}</b></div></div>
+        </div>
+        <div class="field"><label>Observación</label><div class="obs-preview" style="max-height:260px">${esc(r.observacion||'—')}</div></div>
+      </div>
+      <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cerrar</button></div>`);
+  });
+}
+
+/* ================================================================
+   INFORMES CDC — informes de fin de mes (con Google Drive)
+================================================================ */
+function renderInformes(){
+  const informes = (DB.informes||[]).slice().sort((a,b)=>(b.mes||'').localeCompare(a.mes||''));
+  const drive = DB.drive || {};
+  return `<div class="page">
+    <div class="page-head">
+      <div><div class="eyebrow">${icon('file')} Informes de fin de mes</div><h1>Informes CDC</h1>
+      <p class="sub">Registra los informes mensuales del CDC (con archivo adjunto) y súbelos a tu Google Drive para tenerlos en la nube y compartirlos con el equipo.</p></div>
+      <span class="chip chip-blue">${informes.length} informe(s)</span>
+    </div>
+    <div class="grid" style="grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:start">
+      <div class="card">
+        <div class="card-head"><div class="card-title"><span class="step">${icon('plus')}</span><h2>Nuevo informe</h2></div></div>
+        <div class="card-body grid">
+          <div class="grid grid-2">
+            <div class="field"><label>Mes del informe</label><input type="month" class="input" id="infMes"></div>
+            <div class="field"><label>Título</label><input class="input" id="infTitulo" placeholder="p. ej. Informe de gestión CDC"></div>
+          </div>
+          <div class="field"><label>Nota / resumen</label><textarea class="input" id="infNota" style="min-height:90px" placeholder="Resumen del mes: gestión, incidencias, tipificaciones…"></textarea></div>
+          <div class="field"><label>Archivo (PDF, Excel, imágenes… máx. ~2.5 MB)</label><input type="file" class="input" id="infArchivo"></div>
+          <button class="btn btn-primary" id="infSave">${icon('check')} Guardar informe</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">${icon('shield')}</span><div><h2>Conexión Google Drive</h2><small class="muted">La clave queda guardada solo en este equipo</small></div></div>
+            <span class="chip ${drive.apiKey||drive.token?'chip-green':'chip-gray'}"><span class="dot"></span> ${drive.apiKey||drive.token?'CONFIGURADA':'SIN CONFIGURAR'}</span></div>
+          <div class="card-body grid">
+            <div class="field"><label>API Key de Google</label><input class="input mono" id="drvKey" value="${esc(drive.apiKey||'')}" placeholder="AIza…"></div>
+            <div class="field"><label>Token de acceso OAuth (necesario para subir archivos)</label><input class="input mono" id="drvToken" value="${esc(drive.token||'')}" placeholder="ya29.…"></div>
+            <div class="field"><label>ID de carpeta de Drive (opcional)</label><input class="input mono" id="drvFolder" value="${esc(drive.folderId||'')}" placeholder="1BxiMVs0XRA…"></div>
+            <div class="inline-alert warn">${icon('alert')} Drive exige un <b>token OAuth</b> para subir (la API Key sola no basta). Consíguelo en <b>Google OAuth 2.0 Playground</b> con el scope <b class="mono">…/auth/drive.file</b>. La configuración queda solo en este navegador.</div>
+            <button class="btn btn-outline" id="drvSave">${icon('check')} Guardar conexión</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Informes registrados</h2></div>
+          <div class="card-body" style="padding-top:8px">
+            ${informes.length ? informes.map(inf=>`
+            <div class="mini-record">
+              <span class="avatar" style="width:34px;height:34px;font-size:10px;background:linear-gradient(135deg,var(--blue),var(--cyan))">${esc((inf.mes||'--').replace('-','/'))}</span>
+              <div class="grow"><div class="r-name">${esc(inf.titulo||'Informe')} ${inf.subidoDrive?'<span class="chip chip-green" style="font-size:10px;padding:2px 7px">EN DRIVE</span>':''}</div>
+              <div class="r-detail">${esc(inf.ts||'')} · ${esc(inf.archivo||'sin archivo')}${inf.nota?' · '+esc(inf.nota.slice(0,50))+(inf.nota.length>50?'…':''):''}</div></div>
+              <div class="row-actions">
+                ${inf.dataUrl?`<button class="icon-btn" data-inf-dl="${inf.id}" title="Descargar">${icon('download')}</button>`:''}
+                <button class="icon-btn" data-inf-drive="${inf.id}" title="Subir a Drive">${icon('send')}</button>
+                <button class="icon-btn danger" data-inf-del="${inf.id}" title="Eliminar">${icon('trash')}</button>
+              </div>
+            </div>`).join('') : '<p class="muted" style="font-size:12.5px;padding:14px 4px">Aún no hay informes registrados.</p>'}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function bindInformes(){
+  $('#infSave').onclick = () => {
+    const mes = $('#infMes').value, titulo = $('#infTitulo').value.trim(), nota = $('#infNota').value.trim();
+    const f = $('#infArchivo').files[0];
+    if (!mes){ toast('Selecciona el mes del informe','error'); return; }
+    if (!titulo){ toast('Ingresa un título','error'); return; }
+    if (f && f.size > 2.5*1024*1024){ toast('El archivo supera 2.5 MB; súbelo directamente a Drive','error'); return; }
+    const guardar = dataUrl => {
+      DB.informes.push({ id: uid(), mes, titulo, nota, archivo: f ? f.name : '', dataUrl: dataUrl || '', subidoDrive: false, ts: todayStr()+' '+nowTime(), user: currentUser.name });
+      save(); logActivity('file', `${currentUser.name} registró el informe CDC de ${mes}`);
+      toast('Informe guardado','success'); refreshPage();
+    };
+    if (f){
+      const fr = new FileReader();
+      fr.onload = () => guardar(fr.result);
+      fr.onerror = () => toast('No se pudo leer el archivo','error');
+      fr.readAsDataURL(f);
+    } else guardar('');
+  };
+  $('#drvSave').onclick = () => {
+    DB.drive = { apiKey: $('#drvKey').value.trim(), token: $('#drvToken').value.trim(), folderId: $('#drvFolder').value.trim() };
+    save(); toast('Conexión Drive guardada en este equipo','success'); refreshPage();
+  };
+  $$('[data-inf-del]').forEach(b=>b.onclick=()=>{
+    const inf = DB.informes.find(x=>x.id===b.dataset.infDel);
+    openModal(`${modalHead('Eliminar informe')}<div class="modal-body"><p>¿Eliminar el informe <b>${esc(inf.titulo)}</b> (${esc(inf.mes)})?</p></div>
+      <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cancelar</button><button class="btn btn-danger" id="infDelOk">${icon('trash')} Eliminar</button></div>`);
+    $('#infDelOk').onclick=()=>{ DB.informes=DB.informes.filter(x=>x.id!==inf.id); save(); closeModal(); toast('Informe eliminado','success'); refreshPage(); };
+  });
+  $$('[data-inf-dl]').forEach(b=>b.onclick=()=>{
+    const inf = DB.informes.find(x=>x.id===b.dataset.infDl);
+    const a=document.createElement('a'); a.href=inf.dataUrl; a.download=inf.archivo||('informe-'+inf.mes); a.click();
+  });
+  $$('[data-inf-drive]').forEach(b=>b.onclick=()=>subirInformeDrive(b.dataset.infDrive));
+}
+
+async function subirInformeDrive(id){
+  const inf = DB.informes.find(x=>x.id===id);
+  const d = DB.drive || {};
+  if (!inf.dataUrl){ toast('Este informe no tiene archivo adjunto','error'); return; }
+  if (!d.token && !d.apiKey){ toast('Configura primero la conexión con Google Drive','error'); return; }
+  toast('Subiendo a Google Drive…','info');
+  try {
+    const bin = atob(inf.dataUrl.split(',')[1]);
+    const bytes = new Uint8Array(bin.length);
+    for (let i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+    const boundary = 'cdc_noc_2_boundary';
+    const metadata = { name: inf.archivo || ('informe-cdc-'+inf.mes) };
+    if (d.folderId) metadata.parents = [d.folderId];
+    const body = new Blob([
+      `--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(metadata)}\r\n`,
+      `--${boundary}\r\nContent-Type: application/octet-stream\r\n\r\n`,
+      bytes,
+      `\r\n--${boundary}--`
+    ]);
+    const headers = { 'Content-Type': `multipart/related; boundary=${boundary}` };
+    if (d.token) headers['Authorization'] = `Bearer ${d.token}`;
+    const url = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart' + (d.apiKey ? `&key=${encodeURIComponent(d.apiKey)}` : '');
+    const res = await fetch(url, { method:'POST', headers, body });
+    const j = await res.json();
+    if (!res.ok) throw new Error((j.error && j.error.message) || ('HTTP '+res.status));
+    inf.subidoDrive = true; save();
+    toast('Informe subido a Google Drive','success'); refreshPage();
+  } catch(err){ toast('Error al subir a Drive: '+err.message,'error'); }
+}
+
+/* ================================================================
+   MAPAS Y PROYECCIONES — pendiente de conexión con la plataforma
+================================================================ */
+function renderMapas(){
+  return `<div class="page">
+    <div class="page-head">
+      <div><div class="eyebrow">${icon('map')} TOMODAT</div><h1>Mapas y proyecciones</h1>
+      <p class="sub">Mapa oficial de WAVE: cajas, cables, capas de diseño y cobertura. Inicia sesión directamente en TOMODAT con la empresa <b>wave</b>; el panel no almacena su contraseña.</p></div>
+      <a class="btn btn-outline" href="https://mia4.tomodat.com/tomodat/maps" target="_blank" rel="noopener noreferrer">Abrir TOMODAT en otra pestaña</a>
+    </div>
+    <div class="card">
+      <div class="card-head"><div class="card-title"><span class="step">${icon('map')}</span><h2>Cajas, cables y cobertura WAVE</h2></div></div>
+      <div class="card-body grid">
+        <div class="inline-alert info">${icon('info')} TOMODAT se abre en una pestaña normal para conservar la sesión. Su formulario de empresa no mantiene correctamente las cookies cuando está incrustado en otra página.</div>
+        <a class="btn btn-primary btn-lg" id="mapOpen" href="https://mia4.tomodat.com/tomodat/maps" target="_blank" rel="noopener noreferrer">${icon('map')} Abrir mapa oficial de WAVE</a>
+        <ol style="padding-left:20px;line-height:1.8">
+          <li>Introduce la empresa <b>wave</b> e inicia sesión con tu cuenta autorizada.</li>
+          <li>Busca el nodo o la caja en el panel izquierdo del mapa.</li>
+          <li>Activa las capas de diseño, construcción y cobertura que necesites consultar.</li>
+        </ol>
+        <p class="muted">Si aparece «acceso no autorizado», comprueba la empresa y los permisos de tu cuenta; este panel no modifica los permisos ni los datos del mapa.</p>
+      </div>
+    </div>
+  </div>`;
+}
+
+
+/* ================================================================
+   VPN / ACCESO SAEPLUS
+================================================================ */
+function renderVpn(){
+  return `<div class="page">
+    <div class="page-head"><div><div class="eyebrow">${icon('shield')} Acceso de respaldo</div><h1>SAEPLUS no abre · Solución VPN / DNS</h1>
+    <p class="sub">Si la página de SAEPLUS (fibextelecom.saeplus.com) no carga normal, usa estas alternativas. Esta herramienta no reemplaza el sistema oficial: sirve de respaldo para consultar y seguir operando.</p></div>
+    <button class="btn btn-primary" onclick="window.open('https://fibextelecom.saeplus.com','_blank')">${icon('phone')} Abrir SAEPLUS en pestaña nueva</button></div>
+
+    <div class="grid grid-2" style="align-items:start">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="card"><div class="card-head"><div class="card-title"><span class="step">1</span><div><h2>Cambiar DNS (sin VPN)</h2><small class="muted">La causa más común de que SAEPLUS no abra</small></div></div></div>
+          <div class="card-body grid">
+            <div class="inline-alert info">${icon('info')} Configura estos DNS en tu adaptador de red (IPv4): <b class="mono">8.8.8.8</b> y <b class="mono">8.8.4.4</b> (Google) o <b class="mono">1.1.1.1</b> (Cloudflare). Luego ejecuta <b class="mono">ipconfig /flushdns</b> en CMD y recarga.</div>
+            <ol style="margin:0;padding-left:20px;font-size:13px;color:var(--ink-3);display:grid;gap:6px">
+              <li>Panel de control → Red → Centro de redes → Cambiar configuración del adaptador.</li>
+              <li>Clic derecho en tu conexión → Propiedades → IPv4 → Propiedades.</li>
+              <li>Usar las siguientes direcciones DNS: 8.8.8.8 / 8.8.4.4 → Aceptar.</li>
+              <li>CMD como administrador: <span class="mono">ipconfig /flushdns</span> → probar de nuevo.</li>
+            </ol>
+            <button class="btn btn-outline btn-block" onclick="window.open('https://developers.google.com/speed/public-dns','_blank')">${icon('info')} Guía DNS de Google</button>
+          </div></div>
+        <div class="card"><div class="card-head"><div class="card-title"><span class="step">2</span><div><h2>Usar una VPN</h2><small class="muted">Si el bloqueo es regional o de ruta</small></div></div></div>
+          <div class="card-body grid">
+            <div class="inline-alert warn">${icon('alert')} Activa la VPN <b>antes</b> de abrir SAEPLUS. Elige ubicación: Colombia o EE. UU. Cierra Chrome completamente y vuelve a entrar.</div>
+            <div class="grid grid-2">
+              <div class="stat-pill"><b>1.1.1.1</b><span>Cloudflare WARP (gratis, ligero)</span></div>
+              <div class="stat-pill"><b>ProtonVPN</b><span>Plan gratis, sin límites de datos</span></div>
+            </div>
+            <button class="btn btn-outline btn-block" onclick="window.open('https://one.one.one.one','_blank')">${icon('download')} Descargar 1.1.1.1 WARP</button>
+          </div></div>
+        <div class="card"><div class="card-head"><div class="card-title"><span class="step">3</span><div><h2>Mientras tanto, opera aquí</h2><small class="muted">CDC NOC 2 funciona 100% local</small></div></div></div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:8px">
+            <p class="muted" style="font-size:12.5px">La tipificación, el directorio de abonados y las plantillas de esta página no dependen de SAEPLUS: siguen funcionando aunque la plataforma oficial esté caída. Registra aquí y sincroniza después.</p>
+            <button class="btn btn-primary btn-block" data-action="nav" data-page="tipificar">${icon('phone')} Ir a Tipificar</button>
+          </div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title"><span class="step"><svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></span><h2>Visor integrado de SAEPLUS</h2></div>
+        <button class="btn btn-sm btn-outline" onclick="window.open('https://fibextelecom.saeplus.com','_blank')">Abrir externo</button></div>
+        <div class="card-body">
+          <div style="border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;height:520px">
+            <iframe src="https://fibextelecom.saeplus.com" style="width:100%;height:100%;border:0" referrerpolicy="no-referrer" allow="fullscreen"></iframe>
+          </div>
+          <p class="muted" style="font-size:11.5px;margin-top:10px">Si el visor muestra en blanco o error, SAEPLUS bloquea el embebido (cabecera X-Frame-Options): usa el botón «Abrir SAEPLUS en pestaña nueva» arriba.</p>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ================================================================
+   IMPORTACIÓN EXCEL
+================================================================ */
+let importData = { rows:[], mapping:{nombre:'',nro:'',cedula:'',telefono:''} };
+
+function openImport(){
+  $('#importFile').value='';
+  openModal(`${modalHead('Importar abonados desde Excel','Columnas esperadas: nombre, n° abonado anterior, cédula, teléfono (admite .xlsx, .xls, .csv y .txt)')}
+    <div class="modal-body grid">
+      <div class="dropzone" id="dz">
+        <div class="e-icon">${icon('excel')}</div>
+        <b>Arrastra tu archivo aquí</b>
+        <p class="muted" style="font-size:12px;margin-top:4px">o haz clic para seleccionar (.xlsx / .xls / .csv / .txt)</p>
+        <input type="file" id="impFile" accept=".xlsx,.xls,.csv,.txt" hidden>
+      </div>
+      <div id="impStep2" class="hidden grid">
+        <div class="inline-alert success">${icon('check')} <span id="impInfo"></span></div>
+        <div class="mapping-grid" id="impMapping"></div>
+        <div class="field"><label>Vista previa</label><div class="import-preview"><table id="impPreview"></table></div></div>
+        <label class="check"><input type="checkbox" id="impReplace"> Reemplazar directorio actual en lugar de agregar</label>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-outline" data-action="modal-close">Cancelar</button>
+      <button class="btn btn-primary hidden" id="impConfirm">${icon('check')} Importar <span id="impCount"></span></button>
+    </div>`, true);
+
+  const dz = $('#dz'), fileIn = $('#impFile');
+  dz.onclick = () => fileIn.click();
+  dz.ondragover = e => { e.preventDefault(); dz.classList.add('drag'); };
+  dz.ondragleave = () => dz.classList.remove('drag');
+  dz.ondrop = e => { e.preventDefault(); dz.classList.remove('drag'); if (e.dataTransfer.files[0]) handleImportFile(e.dataTransfer.files[0]); };
+  fileIn.onchange = () => fileIn.files[0] && handleImportFile(fileIn.files[0]);
+}
+
+async function handleImportFile(file){
+  try {
+    let rows = [];
+    const name = file.name.toLowerCase();
+    if (name.endsWith('.csv') || name.endsWith('.txt')){
+      const text = await file.text();
+      rows = parseCSV(text);
+    } else {
+      if (typeof XLSX === 'undefined'){ toast('Librería XLSX no cargada (se necesita internet la primera vez). Guarda como CSV e intenta de nuevo.','error'); return; }
+      const buf = await file.arrayBuffer();
+      const wb = XLSX.read(buf, {type:'array'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      rows = XLSX.utils.sheet_to_json(ws, {header:1, defval:''}).filter(r=>r.some(c=>String(c).trim()!==''));
+    }
+    if (!rows.length){ toast('El archivo está vacío','error'); return; }
+    importData.rows = rows;
+    buildImportUI();
+  } catch(err){ console.error(err); toast('No se pudo leer el archivo: ' + err.message, 'error'); }
+}
+
+function parseCSV(text){
+  text = text.replace(/^\uFEFF/,'').replace(/\r\n?/g,'\n');
+  const counts = {',':0, ';':0, '\t':0};
+  let quoted = false;
+  for (let i=0;i<text.length;i++){
+    const c = text[i];
+    if (c==='"'){
+      if (quoted && text[i+1]==='"'){ i++; continue; }
+      quoted = !quoted;
+    } else if (!quoted){
+      if (c==='\n') break;
+      if (c in counts) counts[c]++;
+    }
+  }
+  const delimiter = Object.keys(counts).reduce((a,b)=>counts[b]>counts[a]?b:a, ',');
+  const rows = []; let row = [], value = ''; quoted = false;
+  const finishRow = () => {
+    row.push(value);
+    if (row.some(v=>v.trim())) rows.push(row);
+    row = []; value = '';
+  };
+  for (let i=0;i<text.length;i++){
+    const c = text[i];
+    if (c==='"'){
+      if (quoted && text[i+1]==='"'){ value+='"'; i++; }
+      else quoted = !quoted;
+    } else if (!quoted && c===delimiter){ row.push(value); value=''; }
+    else if (!quoted && c==='\n') finishRow();
+    else value+=c;
+  }
+  if (quoted) throw new Error('Hay comillas sin cerrar en el archivo');
+  finishRow();
+  return rows;
+}
+
+function guessCol(headers, keys){
+  const lower = headers.map(h=>String(h).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''));
+  for (const k of keys){ const i = lower.findIndex(h=>h.includes(k)); if (i>-1) return i; }
+  return -1;
+}
+
+function buildImportUI(){
+  const rows = importData.rows;
+  const headers = rows[0].map(h=>String(h).trim());
+  const dataRows = rows.slice(1);
+  const sel = (id,label,guessKeys)=>{
+    const g = guessCol(headers, guessKeys);
+    return `<div class="field"><label>${label}</label><select class="input" data-map="${id}"><option value="">— Omitir —</option>${headers.map((h,i)=>`<option value="${i}" ${i===g?'selected':''}>${esc(h)}</option>`).join('')}</select></div>`;
+  };
+  $('#impStep2').classList.remove('hidden');
+  $('#impInfo').textContent = `${dataRows.length} fila(s) detectadas · encabezados: ${headers.join(', ')}`;
+  $('#impMapping').innerHTML =
+    sel('nombre','Columna → Nombre',['nombre','cliente','razon','razón']) +
+    sel('nro','Columna → N° abonado (anterior)',['abonado','anterior','contrato','nro','numero','número']) +
+    sel('cedula','Columna → Cédula / documento',['cedula','cédula','documento','identidad','dni','rif']) +
+    sel('telefono','Columna → Teléfono',['telefono','teléfono','celular','movil','móvil','contacto']);
+  $('#impConfirm').classList.remove('hidden');
+
+  const renderPreview = () => {
+    const g = k => parseInt(($(`[data-map="${k}"]`)||{value:-1}).value);
+    const idx = {nombre:g('nombre'), nro:g('nro'), cedula:g('cedula'), telefono:g('telefono')};
+    importData.mapping = idx;
+    const pick = (r,i) => i>-1 ? String(r[i]??'').trim() : '';
+    $('#impPreview').innerHTML = `<thead><tr><th>#</th><th>Nombre</th><th>N° abonado</th><th>Cédula</th><th>Teléfono</th></tr></thead><tbody>` +
+      dataRows.slice(0,8).map((r,i)=>`<tr><td>${i+1}</td><td>${esc(pick(r,idx.nombre))}</td><td class="mono">${esc(pick(r,idx.nro))}</td><td class="mono">${esc(pick(r,idx.cedula))}</td><td class="mono">${esc(pick(r,idx.telefono))}</td></tr>`).join('') + '</tbody>';
+    const valid = dataRows.filter(r=>pick(r,idx.nro)||pick(r,idx.cedula)||pick(r,idx.telefono)).length;
+    $('#impCount').textContent = `(${valid} abonados)`;
+  };
+  $$('#impMapping [data-map]').forEach(s=>s.onchange=renderPreview);
+  renderPreview();
+
+  $('#impConfirm').onclick = () => {
+    const {nombre,nro,cedula,telefono} = importData.mapping;
+    if (nro<0 && cedula<0 && telefono<0){ toast('Mapea al menos una columna (abonado, cédula o teléfono)','error'); return; }
+    const pick=(r,i)=>i>-1?String(r[i]??'').trim():'';
+    const subs = dataRows.map((r,i)=>({
+      id: uid()+i, nombre: pick(r,nombre), nro: pick(r,nro), cedula: pick(r,cedula), telefono: pick(r,telefono),
+      extra: headers.reduce((acc,h,ci)=>{ if(![nombre,nro,cedula,telefono].includes(ci) && String(r[ci]??'').trim()) acc[h]=String(r[ci]).trim(); return acc; },{})
+    })).filter(s=>s.nro||s.cedula||s.telefono);
+    const replace = $('#impReplace').checked;
+    const before = DB.subscribers.length;
+    DB.subscribers = replace ? subs : DB.subscribers.concat(subs);
+    save(); closeModal();
+    logActivity('excel', `${currentUser.name} importó ${subs.length} abonados (${replace?'reemplazando':'agregando'})`);
+    toast(`${subs.length} abonados importados. Total: ${DB.subscribers.length}.`,'success');
+    updateBadges(); refreshPage();
+  };
+}
+
+/* ================================================================
+   AJUSTES
+================================================================ */
+function renderAjustes(){
+  const isAdmin = currentUser.role === 'Admin';
+  return `<div class="page">
+    <div class="page-head"><div><div class="eyebrow">${icon('user')} Configuración</div><h1>Ajustes</h1><p class="sub">Gestiona tu perfil, los usuarios que ingresan a tipificar y los datos guardados localmente.</p></div></div>
+    <div class="settings-grid">
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">${icon('user')}</span><h2>Mi perfil</h2></div></div>
+          <div class="card-body grid">
+            <div class="grid grid-2">
+              <div class="field"><label>Nombre completo</label><input class="input" id="pfName" value="${esc(currentUser.name)}"></div>
+              <div class="field"><label>Usuario</label><input class="input" id="pfUser" value="${esc(currentUser.username)}" autocomplete="off"></div>
+            </div>
+            <div class="grid grid-2">
+              <div class="field"><label>Nueva contraseña</label><input class="input" type="password" id="pfPass" placeholder="Dejar en blanco para no cambiar"></div>
+              <div class="field"><label>Rol</label><input class="input" value="${esc(currentUser.role||'Operador')}" disabled></div>
+            </div>
+            <button class="btn btn-primary" id="pfSave">${icon('check')} Guardar perfil</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">${icon('download')}</span><h2>Datos y respaldos</h2></div></div>
+          <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+            <div class="inline-alert info">${icon('info')} Todos los datos (usuarios, abonados, registros, plantillas) se guardan localmente en este navegador. Exporta respaldos con frecuencia.</div>
+            <div class="row wrap">
+              <button class="btn btn-outline" data-action="export-backup">${icon('download')} Exportar respaldo (JSON)</button>
+              <button class="btn btn-outline" id="btnRestore">${icon('file')} Restaurar respaldo</button>
+            </div>
+            <div class="row wrap">
+              <button class="btn btn-outline" data-action="export-csv">${icon('download')} Historial → CSV</button>
+              <button class="btn btn-outline" data-action="export-subs-csv">${icon('download')} Abonados → CSV</button>
+            </div>
+          </div>
+        </div>
+        <div class="card danger-zone">
+          <div class="card-head"><div class="card-title"><span class="step" style="background:var(--red-soft);color:var(--red)">${icon('alert')}</span><h2>Zona peligrosa</h2></div></div>
+          <div class="card-body row wrap">
+            <button class="btn btn-danger" id="btnReset">${icon('trash')} Restablecer toda la aplicación</button>
+            <button class="btn btn-outline" id="btnLogout">${icon('login')} Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head"><div class="card-title"><span class="step">${icon('user')}</span><div><h2>Usuarios y credenciales</h2><small class="muted">Cada operador ingresa con su propio usuario y sus tipificaciones quedan a su nombre</small></div></div>
+        ${isAdmin?`<button class="btn btn-sm btn-primary" data-action="new-user">${icon('plus')} Nuevo usuario</button>`:`<span class="chip chip-gray">Solo Admin</span>`}</div>
+        <div class="card-body" style="padding-top:8px">
+          ${DB.users.map(u=>`
+          <div class="mini-record">
+            <span class="avatar" style="width:34px;height:34px;font-size:11px">${esc(initials(u.name))}</span>
+            <div class="grow"><div class="r-name">${esc(u.name)} ${u.id===currentUser.id?'<span class="chip chip-green" style="font-size:10px;padding:2px 7px">TÚ</span>':''} <span class="chip ${u.role==='Admin'?'chip-violet':'chip-blue'}" style="font-size:10px;padding:2px 7px">${esc(u.role||'Operador')}</span></div>
+            <div class="r-detail mono">${esc(u.username)} · ${DB.records.filter(r=>r.userId===u.id).length} registros</div></div>
+            ${isAdmin?`<div class="row-actions">
+              <button class="icon-btn" data-edit-user="${u.id}" title="Editar">${icon('edit')}</button>
+              ${DB.users.length>1?`<button class="icon-btn danger" data-del-user="${u.id}" title="Eliminar">${icon('trash')}</button>`:''}
+            </div>`:''}
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function openUserForm(id){
+  const u = id ? DB.users.find(x=>x.id===id) : {name:'',username:'',role:'Operador'};
+  openModal(`${modalHead(id?'Editar usuario':'Nuevo usuario','Credenciales para ingresar a CDC NOC 2')}
+    <div class="modal-body grid">
+      <div class="grid grid-2">
+        <div class="field"><label>Nombre completo</label><input class="input" id="ufName" value="${esc(u.name)}"></div>
+        <div class="field"><label>Usuario</label><input class="input" id="ufUser" value="${esc(u.username)}" ${id?'disabled':''}></div>
+      </div>
+      <div class="grid grid-2">
+        <div class="field"><label>${id?'Nueva contraseña (opcional)':'Contraseña'}</label><input class="input" type="password" id="ufPass" placeholder="${id?'Sin cambios':'••••••••'}"></div>
+        <div class="field"><label>Rol</label><select class="input" id="ufRole"><option ${u.role==='Operador'?'selected':''}>Operador</option><option ${u.role==='Admin'?'selected':''}>Admin</option></select></div>
+      </div>
+      ${id && u.id!==currentUser.id && u.saeplus?`<div class="inline-alert warn">${icon('alert')}<span>Si restableces la contraseña de este usuario, se borrará su credencial SAEPLUS cifrada y deberá guardarla de nuevo.</span></div>`:''}
+    </div>
+    <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cancelar</button><button class="btn btn-primary" id="ufSave">${icon('check')} Guardar</button></div>`);
+  $('#ufSave').onclick=async e=>{
+    const name=$('#ufName').value.trim(), pass=$('#ufPass').value, role=$('#ufRole').value;
+    if(!name){toast('El nombre es obligatorio','error');return;}
+    const username=$('#ufUser').value.trim().toLowerCase(), button=e.currentTarget, actor=currentUser.id;
+    if(!id && (!username||!pass)){toast('Usuario y contraseña son obligatorios','error');return;}
+    if(!id && DB.users.some(x=>x.username.toLowerCase()===username)){toast('Ese usuario ya existe','error');return;}
+    button.disabled=true;
+    try {
+      if(id){
+        const usr=DB.users.find(x=>x.id===id); usr.name=name; usr.role=role;
+        if(pass && !await changePanelPassword(usr,pass)) return;
+        if(!pass && !save()) return;
+        if(usr.id===currentUser.id) applyUserChrome();
+      } else {
+        const material=await passwordMaterial(pass);
+        if(currentUser?.id!==actor) return;
+        DB.users.push({id:uid(), username, passwordSalt:material.salt, passwordHash:material.hash, name, role, created:todayStr()});
+        if(!save()){ DB.users.pop(); return; }
+      }
+      closeModal(); toast('Usuario guardado','success'); refreshPage();
+    } catch(err){ toast('No se pudo guardar el usuario: '+err.message,'error'); }
+    finally { button.disabled=false; }
+  };
+}
+function bindAjustes(){
+  $('#pfSave').onclick=async e=>{
+    const name=$('#pfName').value.trim(), pass=$('#pfPass').value, newUser=$('#pfUser').value.trim().toLowerCase();
+    if(!name){toast('El nombre no puede estar vacío','error');return;}
+    if(!newUser){toast('El usuario no puede estar vacío','error');return;}
+    if(DB.users.some(u=>u.id!==currentUser.id && u.username.toLowerCase()===newUser)){toast('Ese nombre de usuario ya existe','error');return;}
+    const button=e.currentTarget;
+    button.disabled=true;
+    try {
+      const previousUser={name:currentUser.name, username:currentUser.username};
+      currentUser.name=name; currentUser.username=newUser;
+      if(pass && !await changePanelPassword(currentUser,pass)){ Object.assign(currentUser, previousUser); return; }
+      if(!pass && !save()){ Object.assign(currentUser, previousUser); return; }
+      $('#pfPass').value='';
+      applyUserChrome(); toast('Perfil actualizado','success');
+    } catch(err){ toast('No se pudo actualizar el perfil: '+err.message,'error'); }
+    finally { button.disabled=false; }
+  };
+  $('#btnLogout').onclick=logout;
+  $('#btnRestore').onclick=()=>$('#backupFile').click();
+  $('#btnReset').onclick=()=>{
+    openModal(`${modalHead('Restablecer aplicación')}<div class="modal-body"><div class="inline-alert error">${icon('alert')} Se borrarán TODOS los datos: usuarios (excepto admin), abonados, registros, plantillas y campañas.</div></div>
+      <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cancelar</button><button class="btn btn-danger" id="resetOk">${icon('trash')} Sí, restablecer</button></div>`);
+    $('#resetOk').onclick=()=>{ const users=DB.users.filter(u=>u.role==='Admin'); localStorage.removeItem(KEY); localStorage.removeItem('cdcNoc2_session'); sessionStorage.clear(); location.reload(); };
+  };
+  $$('[data-edit-user]').forEach(b=>b.onclick=()=>openUserForm(b.dataset.editUser));
+  $$('[data-del-user]').forEach(b=>b.onclick=()=>{
+    const u=DB.users.find(x=>x.id===b.dataset.delUser);
+    openModal(`${modalHead('Eliminar usuario')}<div class="modal-body"><p>¿Eliminar al usuario <b>${esc(u.name)}</b> (${esc(u.username)})? Sus registros históricos se conservan.</p></div>
+      <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cancelar</button><button class="btn btn-danger" id="delUserOk">${icon('trash')} Eliminar</button></div>`);
+    $('#delUserOk').onclick=()=>{DB.users=DB.users.filter(x=>x.id!==u.id);save();closeModal();toast('Usuario eliminado','success');refreshPage();};
+  });
+}
+
+/* ================================================================
+   EXPORTACIONES / RESPALDOS
+================================================================ */
+function download(filename, content, mime='text/plain'){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content],{type:mime}));
+  a.download=filename; a.click(); URL.revokeObjectURL(a.href);
+}
+function exportBackup(){
+  download(`cdc-noc2-respaldo-${todayStr()}.json`, JSON.stringify(DB,null,2), 'application/json');
+  toast('Respaldo exportado','success');
+}
+function exportCSV(name, rows){
+  if (!rows.length){ toast('No hay datos para exportar','info'); return; }
+  const escC = v => { v=String(v??''); return /[",;\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; };
+  download(name, rows.map(r=>r.map(escC).join(',')).join('\n'), 'text/csv');
+}
+function exportRecordsCSV(){
+  exportCSV(`tipificaciones-${todayStr()}.csv`, [
+    ['Fecha','Hora','Responsable','Usuario','Cliente','N°Abonado','Cédula','Teléfono','Tipo llamada','Tipo respuesta','Detalle','Estado','Observación'],
+    ...DB.records.map(r=>[r.date,r.time,r.responsible,r.username,r.cliente,r.nroAbonado,r.cedula,r.telefono,r.tipoLlamada,r.tipoRespuesta,r.detalle,r.estado,(r.observacion||'').replace(/\n/g,' ')])
+  ]);
+  toast('Historial exportado a CSV','success');
+}
+function exportSubsCSV(){
+  exportCSV(`abonados-${todayStr()}.csv`, [
+    ['N° Abonado','Nombre','Cédula','Teléfono'],
+    ...DB.subscribers.map(s=>[s.nro,s.nombre,s.cedula,s.telefono])
+  ]);
+  toast('Abonados exportados a CSV','success');
+}
+function exportAudience(){
+  const list = audienceList();
+  if (!list.length){ toast('No hay destinatarios seleccionados','error'); return; }
+  exportCSV(`audiencia-${todayStr()}.csv`, [
+    ['Nombre','Teléfono','N° Abonado','Cédula','Mensaje'],
+    ...list.map(s=>[s.nombre,s.telefono,s.nro,s.cedula, fillTemplateVars($('#msgBody')?.value||'', s)])
+  ]);
+  toast('Audiencia exportada para tu plataforma de envíos','success');
+}
+
+/* ================================================================
+   PALETA DE COMANDOS (Ctrl+K) / NOTIFICACIONES
+================================================================ */
+function openCommand(){
+  if (!currentUser) return;
+  $('#popoverRoot').innerHTML = `<div class="popover" style="left:50%;right:auto;transform:translateX(-50%);top:calc(var(--topbar) + 8px);width:min(560px,calc(100vw - 32px))">
+    <div class="input-icon" style="margin-bottom:8px">${icon('check')}<input class="input" id="cmdInput" placeholder="Buscar abonado, plantilla, página o registro…" style="border-radius:12px"></div>
+    <div class="command-results" id="cmdResults"></div></div>`;
+  const input = $('#cmdInput'); input.focus();
+  const close = () => $('#popoverRoot').innerHTML='';
+  input.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); });
+  document.addEventListener('mousedown', function h(e){ if(!e.target.closest('.popover')){ close(); document.removeEventListener('mousedown',h);} });
+  const run = () => {
+    const q = input.value.toLowerCase();
+    const items = [];
+    Object.values(PAGES).forEach((p,i)=>items.push({group:'Páginas', label:p.title, sub:p.crumb, run:()=>go(Object.keys(PAGES)[i])}));
+    DB.subscribers.filter(s=>!q||(s.nombre||'').toLowerCase().includes(q)||(s.nro||'').toLowerCase().includes(q)||(s.cedula||'').toLowerCase().includes(q)).slice(0,5)
+      .forEach(s=>items.push({group:'Abonados', label:s.nombre||s.nro, sub:`${s.nro||''} · ${s.telefono||''}`, run:()=>{go('tipificar');setTimeout(()=>selectSubscriber(s.id),60);}}));
+    DB.templates.filter(t=>!q||t.name.toLowerCase().includes(q)).slice(0,4)
+      .forEach(t=>items.push({group:'Plantillas', label:t.name, sub:t.category, run:()=>{go('plantillas');}}));
+    DB.records.filter(r=>q&&((r.cliente||'').toLowerCase().includes(q)||(r.nroAbonado||'').toLowerCase().includes(q))).slice(0,5)
+      .forEach(r=>items.push({group:'Registros', label:r.cliente||r.nroAbonado, sub:`${r.date} · ${r.tipoLlamada}`, run:()=>{hiState.q=q;go('historial');}}));
+    const filtered = q ? items.filter(i=>(i.label||'').toLowerCase().includes(q)||i.group==='Páginas') : items.slice(0,9);
+    const groups = [...new Set(filtered.map(i=>i.group))];
+    $('#cmdResults').innerHTML = groups.map(g=>`<div class="command-group">${g}</div>`+filtered.filter(i=>i.group===g).map(i=>`<button class="command-item" data-ci="${filtered.indexOf(i)}"><span class="grow">${esc(i.label)}<br><small class="muted">${esc(i.sub||'')}</small></span></button>`).join('')).join('') || '<p class="muted" style="padding:14px;font-size:12.5px">Sin resultados.</p>';
+    $$('#cmdResults .command-item').forEach(b=>b.onclick=()=>{ close(); filtered[+b.dataset.ci].run(); });
+  };
+  input.addEventListener('input', run); run();
+}
+
+function openNotifications(){
+  if (!currentUser) return;
+  $('#notifDot').style.display='none';
+  $('#popoverRoot').innerHTML = `<div class="popover"><div class="row-between" style="margin-bottom:6px"><h3>Actividad reciente</h3><button class="icon-btn" data-action="modal-close">${icon('trash')}</button></div><div class="list">
+    ${DB.activity.slice(0,15).map(a=>`<div class="activity-item"><span class="a-icon" style="background:var(--blue-soft);color:var(--blue)">${icon('info')}</span><div class="grow"><div style="font-size:12px">${esc(a.text)}</div><span class="a-time">${esc(a.date)} · ${esc(a.time)}</span></div></div>`).join('')||'<p class="muted" style="font-size:12.5px">Sin actividad.</p>'}
+  </div></div>`;
+  $$('#popoverRoot [data-action="modal-close"]').forEach(b=>b.onclick=()=>$('#popoverRoot').innerHTML='');
+  document.addEventListener('mousedown', function h(e){ if(!e.target.closest('.popover')){ $('#popoverRoot').innerHTML=''; document.removeEventListener('mousedown',h);} });
+}
+
+function openHelp(){
+  openModal(`${modalHead('Ayuda · CDC NOC 2')}
+    <div class="modal-body grid" style="font-size:13px;color:var(--ink-3)">
+      <div class="inline-alert info">${icon('info')} Flujo rápido: <b>1)</b> importa tu Excel de abonados, <b>2)</b> en Tipificar busca por n° de abonado anterior, cédula o teléfono, <b>3)</b> completa tipo de llamada → respuesta → detalle, <b>4)</b> inserta una plantilla en Observación y <b>5)</b> REGISTRAR. Todo queda guardado con tu usuario.</div>
+      <div><b>Usuarios:</b> el usuario inicial es <span class="mono">admin / admin123</span>. Crea operadores desde Ajustes para que cada quien tipifique a su nombre.</div>
+      <div><b>Datos:</b> se guardan localmente en el navegador. Usa «Exportar respaldo» en Ajustes periódicamente.</div>
+      <div><b>Mensajería:</b> selecciona abonados con teléfono, redacta el mensaje y envía por otra plataforma o exporta el CSV de audiencia.</div>
+      <div><b>SAEPLUS caído:</b> revisa el módulo «Acceso SAEPLUS / VPN» (DNS 8.8.8.8 o VPN 1.1.1.1).</div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-primary" data-action="modal-close">Entendido</button></div>`);
+}
+
+/* ================================================================
+   REFRESCO Y EVENTOS GLOBALES
+================================================================ */
+function refreshPage(){ go(currentPage); }
+
+function bindPage(page){
+  ({auto:bindAuto, informes:bindInformes, abonados:bindAbonados, mensajeria:bindMensajeria, plantillas:bindPlantillas, historial:bindHistorial, ajustes:bindAjustes}[page]||(()=>{}))();
+}
+
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-action]');
+  if (!el) return;
+  const act = el.dataset.action;
+  switch(act){
+    case 'nav': go(el.dataset.page); break;
+    case 'toggle-sidebar': $('#sidebar').classList.toggle('open'); $('#sidebarOverlay').classList.toggle('show'); break;
+    case 'close-sidebar': $('#sidebar').classList.remove('open'); $('#sidebarOverlay').classList.remove('show'); break;
+    case 'overlay-close': if (e.target !== el) break; if (el.classList.contains('overlay')) closeModal(); if (el.classList.contains('drawer-overlay')) closeDrawer(); break;
+    case 'modal-close': closeModal(); break;
+    case 'open-import': if(!currentUser) break; closeModal(); openImport(); break;
+    case 'export-backup': exportBackup(); break;
+    case 'export-csv': exportRecordsCSV(); break;
+    case 'export-subs-csv': exportSubsCSV(); break;
+    case 'export-audience': exportAudience(); break;
+    case 'command': openCommand(); break;
+    case 'notifications': openNotifications(); break;
+    case 'help': openHelp(); break;
+    case 'new-subscriber': openSubscriberForm(null); break;
+    case 'new-template': openTemplateForm(null); break;
+    case 'new-user': openUserForm(null); break;
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); currentUser ? openCommand() : null; }
+  if (e.key==='Escape'){ closeModal(); closeDrawer(); $('#popoverRoot').innerHTML=''; }
+});
+
+/* Restaurar respaldo */
+document.addEventListener('DOMContentLoaded', async () => {
+  await load();
+  await sessionLoad();
+  $('#topDate').textContent = new Date().toLocaleDateString('es-VE',{weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  $('#backupFile').addEventListener('change', async e => {
+    const f = e.target.files[0]; if(!f) return;
+    try {
+      const data = JSON.parse(await f.text());
+      if (!data.users || !Array.isArray(data.users)) throw new Error('formato inválido');
+      DB = data;
+      delete DB.saeplus;
+      await migratePanelPasswords();
+      if(!save()) return;
+      localStorage.removeItem('cdcNoc2_session');
+      toast('Respaldo restaurado correctamente. Inicia sesión de nuevo…','success');
+      setTimeout(()=>location.reload(), 900);
+    } catch(err){ toast('Archivo de respaldo inválido: '+err.message,'error'); }
+    e.target.value='';
+  });
+  if (currentUser){ enterApp(); } else { renderLogin(); }
+});
+
+})();
+</script>
+</body>
+</html>

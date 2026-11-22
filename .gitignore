@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*.log
+bot_log.txt
+cola_saeplus.json
+saeplus_credenciales.json
+diagnosticos.txt
+errores_saeplus/
+*.png
+resultado_*.json
+verificacion_*.json
+verificacion_*.png
+REGISTRAR_ARRANQUE.reg
+build/
+dist/
+*.spec
