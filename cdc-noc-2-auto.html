@@ -283,10 +283,8 @@ function save(){
   catch(e){ toast('No se pudo guardar en el navegador','error'); return false; }
   clearTimeout(dbSaveTimer);
   dbSaveTimer = setTimeout(()=>{
-    const copia = JSON.parse(JSON.stringify(DB));
-    copia.users.forEach(u=>delete u.saeplus);
     dbSaveChain = dbSaveChain.then(async ()=>{
-      try { await fetch(BOT_URL + '/db', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(copia)}); }
+      try { await fetch(BOT_URL + '/db', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(DB)}); }
       catch(e){}
     });
   }, 200);
@@ -2131,7 +2129,7 @@ function renderAjustes(){
         <div class="card">
           <div class="card-head"><div class="card-title"><span class="step">${icon('download')}</span><h2>Datos y respaldos</h2></div></div>
           <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
-            <div class="inline-alert info">${icon('info')} Usuarios, clave, cola, abonados y registros se guardan en el robot local y se comparten entre navegadores de este equipo. Las credenciales de SAEPLUS siguen siendo propias de cada navegador.</div>
+            <div class="inline-alert info">${icon('info')} Todo se guarda en el robot local: usuarios, clave, cola, abonados, registros, plantillas y credenciales de SAEPLUS (cifradas con tu clave del panel). Al entrar con tu usuario en otro navegador, recuperas todo.</div>
             <div class="row wrap">
               <button class="btn btn-outline" data-action="export-backup">${icon('download')} Exportar respaldo (JSON)</button>
               <button class="btn btn-outline" id="btnRestore">${icon('file')} Restaurar respaldo</button>
@@ -2232,7 +2230,14 @@ function bindAjustes(){
   $('#btnReset').onclick=()=>{
     openModal(`${modalHead('Restablecer aplicación')}<div class="modal-body"><div class="inline-alert error">${icon('alert')} Se borrarán TODOS los datos: usuarios (excepto admin), abonados, registros, plantillas y campañas.</div></div>
       <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cancelar</button><button class="btn btn-danger" id="resetOk">${icon('trash')} Sí, restablecer</button></div>`);
-    $('#resetOk').onclick=()=>{ const users=DB.users.filter(u=>u.role==='Admin'); localStorage.removeItem(KEY); localStorage.removeItem('cdcNoc2_session'); sessionStorage.clear(); location.reload(); };
+    $('#resetOk').onclick=async ()=>{
+      DB = { users:[{id:'u_admin', username:'admin', password:'admin123', name:'Administrador', role:'Admin', created:todayStr()}],
+             subscribers:[], records:[], templates:seedTemplates(), campaigns:[], activity:[], informes:[], drive:{}, queue:[] };
+      await migratePanelPasswords();
+      localStorage.removeItem(KEY); localStorage.removeItem('cdcNoc2_session'); sessionStorage.clear();
+      try { await fetch(BOT_URL + '/db', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(DB)}); } catch(e){}
+      location.reload();
+    };
   };
   $$('[data-edit-user]').forEach(b=>b.onclick=()=>openUserForm(b.dataset.editUser));
   $$('[data-del-user]').forEach(b=>b.onclick=()=>{
