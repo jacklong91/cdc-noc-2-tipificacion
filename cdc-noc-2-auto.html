@@ -250,13 +250,24 @@ async function migratePanelPasswords(){
   }
 }
 
+function combinarDB(remoto, local){
+  const base = JSON.parse(JSON.stringify(remoto || {}));
+  const juntar = clave => {
+    const mapa = new Map();
+    (base[clave] || []).forEach(x => { if (x) mapa.set(x.id || x.nro || x.name, x); });
+    (local[clave] || []).forEach(x => { if (x) mapa.set(x.id || x.nro || x.name, x); });
+    base[clave] = [...mapa.values()];
+  };
+  ['users','templates','subscribers','records','campaigns','queue','activity','informes'].forEach(juntar);
+  base.drive = {...(base.drive || {}), ...(local.drive || {})};
+  return base;
+}
+
 async function load(){
   let remoto = null, local = null;
   try { const r = await fetch(BOT_URL + '/db', {cache:'no-store'}); if (r.ok) remoto = await r.json(); } catch(e){}
   try { local = JSON.parse(localStorage.getItem(KEY)) || null; } catch(e){}
-  DB = remoto || local;
-  if (remoto && local && Array.isArray(local.users))
-    remoto.users.forEach(u=>{ const l=local.users.find(x=>x.id===u.id); if (l && l.saeplus) u.saeplus = l.saeplus; });
+  DB = remoto && local ? combinarDB(remoto, local) : (remoto || local);
   if (!DB || !DB.users){
     DB = {
       users:[{id:'u_admin', username:'admin', password:'admin123', name:'Administrador', role:'Admin', created:todayStr()}],
