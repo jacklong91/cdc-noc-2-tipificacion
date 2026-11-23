@@ -559,12 +559,36 @@ function enterApp(){
   go('tipificar');
 }
 
+function mezclarColor(hex, objetivo, peso){
+  const n = parseInt(hex.replace('#',''),16);
+  const c = [n>>16&255, n>>8&255, n&255];
+  const t = [objetivo>>16&255, objetivo>>8&255, objetivo&255];
+  return '#'+c.map((v,i)=>Math.round(v+(t[i]-v)*peso).toString(16).padStart(2,'0')).join('');
+}
+function aplicarTema(color){
+  const base = /^#[0-9a-f]{6}$/i.test(color||'') ? color : '#315cf6';
+  const s = document.documentElement.style;
+  s.setProperty('--blue', base);
+  s.setProperty('--blue-2', mezclarColor(base, 0, 0.22));
+  s.setProperty('--blue-soft', mezclarColor(base, 0xffffff, 0.91));
+  s.setProperty('--cyan', mezclarColor(base, 0xffffff, 0.35));
+  document.querySelector('meta[name=theme-color]')?.setAttribute('content', base);
+}
+function avatarEstilo(u){
+  return u && u.avatar ? `background-image:url("${u.avatar}");background-size:cover;background-position:center;color:transparent` : '';
+}
 function applyUserChrome(){
   const u = currentUser;
-  $('#sideAvatar').textContent = initials(u.name);
-  $('#topAvatar').textContent = initials(u.name);
+  ['#sideAvatar','#topAvatar'].forEach(id=>{
+    const el = $(id); if (!el) return;
+    el.textContent = u.avatar ? '' : initials(u.name);
+    el.style.backgroundImage = u.avatar ? `url("${u.avatar}")` : '';
+    el.style.backgroundSize = u.avatar ? 'cover' : '';
+    el.style.backgroundPosition = u.avatar ? 'center' : '';
+  });
   $('#sideName').textContent = u.name;
   $('#sideRole').textContent = u.role || 'Operador';
+  aplicarTema(u.tema);
 }
 
 /* ================================================================
@@ -2134,8 +2158,29 @@ function renderAjustes(){
               <div class="field"><label>Nueva contraseña</label><input class="input" type="password" id="pfPass" placeholder="Dejar en blanco para no cambiar"></div>
               <div class="field"><label>Rol</label><input class="input" value="${esc(currentUser.role||'Operador')}" disabled></div>
             </div>
-            <button class="btn btn-primary" id="pfSave">${icon('check')} Guardar perfil</button>
-            ${isAdmin?'':`<button class="btn btn-outline" id="btnLogoutOp">${icon('login')} Cerrar sesión</button>`}
+            <div class="row wrap">
+              <button class="btn btn-primary" id="pfSave">${icon('check')} Guardar perfil</button>
+              ${isAdmin?'':`<button class="btn btn-outline" id="btnLogoutOp">${icon('login')} Cerrar sesión</button>`}
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div class="card-title"><span class="step">${icon('user')}</span><div><h2>Mi apariencia</h2><small class="muted">Tu foto y color se guardan en tu usuario y te siguen a cualquier navegador</small></div></div></div>
+          <div class="card-body grid">
+            <div class="field"><label>Foto de perfil</label>
+              <div class="row" style="gap:12px;align-items:center">
+                <span class="avatar" id="pfAvatarPrev" style="width:56px;height:56px;font-size:15px;${avatarEstilo(currentUser)}">${currentUser.avatar?'':esc(initials(currentUser.name))}</span>
+                <input type="file" id="pfAvatarFile" accept="image/*" hidden>
+                <button class="btn btn-outline" id="pfAvatarBtn">${icon('user')} Cambiar imagen</button>
+                <button class="btn btn-ghost" id="pfAvatarClear" ${currentUser.avatar?'':'disabled'}>Quitar</button>
+              </div>
+            </div>
+            <div class="field"><label>Color del panel</label>
+              <div class="row wrap" id="pfTemas" style="gap:8px">
+                ${['#315cf6','#11b8d4','#12a87b','#8257e6','#e9a11b','#e5534b'].map(c=>`<button class="btn btn-sm ${((currentUser.tema||'#315cf6').toLowerCase()===c)?'btn-primary':'btn-outline'}" data-tema="${c}" style="width:34px;height:34px;padding:0;border-radius:10px;background:${c};border-color:${c}" title="${c}"></button>`).join('')}
+                <input type="color" id="pfColorCustom" class="input" style="width:46px;height:34px;padding:2px" value="${esc(currentUser.tema||'#315cf6')}" title="Color personalizado">
+              </div>
+            </div>
           </div>
         </div>
         <div class="card">
@@ -2166,7 +2211,7 @@ function renderAjustes(){
         <div class="card-body" style="padding-top:8px">
           ${DB.users.map(u=>`
           <div class="mini-record">
-            <span class="avatar" style="width:34px;height:34px;font-size:11px">${esc(initials(u.name))}</span>
+            <span class="avatar" style="width:34px;height:34px;font-size:11px;${avatarEstilo(u)}">${u.avatar?'':esc(initials(u.name))}</span>
             <div class="grow"><div class="r-name">${esc(u.name)} ${u.id===currentUser.id?'<span class="chip chip-green" style="font-size:10px;padding:2px 7px">TÚ</span>':''} <span class="chip ${u.role==='Admin'?'chip-violet':'chip-blue'}" style="font-size:10px;padding:2px 7px">${esc(u.role||'Operador')}</span></div>
             <div class="r-detail mono">${esc(u.username)} · ${DB.records.filter(r=>r.userId===u.id).length} registros</div></div>
             ${isAdmin?`<div class="row-actions">
@@ -2176,6 +2221,46 @@ function renderAjustes(){
           </div>`).join('')}
         </div>
       </div>
+      ${isAdmin?`<div class="card">
+        <div class="card-head"><div class="card-title"><span class="step">${icon('file')}</span><div><h2>Tipificaciones por usuario</h2><small class="muted">Registros, abonados y datos de cada operador</small></div></div>
+          <span class="chip chip-blue">${DB.records.length} registro(s) en total</span></div>
+        <div class="card-body grid">
+          <div class="table-wrap"><table>
+            <thead><tr><th>Usuario</th><th>Rol</th><th>Registros</th><th>Hoy</th><th>Abonados</th><th>Última tipificación</th></tr></thead>
+            <tbody>${DB.users.map(u=>{
+              const recs = DB.records.filter(r=>r.userId===u.id);
+              const abonados = new Set(recs.map(r=>r.nroAbonado||r.cliente).filter(Boolean));
+              const hoy = recs.filter(r=>r.date===todayStr()).length;
+              const ult = recs.slice().sort((a,b)=>((b.date||'')+' '+(b.time||'')).localeCompare((a.date||'')+' '+(a.time||'')))[0];
+              return `<tr>
+                <td><div class="row" style="gap:8px;align-items:center"><span class="avatar" style="width:28px;height:28px;font-size:10px;${avatarEstilo(u)}">${u.avatar?'':esc(initials(u.name))}</span><div><div class="cell-main">${esc(u.name)}</div><small class="muted mono">${esc(u.username)}</small></div></div></td>
+                <td><span class="chip ${u.role==='Admin'?'chip-violet':'chip-blue'}">${esc(u.role||'Operador')}</span></td>
+                <td><b>${recs.length}</b></td><td>${hoy}</td><td>${abonados.size}</td>
+                <td>${ult?`<small class="mono">${esc(ult.date||'')} ${esc(ult.time||'')}</small><br><span class="muted">${esc(ult.cliente||ult.nroAbonado||'')}</span>`:'<span class="muted">—</span>'}</td>
+              </tr>`;
+            }).join('')}</tbody>
+          </table></div>
+          ${DB.users.map(u=>{
+            const recs = DB.records.filter(r=>r.userId===u.id);
+            if (!recs.length) return '';
+            return `<details style="border-top:1px solid var(--line);padding-top:10px">
+              <summary style="cursor:pointer;font-size:12.5px;font-weight:750">Ver ${recs.length} tipificación(es) de ${esc(u.name)}</summary>
+              <div class="table-wrap" style="margin-top:10px"><table>
+                <thead><tr><th>Fecha</th><th>Cliente / abonado</th><th>Cédula</th><th>Tipificación</th><th>Registro SAEPLUS</th><th>Estado</th></tr></thead>
+                <tbody>${recs.slice().reverse().map(r=>`<tr>
+                  <td class="mono" style="font-size:11px">${esc(r.date||'')} ${esc(r.time||'')}</td>
+                  <td><div class="cell-main">${esc(r.cliente||'')}</div><small class="muted mono">${esc(r.nroAbonado||'')} · ${esc(r.telefono||'')}</small></td>
+                  <td class="mono" style="font-size:11px">${esc(r.cedula||'—')}</td>
+                  <td style="font-size:11px">${esc(r.tipoLlamada||'')}<br><span class="muted">${esc(r.tipoRespuesta||'')} · ${esc(r.detalle||'')}</span></td>
+                  <td class="mono" style="font-size:11px">${esc(r.registroSaeplus||'—')}</td>
+                  <td><span class="chip chip-green">${esc(r.estado||'COMPLETADO')}</span></td>
+                </tr>`).join('')}</tbody>
+              </table></div>
+            </details>`;
+          }).join('')}
+          ${!DB.records.length?'<p class="muted" style="font-size:12.5px">Todavía no hay tipificaciones registradas.</p>':''}
+        </div>
+      </div>`:''}
     </div>
   </div>`;
 }
@@ -2237,6 +2322,31 @@ function bindAjustes(){
     } catch(err){ toast('No se pudo actualizar el perfil: '+err.message,'error'); }
     finally { button.disabled=false; }
   };
+  $('#pfAvatarBtn').onclick=()=>$('#pfAvatarFile').click();
+  $('#pfAvatarFile').onchange=e=>{
+    const f=e.target.files[0]; if(!f) return;
+    if(!f.type.startsWith('image/')){ toast('Selecciona un archivo de imagen','error'); return; }
+    const lector=new FileReader();
+    lector.onload=()=>{
+      const img=new Image();
+      img.onload=()=>{
+        const lado=160, c=document.createElement('canvas'); c.width=c.height=lado;
+        const ctx=c.getContext('2d'); ctx.fillStyle='#315cf6'; ctx.fillRect(0,0,lado,lado);
+        const scala=Math.max(lado/img.width, lado/img.height), w=img.width*scala, h=img.height*scala;
+        ctx.drawImage(img,(lado-w)/2,(lado-h)/2,w,h);
+        currentUser.avatar=c.toDataURL('image/jpeg',0.85);
+        if (save()){ applyUserChrome(); refreshPage(); toast('Foto de perfil actualizada','success'); }
+      };
+      img.onerror=()=>toast('No se pudo leer la imagen','error');
+      img.src=lector.result;
+    };
+    lector.readAsDataURL(f);
+    e.target.value='';
+  };
+  $('#pfAvatarClear').onclick=()=>{ delete currentUser.avatar; save(); applyUserChrome(); refreshPage(); toast('Foto de perfil eliminada','info'); };
+  const ponerTema = color => { currentUser.tema=color; save(); aplicarTema(color); refreshPage(); toast('Color del panel actualizado','success'); };
+  $$('#pfTemas [data-tema]').forEach(b=>b.onclick=()=>ponerTema(b.dataset.tema));
+  $('#pfColorCustom').onchange=e=>ponerTema(e.target.value);
   if ($('#btnLogout')) $('#btnLogout').onclick=logout;
   if ($('#btnLogoutOp')) $('#btnLogoutOp').onclick=logout;
   $('#btnRestore').onclick=()=>$('#backupFile').click();
