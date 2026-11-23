@@ -142,8 +142,9 @@ body.auth-mode .auth-card{position:relative;z-index:2}
 .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,var(--blue-soft),transparent 55%),linear-gradient(300deg,var(--accent-soft),transparent 62%);mix-blend-mode:screen;opacity:.6;pointer-events:none}
 .hero-content,.hero-net{position:relative;z-index:2}
 .hero::before{background:none}
-.hero::after{opacity:.22}
-.hero p{color:#e4edff;text-shadow:0 2px 10px rgba(3,10,30,.85)}
+.hero::after{opacity:.08;mix-blend-mode:normal}
+.hero-content{background:linear-gradient(90deg,rgba(8,18,42,.78) 0%,rgba(8,18,42,.38) 75%,rgba(8,18,42,.1) 100%);padding:18px 20px;margin:-18px -20px;border-radius:16px;max-width:640px}
+.hero p{color:#eef4ff;text-shadow:0 2px 10px rgba(3,10,30,.9)}
 .hero h1{text-shadow:0 3px 14px rgba(3,10,30,.8)}
 .hero .eyebrow{text-shadow:0 2px 8px rgba(3,10,30,.8)}
 body.auth-mode .auth-card{background:linear-gradient(180deg,#fff,#f7faff);border:1px solid rgba(255,255,255,.7);box-shadow:0 34px 90px rgba(0,0,0,.5),0 0 0 1px rgba(49,92,246,.16),0 0 70px rgba(17,184,212,.18);overflow:hidden}
@@ -167,7 +168,7 @@ body.auth-mode .auth-card::after{content:"";position:absolute;width:230px;height
 .input{border-color:var(--line-2);background:#fff}
 .input:hover{border-color:var(--accent)}
 #main{background:linear-gradient(180deg,rgba(233,238,255,.35),transparent 30%),var(--bg)}
-#main::before{opacity:.1}
+#main::before{opacity:.06}
 </style>
 
 </head>
