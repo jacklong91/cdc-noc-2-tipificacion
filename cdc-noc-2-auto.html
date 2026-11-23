@@ -313,7 +313,7 @@ let currentUser = null;
 let panelKey = null;
 
 function sessionSave(){
-  localStorage.setItem('cdcNoc2_session', JSON.stringify({userId:currentUser.id, key:encode64(panelKey)}));
+  sessionStorage.setItem('cdcNoc2_session', JSON.stringify({userId:currentUser.id, key:encode64(panelKey)}));
 }
 
 async function recoverCredentials(){
@@ -324,9 +324,9 @@ async function recoverCredentials(){
 }
 
 async function sessionLoad(){
-  const s = JSON.parse(localStorage.getItem('cdcNoc2_session') || 'null');
+  const s = JSON.parse(sessionStorage.getItem('cdcNoc2_session') || 'null');
   const user = s && DB.users.find(u=>u.id===s.userId);
-  if (!user || !s.key){ localStorage.removeItem('cdcNoc2_session'); return; }
+  if (!user || !s.key){ sessionStorage.removeItem('cdcNoc2_session'); return; }
   currentUser = user;
   panelKey = decode64(s.key);
   await recoverCredentials();
@@ -371,7 +371,7 @@ function logout(){
   currentUser = null;
   panelKey = null;
   auCredenciales = null;
-  localStorage.removeItem('cdcNoc2_session');
+  sessionStorage.removeItem('cdcNoc2_session');
   renderLogin();
 }
 
@@ -2135,6 +2135,7 @@ function renderAjustes(){
               <div class="field"><label>Rol</label><input class="input" value="${esc(currentUser.role||'Operador')}" disabled></div>
             </div>
             <button class="btn btn-primary" id="pfSave">${icon('check')} Guardar perfil</button>
+            ${isAdmin?'':`<button class="btn btn-outline" id="btnLogoutOp">${icon('login')} Cerrar sesión</button>`}
           </div>
         </div>
         <div class="card">
@@ -2151,13 +2152,13 @@ function renderAjustes(){
             </div>
           </div>
         </div>
-        <div class="card danger-zone">
+        ${isAdmin?`<div class="card danger-zone">
           <div class="card-head"><div class="card-title"><span class="step" style="background:var(--red-soft);color:var(--red)">${icon('alert')}</span><h2>Zona peligrosa</h2></div></div>
           <div class="card-body row wrap">
             <button class="btn btn-danger" id="btnReset">${icon('trash')} Restablecer toda la aplicación</button>
             <button class="btn btn-outline" id="btnLogout">${icon('login')} Cerrar sesión</button>
           </div>
-        </div>
+        </div>`:''}
       </div>
       <div class="card">
         <div class="card-head"><div class="card-title"><span class="step">${icon('user')}</span><div><h2>Usuarios y credenciales</h2><small class="muted">Cada operador ingresa con su propio usuario y sus tipificaciones quedan a su nombre</small></div></div>
@@ -2236,16 +2237,17 @@ function bindAjustes(){
     } catch(err){ toast('No se pudo actualizar el perfil: '+err.message,'error'); }
     finally { button.disabled=false; }
   };
-  $('#btnLogout').onclick=logout;
+  if ($('#btnLogout')) $('#btnLogout').onclick=logout;
+  if ($('#btnLogoutOp')) $('#btnLogoutOp').onclick=logout;
   $('#btnRestore').onclick=()=>$('#backupFile').click();
-  $('#btnReset').onclick=()=>{
+  if ($('#btnReset')) $('#btnReset').onclick=()=>{
     openModal(`${modalHead('Restablecer aplicación')}<div class="modal-body"><div class="inline-alert error">${icon('alert')} Se borrarán TODOS los datos: usuarios (excepto admin), abonados, registros, plantillas y campañas.</div></div>
       <div class="modal-foot"><button class="btn btn-outline" data-action="modal-close">Cancelar</button><button class="btn btn-danger" id="resetOk">${icon('trash')} Sí, restablecer</button></div>`);
     $('#resetOk').onclick=async ()=>{
       DB = { users:[{id:'u_admin', username:'admin', password:'admin123', name:'Administrador', role:'Admin', created:todayStr()}],
              subscribers:[], records:[], templates:seedTemplates(), campaigns:[], activity:[], informes:[], drive:{}, queue:[] };
       await migratePanelPasswords();
-      localStorage.removeItem(KEY); localStorage.removeItem('cdcNoc2_session'); sessionStorage.clear();
+      localStorage.removeItem(KEY); sessionStorage.removeItem('cdcNoc2_session'); sessionStorage.clear();
       try { await fetch(BOT_URL + '/db', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(DB)}); } catch(e){}
       location.reload();
     };
@@ -2404,7 +2406,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       delete DB.saeplus;
       await migratePanelPasswords();
       if(!save()) return;
-      localStorage.removeItem('cdcNoc2_session');
+      sessionStorage.removeItem('cdcNoc2_session');
       toast('Respaldo restaurado correctamente. Inicia sesión de nuevo…','success');
       setTimeout(()=>location.reload(), 900);
     } catch(err){ toast('Archivo de respaldo inválido: '+err.message,'error'); }
