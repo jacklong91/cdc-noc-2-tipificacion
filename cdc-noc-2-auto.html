@@ -153,10 +153,6 @@ body.auth-mode .auth-card::after{content:"";position:absolute;width:230px;height
 .auth-brand .brand-mark{box-shadow:0 10px 26px rgba(49,92,246,.45)}
 .auth-card .input{border-width:1.5px}
 .auth-card .btn-primary{border-color:var(--blue-2);box-shadow:0 10px 24px rgba(49,92,246,.32),inset 0 1px 0 rgba(255,255,255,.3)}
-.nave-espacial{position:fixed;left:-130px;top:18%;width:62px;height:62px;z-index:1;pointer-events:none;animation:volarNave 19s linear infinite;animation-delay:-7s;filter:drop-shadow(0 0 12px rgba(17,184,212,.7))}
-.nave-espacial svg{width:100%;height:100%;display:block}
-.nave-espacial::after{content:"";position:absolute;right:88%;top:56%;width:110px;height:4px;border-radius:99px;background:linear-gradient(90deg,transparent,rgba(17,184,212,.85));filter:blur(2px)}
-@keyframes volarNave{0%{transform:translate3d(-12vw,10vh,0) rotate(-12deg);opacity:0}8%{opacity:.95}88%{opacity:.95}100%{transform:translate3d(122vw,-14vh,0) rotate(-12deg);opacity:0}}
 .btn{border-width:1.5px}
 .btn-primary{border-color:var(--blue-2);box-shadow:0 8px 22px rgba(49,92,246,.3),inset 0 1px 0 rgba(255,255,255,.25)}
 .btn-outline{background:linear-gradient(180deg,#fff,var(--surface-2));border-color:var(--line-2)}
@@ -226,7 +222,6 @@ body.auth-mode .auth-card::after{content:"";position:absolute;width:230px;height
 <div id="popoverRoot"></div>
 <div id="toastRoot" aria-live="polite" aria-atomic="false"></div>
 <div class="auth-nube"></div><div class="auth-nube n2"></div>
-<div class="nave-espacial" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M32 3c11 10 15 24 13 39H19C17 27 21 13 32 3Z" fill="#e6efff" stroke="#8fb4ff" stroke-width="1.5"/><path d="M32 3c5 12 6 25 4 39h-8C26 28 27 15 32 3Z" fill="#9fd8ff" opacity=".55"/><circle cx="32" cy="25" r="7" fill="#0b2a5c" stroke="#11b8d4" stroke-width="3"/><circle cx="32" cy="25" r="3" fill="#11b8d4"/><path d="M19 35 7 48l12-4Z" fill="#e5534b"/><path d="M45 35 57 48 45 44Z" fill="#e5534b"/><path d="M25 42h14l-4 12h-6Z" fill="#ffb24d"/><path d="M28 54h8l-4 7Z" fill="#ff6a3d" opacity=".85"/></svg></div>
 <input type="file" id="importFile" accept=".xlsx,.xls,.csv" hidden>
 <input type="file" id="backupFile" accept=".json" hidden>
 <script src="./xlsx.full.min.js"></script>
